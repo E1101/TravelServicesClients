@@ -1,5 +1,5 @@
 {
-    "name": "ar/travellanda"
+    "name": "tsp/travellanda"
     , "type": "library"
     , "description": "Travellanda reservation system"
     , "authors": [
@@ -10,11 +10,12 @@
     ]
     , "require": {
         "php": ">=5.5.0"
+        , "poirot/core": "dev-master"
         , "poirot/api-client": "dev-master"
     },
     "autoload": {
         "psr-4": {
-            "Ar\\Travellanda\\": "src/"
+            "Tsp\\Travellanda\\": "./"
         }
     }
 }

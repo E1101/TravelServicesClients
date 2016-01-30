@@ -1,12 +1,12 @@
 <?php
-namespace Ar\Travellanda;
+namespace Tsp\Travellanda;
 
 use Poirot\Core\AbstractOptions;
 
 class ReservationOptions extends AbstractOptions
 {
     // TODO build values from config
-    protected $serverUrl = 'http://xmldemo.travellanda.com/xmlv1';
+    protected $serverUrl = 'http://xmldemo.Travellanda.com/xmlv1';
     protected $username  = '3222b42a21a8c237d23b4cf4c02de6c1';
     protected $password  = '61R2CNXF11Qh';
 

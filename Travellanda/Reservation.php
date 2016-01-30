@@ -1,8 +1,8 @@
 <?php
-namespace Ar\Travellanda;
+namespace Tsp\Travellanda;
 
-use Ar\Travellanda\Reservation\Platform;
-use Ar\Travellanda\Reservation\ReqMethod;
+use Tsp\Travellanda\Reservation\Platform;
+use Tsp\Travellanda\Reservation\ReqMethod;
 use Poirot\ApiClient\AbstractClient;
 use Poirot\ApiClient\Connection\HttpStreamConnection;
 use Poirot\ApiClient\Interfaces\iConnection;
