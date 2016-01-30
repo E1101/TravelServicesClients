@@ -1,5 +1,5 @@
 {
-    "name": "ar/travellanda"
+    "name": "tsp/travellanda"
     , "type": "library"
     , "description": "Travellanda reservation system"
     , "authors": [
@@ -15,7 +15,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Ar\\Travellanda\\": "src/"
+            "Tsp\\Travellanda\\": "./"
         }
     }
 }

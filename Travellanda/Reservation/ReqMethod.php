@@ -1,5 +1,5 @@
 <?php
-namespace Ar\Travellanda\Reservation;
+namespace Tsp\Travellanda\Reservation;
 
 use Poirot\ApiClient\Request\Method;
 
