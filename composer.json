@@ -3,7 +3,7 @@
     , "description": "Aran Rojan Tsp Api Client Services."
     , "require": {
         "php": ">=5.5.0"
-        , "poirot/api-core": "dev-master"
+        , "poirot/core": "dev-master"
         , "poirot/api-client": "dev-master"
     },
     "autoload": {

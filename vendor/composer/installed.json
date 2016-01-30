@@ -1,0 +1,76 @@
+[
+    {
+        "name": "poirot/core",
+        "version": "dev-master",
+        "version_normalized": "9999999-dev",
+        "target-dir": "Poirot/Core",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/phPoirot/Core.git",
+            "reference": "63b3636a7891ff4cec1866eb6b6cc5bbc597839a"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/phPoirot/Core/zipball/63b3636a7891ff4cec1866eb6b6cc5bbc597839a",
+            "reference": "63b3636a7891ff4cec1866eb6b6cc5bbc597839a",
+            "shasum": ""
+        },
+        "time": "2016-01-06 15:27:10",
+        "type": "library",
+        "installation-source": "source",
+        "autoload": {
+            "psr-0": {
+                "Poirot\\Core": "."
+            },
+            "files": [
+                "Core.php"
+            ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "authors": [
+            {
+                "name": "Payam Naderi",
+                "email": "naderi.payam@gmail.com",
+                "role": "Developer"
+            }
+        ],
+        "description": "Poirot Base Functionalities"
+    },
+    {
+        "name": "poirot/api-client",
+        "version": "dev-master",
+        "version_normalized": "9999999-dev",
+        "target-dir": "Poirot/ApiClient",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/phPoirot/ApiClient.git",
+            "reference": "ee6d400996d79386effab2c4f81e7cf2dff9a412"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/phPoirot/ApiClient/zipball/ee6d400996d79386effab2c4f81e7cf2dff9a412",
+            "reference": "ee6d400996d79386effab2c4f81e7cf2dff9a412",
+            "shasum": ""
+        },
+        "require": {
+            "poirot/core": "dev-master"
+        },
+        "time": "2016-01-12 11:15:24",
+        "type": "library",
+        "installation-source": "source",
+        "autoload": {
+            "psr-0": {
+                "Poirot\\ApiClient": "."
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "authors": [
+            {
+                "name": "Payam Naderi",
+                "email": "naderi.payam@gmail.com",
+                "role": "Developer"
+            }
+        ],
+        "description": "Make Connection To Different Servers, Execute Commands and Get Response."
+    }
+]
