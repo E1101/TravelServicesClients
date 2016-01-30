@@ -1,0 +1,21 @@
+{
+    "name": "tsp/mystifly"
+    , "type": "library"
+    , "description": "Mystifly Data Provider"
+    , "authors": [
+        {
+            "name": "Seyyed Sajad Kashizadeh"
+            , "email": "s.kashizadeh@gmail.com"
+        }
+    ]
+    , "require": {
+        "php": ">=5.5.0"
+        , "poirot/core": "dev-master"
+        , "poirot/api-client": "dev-master"
+    },
+    "autoload": {
+        "psr-4": {
+            "Tsp\\Mystifly\\": "src/"
+        }
+    }
+}
