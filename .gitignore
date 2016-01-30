@@ -1,0 +1,16 @@
+.buildpath
+.DS_Store
+.idea
+.vagrant
+.project
+.settings/
+.*.sw*
+.*.un~
+build/
+nbproject
+dist
+
+vendor
+vendor/**
+
+composer.lock
