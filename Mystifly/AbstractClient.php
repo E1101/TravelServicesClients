@@ -1,25 +1,17 @@
 <?php
 namespace Tsp\Mystifly;
 
-use Ar\Travellanda\Reservation\Platform;
-use Ar\Travellanda\Reservation\ReqMethod;
-use Poirot\ApiClient\AbstractClient;
-use Poirot\ApiClient\Connection\HttpStreamConnection;
+use Poirot\ApiClient\AbstractClient as BaseClient;
 use Poirot\ApiClient\Interfaces\iConnection;
 use Poirot\ApiClient\Interfaces\iPlatform;
-use Poirot\ApiClient\Interfaces\Request\iApiMethod;
-use Poirot\ApiClient\Interfaces\Response\iResponse;
+use Poirot\ApiClient\Request\Method;
 use Poirot\Core\AbstractOptions;
 use Poirot\Core\Interfaces\iDataSetConveyor;
 use Poirot\Core\Interfaces\iOptionsProvider;
 
-class Mystifly extends AbstractClient
+abstract class AbstractClient extends BaseClient
     implements iOptionsProvider
 {
-    /** @var Platform */
-    protected $platform;
-    /** @var HttpStreamConnection */
-    protected $connection;
     /** @var MystiflyOptions */
     protected $options;
 
@@ -37,15 +29,20 @@ class Mystifly extends AbstractClient
     // Client API:
 
     /**
-     * Receive the list of countries that exist in Travellanda
+     * generate session base on mystifly session generator
      *
      * @return iResponse
      */
-    function getCountries()
+    function createSession()
     {
-        $method = new ReqMethod(['method' => __FUNCTION__]);
+        $method = new Method(['method' => __FUNCTION__]);
+
+        // add mystifly config to method arguments
+        $method->setArguments($this->inOptions()->toArray());
+
         return $this->call($method);
     }
+
 
     // Client Implementation:
 
@@ -57,51 +54,14 @@ class Mystifly extends AbstractClient
      *
      * @return iPlatform
      */
-    function platform()
-    {
-        if (!$this->platform)
-            $this->platform = new Platform($this);
-
-        return $this->platform;
-    }
+//    abstract function platform();
 
     /**
      * Get Connection Adapter
      *
      * @return iConnection
      */
-    function connection()
-    {
-        if (!$this->connection)
-            $this->connection = new HttpStreamConnection([
-                'context' => [
-                    'socket' => [
-                        'proxy' => 'tcp://asantravel.com:8000',
-                        'request_fulluri' => true,
-                    ],
-                ]
-            ]);
-
-        return $this->connection;
-    }
-
-    /**
-     * @override
-     * @inheritdoc
-     *
-     * @return iResponse
-     */
-    function call(iApiMethod $method)
-    {
-        if (!$method instanceof ReqMethod)
-            $method = new ReqMethod($method->toArray());
-
-        $method->setUsername($this->inOptions()->getUsername());
-        $method->setPassword($this->inOptions()->getPassword());
-
-        return parent::call($method);
-    }
-
+    abstract function connection();
     // options:
 
     /**

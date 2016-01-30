@@ -5,27 +5,20 @@ use Poirot\Core\AbstractOptions;
 
 class MystiflyOptions extends AbstractOptions
 {
-    protected $wsdlLink      = 'http://webservices.myfarebox.com/V2/OnePoint.svc?singleWsdl';
-    protected $accountNumber = 'MCN008500';
-    protected $userName      = 'MARCOPOLOXML';
-    protected $password      = 'MARCOPOLO2015_xml';
-    protected $target        = 'Production';
+    // General Api Service Options
+    protected $accountNumber = 'MCN004100';
+    protected $userName      = 'MARCOXML';
+    protected $password      = 'MARCO_xml';
+    protected $target        = 'Test';
+    // Connection Specific Options
 
-    /**
-     * @return string
-     */
-    public function getWsdlLink()
-    {
-        return $this->wsdlLink;
-    }
 
-    /**
-     * @param string $wsdlLink
-     */
-    public function setWsdlLink($wsdlLink)
-    {
-        $this->wsdlLink = $wsdlLink;
-    }
+    // 'http://webservices.myfarebox.com/V2/OnePoint.svc?singleWsdl';
+    protected $configs = [
+        'wsdlLink' => 'http://apidemo.myfarebox.com/V2/OnePoint.svc?singlewsdl',
+        'connection'=>'close',
+    ];
+
 
     /**
      * @return string
@@ -37,10 +30,12 @@ class MystiflyOptions extends AbstractOptions
 
     /**
      * @param string $accountNumber
+     * @return $this
      */
     public function setAccountNumber($accountNumber)
     {
         $this->accountNumber = $accountNumber;
+        return $this;
     }
 
     /**
@@ -53,10 +48,12 @@ class MystiflyOptions extends AbstractOptions
 
     /**
      * @param string $userName
+     * @return $this
      */
     public function setUserName($userName)
     {
         $this->userName = $userName;
+        return $this;
     }
 
     /**
@@ -69,10 +66,12 @@ class MystiflyOptions extends AbstractOptions
 
     /**
      * @param string $password
+     * @return $this
      */
     public function setPassword($password)
     {
         $this->password = $password;
+        return $this;
     }
 
     /**
@@ -85,9 +84,29 @@ class MystiflyOptions extends AbstractOptions
 
     /**
      * @param string $target
+     * @return $this
      */
     public function setTarget($target)
     {
         $this->target = $target;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getConfigs()
+    {
+        return $this->configs;
+    }
+
+    /**
+     * @param mixed $configs
+     * @return $this
+     */
+    public function setConfigs($configs)
+    {
+        $this->configs = $configs;
+        return $this;
     }
 }
