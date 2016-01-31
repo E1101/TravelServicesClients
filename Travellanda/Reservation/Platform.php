@@ -1,12 +1,17 @@
 <?php
 namespace Tsp\Travellanda\Reservation;
 
+use Poirot\Stream\Filter\PhpRegisteredFilter;
+use Poirot\Stream\Resource\SROpenMode;
+use Poirot\Stream\Streamable\SegmentWrapStream;
+use Poirot\Stream\Streamable\TemporaryStream;
 use Tsp\Travellanda\Reservation;
 use Poirot\ApiClient\Connection\HttpStreamConnection;
 use Poirot\ApiClient\Interfaces\iConnection;
 use Poirot\ApiClient\Interfaces\iPlatform;
 use Poirot\ApiClient\Interfaces\Request\iApiMethod;
 use Poirot\ApiClient\Interfaces\Response\iResponse;
+use Tsp\Travellanda\Util;
 
 class Platform implements iPlatform
 {
@@ -133,13 +138,36 @@ class Platform implements iPlatform
      * - Result must be compatible with platform
      * - Throw exceptions if response has error
      *
-     * @param mixed $response Server Result
+     * @param \StdClass $response Server Result {s:header, s:body}
      *
      * @throws \Exception
      * @return iResponse
      */
     function makeResponse($response)
     {
+        $parsedHeader = Util::parseResponseHeaders($response->header);
+
+        if ($parsedHeader['status'] !== 200)
+            // handle errors
+            VOID;
+
+        if (
+            isset($parsedHeader['headers']['Content-Encoding'])
+            && $parsedHeader['headers']['Content-Encoding'] == 'gzip'
+        ) {
+            // Response Body Contain Compressed Data and Must Decompressed.
+            // We are using stream deflate filter
+            $stream = $response->body;
+            $stream->getResource()->appendFilter(new PhpRegisteredFilter('zlib.inflate'));
+
+            $stream = new SegmentWrapStream($stream, -1, 10);
+
+            kd ($stream->rewind()->read());
+            die();
+        }
+
+
+        kd($response->body->read());
         /**
          * <Response>
         <Head>
@@ -158,6 +186,7 @@ class Platform implements iPlatform
          */
         // TODO enable compression filter
         k($response->body->read());
+        die('>_');
     }
 
 
