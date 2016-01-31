@@ -157,7 +157,7 @@ class Platform implements iPlatform
         </Response>
          */
         // TODO enable compression filter
-        k($response);
+        k($response->body->read());
     }
 
 
