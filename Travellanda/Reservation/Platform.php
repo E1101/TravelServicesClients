@@ -2,12 +2,10 @@
 namespace Tsp\Travellanda\Reservation;
 
 use Poirot\Stream\Filter\PhpRegisteredFilter;
-use Poirot\Stream\Resource\SROpenMode;
 use Poirot\Stream\Streamable\SegmentWrapStream;
-use Poirot\Stream\Streamable\TemporaryStream;
 use Tsp\Travellanda\Reservation;
-use Poirot\ApiClient\Connection\HttpStreamConnection;
-use Poirot\ApiClient\Interfaces\iConnection;
+use Poirot\ApiClient\Transporter\HttpStreamConnection;
+use Poirot\ApiClient\Interfaces\iTransporter;
 use Poirot\ApiClient\Interfaces\iPlatform;
 use Poirot\ApiClient\Interfaces\Request\iApiMethod;
 use Poirot\ApiClient\Interfaces\Response\iResponse;
@@ -28,35 +26,35 @@ class Platform implements iPlatform
     }
 
     /**
-     * Prepare Connection To Make Call
+     * Prepare Transporter To Make Call
      *
-     * - validate connection
-     * - manipulate header or something in connection
+     * - validate transporter
+     * - manipulate header or something in transporter
      * - get connect to resource
      *
-     * @param iConnection $connection
+     * @param iTransporter $transporter
      * @param iApiMethod|null  $method
      *
      * @throws \Exception
-     * @return iConnection
+     * @return iTransporter
      */
-    function prepareConnection(iConnection $connection, $method = null)
+    function prepareTransporter(iTransporter $transporter, $method = null)
     {
-        if (!$connection instanceof HttpStreamConnection)
+        if (!$transporter instanceof HttpStreamConnection)
             throw new \InvalidArgumentException(
-                'Invalid Connection Provided. it must be instance of HttpStreamConnection'
+                'Invalid Transporter Provided. it must be instance of HttpStreamConnection'
             );
 
-        $connection->inOptions()->setServerUrl($this->client->inOptions()->getServerUrl());
-        $connection->inOptions()->setTimeout(30);
-        $connection->inOptions()->setPersist(true);
+        $transporter->inOptions()->setServerUrl($this->client->inOptions()->getServerUrl());
+        $transporter->inOptions()->setTimeout(30);
+        $transporter->inOptions()->setPersist(true);
 
-        return $connection;
+        return $transporter;
     }
 
     /**
      * Build Platform Specific Expression To Send
-     * Trough Connection
+     * Trough Transporter
      *
      * @param ReqMethod $method Method Interface
      *
