@@ -353,14 +353,7 @@ class Reservation extends AbstractClient
     function connection()
     {
         if (!$this->connection)
-            $this->connection = new HttpStreamConnection([
-                'context' => [
-                    'socket' => [
-                        'proxy' => 'tcp://asantravel.com:8000',
-                        'request_fulluri' => true,
-                    ],
-                ]
-            ]);
+            $this->connection = new HttpStreamConnection;
 
         return $this->connection;
     }
