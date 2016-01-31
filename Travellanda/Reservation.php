@@ -346,7 +346,7 @@ class Reservation extends AbstractClient
     }
 
     /**
-     * Get Connection Adapter
+     * Get Transporter Adapter
      *
      * @return iTransporter
      */

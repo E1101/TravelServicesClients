@@ -1,7 +1,7 @@
 <?php
 namespace Tsp\Mystifly\ApiClient;
 
-use Poirot\ApiClient\Interfaces\iConnection;
+use Poirot\ApiClient\Interfaces\iTransporter;
 use Poirot\ApiClient\Interfaces\iPlatform;
 use Poirot\ApiClient\Interfaces\Request\iApiMethod;
 use Poirot\ApiClient\Interfaces\Response\iResponse;
@@ -9,27 +9,27 @@ use Poirot\ApiClient\Interfaces\Response\iResponse;
 class SoapPlatform implements iPlatform
 {
     /**
-     * Prepare Connection To Make Call
+     * Prepare Transporter To Make Call
      *
-     * - validate connection
-     * - manipulate header or something in connection
+     * - validate transporter
+     * - manipulate header or something in transporter
      * - get connect to resource
      *
-     * @param iConnection $connection
+     * @param iTransporter $transporter
      * @param iApiMethod|null $method
      *
      * @throws \Exception
-     * @return iConnection
+     * @return iTransporter
      */
-    function prepareConnection(iConnection $connection, $method = null)
+    function prepareTransporter(iTransporter $transporter, $method = null)
     {
-        // TODO: Implement prepareConnection() method.
-        return $connection;
+        // TODO: Implement prepareTransporter() method.
+        return $transporter;
     }
 
     /**
      * Build Platform Specific Expression To Send
-     * Trough Connection
+     * Trough Transporter
      *
      * @param iApiMethod $method Method Interface
      *
@@ -39,7 +39,7 @@ class SoapPlatform implements iPlatform
     {
         $expressionMaker = 'make'.ucfirst($method->getMethod());
 
-        // generate proper expression base on connection
+        // generate proper expression base on transporter
         return $this->{$expressionMaker}($method->getArguments());
     }
 

@@ -2,7 +2,7 @@
 namespace Tsp\Mystifly;
 
 use Poirot\ApiClient\AbstractClient as BaseClient;
-use Poirot\ApiClient\Interfaces\iConnection;
+use Poirot\ApiClient\Interfaces\iTransporter;
 use Poirot\ApiClient\Interfaces\iPlatform;
 use Poirot\ApiClient\Request\Method;
 use Poirot\Core\AbstractOptions;
@@ -57,11 +57,11 @@ abstract class AbstractClient extends BaseClient
 //    abstract function platform();
 
     /**
-     * Get Connection Adapter
+     * Get Transporter Adapter
      *
-     * @return iConnection
+     * @return iTransporter
      */
-    abstract function connection();
+    abstract function transporter();
     // options:
 
     /**

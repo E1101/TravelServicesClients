@@ -2,23 +2,23 @@
 namespace Tsp\Mystifly\ApiClient;
 
 
-use Poirot\ApiClient\AbstractConnection;
+use Poirot\ApiClient\AbstractTransporter;
 use Poirot\ApiClient\Exception\ApiCallException;
 use Poirot\ApiClient\Exception\ConnectException;
-use Poirot\ApiClient\Interfaces\iConnection;
+use Poirot\ApiClient\Interfaces\iTransporter;
 use Poirot\Core\AbstractOptions;
 use Poirot\Stream\Streamable;
 
-class SoapConnection extends AbstractConnection
-    implements iConnection
+class SoapTransporter extends AbstractTransporter
+    implements iTransporter
 {
     /** @var \SoapClient */
-    protected $connection;
+    protected $transporter;
 
     protected $result;
 
     /**
-     * Get Prepared Resource Connection
+     * Get Prepared Resource Transporter
      *
      * - prepare resource with options
      *
@@ -32,16 +32,16 @@ class SoapConnection extends AbstractConnection
         $wsdlLink = $soapConfigs['wsdlLink'];
         unset($soapConfigs['wsdlLink']);
 
-        $this->connection = new \SoapClient($wsdlLink,$soapConfigs);
+        $this->transporter = new \SoapClient($wsdlLink,$soapConfigs);
 
     }
 
     /**
      * Send Expression To Server
      *
-     * - send expression to server through connection
+     * - send expression to server through transporter
      *   resource
-     * - get connect if connection not stablished yet
+     * - get connect if transporter not stablished yet
      *
      * @param mixed $expr Expression
      *
@@ -56,7 +56,7 @@ class SoapConnection extends AbstractConnection
 
         // call specific endpoint
         $methodName = key($expr);
-        return $this->result = $this->connection->{$methodName}($expr[$methodName]);
+        return $this->result = $this->transporter->{$methodName}($expr[$methodName]);
     }
 
     /**
@@ -66,7 +66,7 @@ class SoapConnection extends AbstractConnection
      *   by send expression
      * - return null if request not sent
      *
-     * @throws \Exception No Connection established
+     * @throws \Exception No Transporter established
      * @return null|string|Streamable
      */
     function receive()
@@ -75,19 +75,19 @@ class SoapConnection extends AbstractConnection
     }
 
     /**
-     * Is Connection Resource Available?
+     * Is Transporter Resource Available?
      *
      * @return bool
      */
     function isConnected()
     {
-        if(is_null($this->connection))
+        if(is_null($this->transporter))
             return false;
         return true;
     }
 
     /**
-     * Close Connection
+     * Close Transporter
      * @return void
      */
     function close()

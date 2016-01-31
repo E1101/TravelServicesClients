@@ -1,7 +1,7 @@
 <?php
 namespace Tsp\Mystifly;
 
-use Tsp\Mystifly\ApiClient\SoapConnection;
+use Tsp\Mystifly\ApiClient\SoapTransporter;
 use Tsp\Mystifly\ApiClient\SoapPlatform;
 
 class SoapClient extends AbstractClient
@@ -24,17 +24,17 @@ class SoapClient extends AbstractClient
     }
 
     /**
-     * Get Connection Adapter
+     * Get Transporter Adapter
      *
-     * @return iConnection
+     * @return iTransporter
      */
-    function connection()
+    function transporter()
     {
-        if (!$this->connection) {
-            // with options build connection
-            $this->connection = new SoapConnection($this->inOptions()->getConfigs());
+        if (!$this->transporter) {
+            // with options build transporter
+            $this->transporter = new SoapTransporter($this->inOptions()->getConfigs());
         }
 
-        return $this->connection;
+        return $this->transporter;
     }
 }
