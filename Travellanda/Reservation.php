@@ -1,6 +1,7 @@
 <?php
 namespace Tsp\Travellanda;
 
+use Tsp\Travellanda\Reservation\FakerTransporter;
 use Tsp\Travellanda\Reservation\Platform;
 use Tsp\Travellanda\Reservation\ReqMethod;
 use Poirot\ApiClient\AbstractClient;
@@ -352,10 +353,12 @@ class Reservation extends AbstractClient
      */
     function transporter()
     {
-        if (!$this->transporter)
-            $this->transporter = new HttpStreamConnection;
+        $mode = ($this->inOptions()->isEnableFaker()) ? 'faker' : 'stream';
 
-        return $this->transporter;
+        if (!isset($this->transporter[$mode]))
+            $this->transporter[$mode] = ($mode == 'faker') ? new FakerTransporter : new HttpStreamConnection;
+
+        return $this->transporter[$mode];
     }
 
     /**
