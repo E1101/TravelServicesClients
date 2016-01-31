@@ -313,5 +313,5 @@ http://online.travellanda.com/photo/hotel/bf00b3d32a61153a/4f/4f8645de3dfe41ff/0
 </HotelBooking>
 </Body>
 </Response>',
-    
+
 ];

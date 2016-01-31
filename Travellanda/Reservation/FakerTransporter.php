@@ -53,8 +53,6 @@ class FakerTransporter extends AbstractTransporter
 
         $parseReq = Util::parseRequest($expr);
 
-        k($parseReq);
-
         if (!array_key_exists($parseReq['uri'], $this->connected))
             // method not found
             throw new ApiCallException($parseReq['uri']);
