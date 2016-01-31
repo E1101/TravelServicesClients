@@ -40,14 +40,11 @@ class Platform implements iPlatform
      */
     function prepareTransporter(iTransporter $transporter, $method = null)
     {
-        if (!$transporter instanceof HttpStreamConnection)
-            throw new \InvalidArgumentException(
-                'Invalid Transporter Provided. it must be instance of HttpStreamConnection'
-            );
-
-        $transporter->inOptions()->setServerUrl($this->client->inOptions()->getServerUrl());
-        $transporter->inOptions()->setTimeout(30);
-        $transporter->inOptions()->setPersist(true);
+        if ($transporter instanceof HttpStreamConnection) {
+            $transporter->inOptions()->setServerUrl($this->client->inOptions()->getServerUrl());
+            $transporter->inOptions()->setTimeout(30);
+            $transporter->inOptions()->setPersist(true);
+        }
 
         return $transporter;
     }
