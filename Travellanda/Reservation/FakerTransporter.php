@@ -5,10 +5,12 @@ use Poirot\ApiClient\AbstractTransporter;
 use Poirot\ApiClient\Exception\ApiCallException;
 use Poirot\ApiClient\Exception\ConnectException;
 use Poirot\Stream\Streamable;
+use Tsp\Travellanda\Util;
 
 class FakerTransporter extends AbstractTransporter
 {
     protected $connected;
+    protected $response;
 
     /**
      * Get Prepared Resource Transporter
@@ -20,9 +22,11 @@ class FakerTransporter extends AbstractTransporter
      */
     function getConnect()
     {
-        $fakerData = __DIR__.'.faker-data.php';
+        $fakerData = __DIR__.'/.faker-data.php';
         if (!file_exists($fakerData))
-            throw new ConnectException;
+            throw new ConnectException(sprintf(
+                'file (%s) not found.', $fakerData
+            ));
 
         return $this->connected = include_once $fakerData;
     }
@@ -41,7 +45,31 @@ class FakerTransporter extends AbstractTransporter
      */
     function send($expr)
     {
-        kd($expr);
+        if (!$this->isConnected())
+            $this->getConnect();
+
+
+        // look for fake data from request uri:
+
+        $parseReq = Util::parseRequest($expr);
+
+        k($parseReq);
+
+        if (!array_key_exists($parseReq['uri'], $this->connected))
+            // method not found
+            throw new ApiCallException($parseReq['uri']);
+
+        $response = "HTTP/1.1 200 OK
+Server: Travellanda (Faker)
+Content-Type: application/xml";
+
+        $response = (object) [
+            'header' => $response,
+            'body' => new Streamable\TemporaryStream($this->connected[$parseReq['uri']])
+        ];
+
+        $this->response = $response;
+        return $response;
     }
 
     /**
@@ -56,7 +84,7 @@ class FakerTransporter extends AbstractTransporter
      */
     function receive()
     {
-        // TODO: Implement receive() method.
+        return $this->response;
     }
 
     /**

@@ -53,4 +53,56 @@ class Util
 
         return $return;
     }
+
+    /**
+     * Parse Request Message Expresssion
+     *
+     * @param string $request
+     *
+     * @return array
+     */
+    static function parseRequest($request)
+    {
+        if (!preg_match_all('/.*[\n]?/', $request, $lines))
+            throw new \InvalidArgumentException('Error Parsing Request Message.');
+
+        $lines = $lines[0];
+
+        // request line:
+        $firstLine = array_shift($lines);
+        $matches = null;
+        $methods = '\w+';
+        $regex     = '#^(?P<method>' . $methods . ')\s(?P<uri>[^ ]*)(?:\sHTTP\/(?P<version>\d+\.\d+)){0,1}#';
+        if (!preg_match($regex, $firstLine, $matches))
+            throw new \InvalidArgumentException(
+                'A valid request line was not found in the provided message.'
+            );
+
+        $return = [];
+
+        $return['method'] = $matches['method'];
+        $return['uri']    = $matches['uri'];
+
+        if (isset($matches['version']))
+            $return['version'] = $matches['version'];
+
+        // headers:
+        while ($nextLine = array_shift($lines)) {
+            if (trim($nextLine) == '')
+                // headers end
+                break;
+
+            if (! preg_match('/^(?P<label>[^()><@,;:\"\\/\[\]?=}{ \t]+):(?P<value>.*)$/', $nextLine, $matches))
+                throw new \InvalidArgumentException(
+                    'Valid Header not found: '.$nextLine
+                );
+
+            $return['headers'][$matches['label']] = trim($matches['value']);
+        }
+
+        // body:
+        parse_str(urldecode(implode("\r\n", $lines)), $output);
+        $return['body'] = $output;
+        return $return;
+    }
 }

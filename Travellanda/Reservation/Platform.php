@@ -162,7 +162,7 @@ class Platform implements iPlatform
         }
 
 
-        kd($response->body->read());
+        kd($response->body->rewind()->read());
         /**
          * <Response>
         <Head>
