@@ -1,6 +1,7 @@
 <?php
 namespace Tsp\Travellanda;
 
+use Tsp\Travellanda\Interfaces\iTravellanda;
 use Tsp\Travellanda\Reservation\FakerTransporter;
 use Tsp\Travellanda\Reservation\Platform;
 use Tsp\Travellanda\Reservation\ReqMethod;
@@ -16,6 +17,7 @@ use Poirot\Core\Interfaces\iOptionsProvider;
 
 class Reservation extends AbstractClient
     implements iOptionsProvider
+    , iTravellanda
 {
     /** @var Platform */
     protected $platform;
