@@ -43,6 +43,22 @@ abstract class AbstractClient extends BaseClient
         return $this->call($method);
     }
 
+    /**
+     * get list of available flight from mystifly webservice
+     *
+     * @param $inputs
+     * @return iResponse
+     */
+    function airLowFareSearch($inputs)
+    {
+        $method = new Method(['method' => __FUNCTION__]);
+
+        // add mystifly config to method arguments
+        $method->setArguments($this->inOptions()->toArray());
+
+        return $this->call($method);
+    }
+
 
     // Client Implementation:
 

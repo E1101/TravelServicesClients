@@ -8,7 +8,7 @@ class MystiflyOptions extends AbstractOptions
     // General Api Service Options
     protected $accountNumber = 'MCN004100';
     protected $userName      = 'MARCOXML';
-    protected $password      = 'MARCO_xml';
+    protected $password      = 'MP2014_xml';
     protected $target        = 'Test';
     // Transporter Specific Options
 
