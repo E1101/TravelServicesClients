@@ -38,33 +38,41 @@ trait SoapRequestTrait
      */
     protected function makeRequestAirLowFareSearch($arguments)
     {
-        var_dump($arguments);die('salam');
-        return [
-            "CreateSession" => [
-                'rq' => [
-                    "AccountNumber" => $arguments['account_number'],
-                    "UserName"      => $arguments['user_name'],
-                    "Password"      => $arguments['password'],
-                    "Target"        => $arguments['target'],
+        return
+            [
+                'AirLowFareSearch' => [
+                    "rq" => [
+                        "OriginDestinationInformations" =>  $arguments['OriginDestinationInformations'],
+                        "PassengerTypeQuantities" 	    => 	[
+                                                                "PassengerTypeQuantity"=> $this->PassengerGenerator($arguments)
+                                                            ],
+                        "PricingSourceType" 		    =>	$arguments['PricingSourceType'],
+                        "RequestOptions"			    =>	$arguments['RequestOptions'] ,
+                        "SessionId"					    =>	$arguments['Session'] ,
+                        "IsRefundable"				    =>	$arguments['IsRefundable'] ,
+                        "NearByAirports"			    =>	$arguments['NearByAirports'] ,
+                        "TravelPreferences"             =>  $arguments['TravelPreferences'] ,
+                    ]
                 ]
-            ]
-        ];
-
+            ];
     }
 
-    private function makeOriginDestinationInformationArray($arguments)
-    {
-        var_dump($arguments);die('salam');
-        return [
-            "CreateSession" => [
-                'rq' => [
-                    "AccountNumber" => $arguments['account_number'],
-                    "UserName"      => $arguments['user_name'],
-                    "Password"      => $arguments['password'],
-                    "Target"        => $arguments['target'],
-                ]
-            ]
-        ];
+    /**
+     * generate array of passengers
+     * @param $Inputs
+     * @return array | passengers array
+     */
+    public static function PassengerGenerator($Inputs){
+        // generate empty array for output
+        $passengers = array();
+
+        foreach($Inputs['TravelerInfoSummary']['AirTravelerAvail']['PassengerTypeQuantities'] as $key => $Passenger){
+            // get list of passengers
+            $passengers[] = $Passenger['PassengerTypeQuantity'];
+        }
+
+        return count($passengers)==1?$passengers[0]:$passengers;
     }
+
 
 }

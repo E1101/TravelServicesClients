@@ -38,10 +38,10 @@ class MystiflyMapper
      * @return mixed
      */
     function makeResponseAirLowFareSearch($response){
-        var_dump($response);die();
-        $template['status'] = $response['CreateSessionResult']['SessionStatus'];
-        $template['Errors'] = $response['CreateSessionResult']['Errors'];
-        $template['data']   = $this->array_except($response['CreateSessionResult'],array('SessionStatus','Errors','Target'));
+        $template['status'] = $response['AirLowFareSearchResult']['Success'];
+        $template['Errors'] = $response['AirLowFareSearchResult']['Errors'];
+        $template['data']   = $this->array_except($response['AirLowFareSearchResult']['PricedItineraries'],array('Success','Errors','Target'));
+//        $template['data']   = $this->normalizeAirLowFareSearch($template['data']);
         return $template;
     }
 
