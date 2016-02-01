@@ -1,12 +1,17 @@
 <?php
 namespace Tsp\Travellanda\Reservation;
 
+use DOMDocument;
+use Poirot\ApiClient\Response;
+use Poirot\Stream\Filter\PhpRegisteredFilter;
+use Poirot\Stream\Streamable\SegmentWrapStream;
 use Tsp\Travellanda\Reservation;
-use Poirot\ApiClient\Connection\HttpStreamConnection;
-use Poirot\ApiClient\Interfaces\iConnection;
+use Poirot\ApiClient\Transporter\HttpStreamConnection;
+use Poirot\ApiClient\Interfaces\iTransporter;
 use Poirot\ApiClient\Interfaces\iPlatform;
 use Poirot\ApiClient\Interfaces\Request\iApiMethod;
 use Poirot\ApiClient\Interfaces\Response\iResponse;
+use Tsp\Travellanda\Util;
 
 class Platform implements iPlatform
 {
@@ -23,35 +28,32 @@ class Platform implements iPlatform
     }
 
     /**
-     * Prepare Connection To Make Call
+     * Prepare Transporter To Make Call
      *
-     * - validate connection
-     * - manipulate header or something in connection
+     * - validate transporter
+     * - manipulate header or something in transporter
      * - get connect to resource
      *
-     * @param iConnection $connection
+     * @param iTransporter $transporter
      * @param iApiMethod|null  $method
      *
      * @throws \Exception
-     * @return iConnection
+     * @return iTransporter
      */
-    function prepareConnection(iConnection $connection, $method = null)
+    function prepareTransporter(iTransporter $transporter, $method = null)
     {
-        if (!$connection instanceof HttpStreamConnection)
-            throw new \InvalidArgumentException(
-                'Invalid Connection Provided. it must be instance of HttpStreamConnection'
-            );
+        if ($transporter instanceof HttpStreamConnection) {
+            $transporter->inOptions()->setServerUrl($this->client->inOptions()->getServerUrl());
+            $transporter->inOptions()->setTimeout(30);
+            $transporter->inOptions()->setPersist(true);
+        }
 
-        $connection->inOptions()->setServerUrl($this->client->inOptions()->getServerUrl());
-        $connection->inOptions()->setTimeout(30);
-        $connection->inOptions()->setPersist(true);
-
-        return $connection;
+        return $transporter;
     }
 
     /**
      * Build Platform Specific Expression To Send
-     * Trough Connection
+     * Trough Transporter
      *
      * @param ReqMethod $method Method Interface
      *
@@ -133,31 +135,53 @@ class Platform implements iPlatform
      * - Result must be compatible with platform
      * - Throw exceptions if response has error
      *
-     * @param mixed $response Server Result
+     * @param \StdClass $response Server Result {s:header, s:body}
      *
      * @throws \Exception
      * @return iResponse
      */
     function makeResponse($response)
     {
-        /**
-         * <Response>
-        <Head>
-        <ServerTime>2013-12-01T14:00:00</ServerTime>
-        <ResponseType>HotelBookingCancel</ResponseType>
-        </Head>
-        <Body>
-        <Error>
-        <ErrorId>121</ErrorId>
-        <ErrorText>
-        Cancellation error. This booking has already been cancelled before.
-        </ErrorText>
-        </Error>
-        </Body>
-        </Response>
-         */
-        // TODO enable compression filter
-        k($response);
+        $parsedHeader = Util::parseResponseHeaders($response->header);
+
+        if ($parsedHeader['status'] !== 200)
+            // handle errors
+            VOID;
+
+        if (
+            isset($parsedHeader['headers']['Content-Encoding'])
+            && $parsedHeader['headers']['Content-Encoding'] == 'gzip'
+        ) {
+            // Response Body Contain Compressed Data and Must Decompressed.
+            // We are using stream deflate filter
+            $stream = $response->body;
+            $stream->getResource()->appendFilter(new PhpRegisteredFilter('zlib.inflate'));
+
+            $stream = new SegmentWrapStream($stream, -1, 10);
+
+            kd ($stream->rewind()->read());
+            die();
+        }
+
+
+        # make response:
+
+        $xmlString = $response->body->rewind()->read();
+        $parsedRes = $this->xmlstr_to_array($xmlString);
+
+        // TODO handle exceptions
+
+        $response  = new Response([
+            'meta'     => Util::parseResponseHeaders($response->header),
+            'raw_body' => $xmlString,
+
+            ## get response message as array
+            'default_expected' => function($xmlString) use ($parsedRes) {
+                return $parsedRes['Body'];
+            }
+        ]);
+
+        return $response;
     }
 
 
@@ -180,5 +204,60 @@ class Platform implements iPlatform
         $uri       = '/'.$methodName.'Request.xsd';
 
         return $uri;
+    }
+
+    // ...
+
+    /**
+     * convert xml string to php array - useful to get a serializable value
+     *
+     * @param string $xmlstr
+     * @return array
+     * @author Adrien aka Gaarf
+     */
+    protected function xmlstr_to_array($xmlstr) {
+        $doc = new DOMDocument();
+        $doc->loadXML($xmlstr);
+        return $this->domnode_to_array($doc->documentElement);
+    }
+    protected function domnode_to_array($node) {
+        $output = array();
+        switch ($node->nodeType) {
+            case XML_CDATA_SECTION_NODE:
+            case XML_TEXT_NODE:
+                $output = trim($node->textContent);
+                break;
+            case XML_ELEMENT_NODE:
+                for ($i=0, $m=$node->childNodes->length; $i<$m; $i++) {
+                    $child = $node->childNodes->item($i);
+                    $v = $this->domnode_to_array($child);
+                    if(isset($child->tagName)) {
+                        $t = $child->tagName;
+                        if(!isset($output[$t])) {
+                            $output[$t] = array();
+                        }
+                        $output[$t][] = $v;
+                    }
+                    elseif($v) {
+                        $output = (string) $v;
+                    }
+                }
+                if(is_array($output)) {
+                    if($node->attributes->length) {
+                        $a = array();
+                        foreach($node->attributes as $attrName => $attrNode) {
+                            $a[$attrName] = (string) $attrNode->value;
+                        }
+                        $output['@attributes'] = $a;
+                    }
+                    foreach ($output as $t => $v) {
+                        if(is_array($v) && count($v)==1 && $t!='@attributes') {
+                            $output[$t] = $v[0];
+                        }
+                    }
+                }
+                break;
+        }
+        return $output;
     }
 }

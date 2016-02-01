@@ -1,21 +1,16 @@
 <?php
-namespace Tsp\Mystifly\ApiClient;
-
+namespace Tsp\Travellanda\Reservation;
 
 use Poirot\ApiClient\AbstractTransporter;
 use Poirot\ApiClient\Exception\ApiCallException;
 use Poirot\ApiClient\Exception\ConnectException;
-use Poirot\ApiClient\Interfaces\iTransporter;
-use Poirot\Core\AbstractOptions;
 use Poirot\Stream\Streamable;
+use Tsp\Travellanda\Util;
 
-class SoapTransporter extends AbstractTransporter
-    implements iTransporter
+class FakerTransporter extends AbstractTransporter
 {
-    /** @var \SoapClient */
-    protected $transporter;
-
-    protected $result;
+    protected $connected;
+    protected $response;
 
     /**
      * Get Prepared Resource Transporter
@@ -23,17 +18,17 @@ class SoapTransporter extends AbstractTransporter
      * - prepare resource with options
      *
      * @throws ConnectException
-     * @return void
+     * @return mixed Transporter Resource
      */
     function getConnect()
     {
-        $soapConfigs = $this->inOptions()->toArray();
+        $fakerData = __DIR__.'/.faker-data.php';
+        if (!file_exists($fakerData))
+            throw new ConnectException(sprintf(
+                'file (%s) not found.', $fakerData
+            ));
 
-        $wsdlLink = $soapConfigs['wsdlLink'];
-        unset($soapConfigs['wsdlLink']);
-
-        $this->transporter = new \SoapClient($wsdlLink,$soapConfigs);
-
+        return $this->connected = include_once $fakerData;
     }
 
     /**
@@ -50,13 +45,29 @@ class SoapTransporter extends AbstractTransporter
      */
     function send($expr)
     {
-        // check if connector not initialized
-        if( ! $this->isConnected() )
+        if (!$this->isConnected())
             $this->getConnect();
 
-        // call specific endpoint
-        $methodName = key($expr);
-        return $this->result = $this->transporter->{$methodName}($expr[$methodName]);
+
+        // look for fake data from request uri:
+
+        $parseReq = Util::parseRequest($expr);
+
+        if (!array_key_exists($parseReq['uri'], $this->connected))
+            // method not found
+            throw new ApiCallException($parseReq['uri']);
+
+        $response = "HTTP/1.1 200 OK
+Server: Travellanda (Faker)
+Content-Type: application/xml";
+
+        $response = (object) [
+            'header' => $response,
+            'body' => new Streamable\TemporaryStream($this->connected[$parseReq['uri']])
+        ];
+
+        $this->response = $response;
+        return $response;
     }
 
     /**
@@ -71,7 +82,7 @@ class SoapTransporter extends AbstractTransporter
      */
     function receive()
     {
-        return $this->result;
+        return $this->response;
     }
 
     /**
@@ -81,9 +92,7 @@ class SoapTransporter extends AbstractTransporter
      */
     function isConnected()
     {
-        if(is_null($this->transporter))
-            return false;
-        return true;
+        return ($this->connected !== null);
     }
 
     /**
@@ -92,6 +101,6 @@ class SoapTransporter extends AbstractTransporter
      */
     function close()
     {
-        // TODO: Implement close() method.
+        $this->connected = null;
     }
 }

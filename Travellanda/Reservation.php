@@ -1,11 +1,12 @@
 <?php
 namespace Tsp\Travellanda;
 
+use Tsp\Travellanda\Reservation\FakerTransporter;
 use Tsp\Travellanda\Reservation\Platform;
 use Tsp\Travellanda\Reservation\ReqMethod;
 use Poirot\ApiClient\AbstractClient;
-use Poirot\ApiClient\Connection\HttpStreamConnection;
-use Poirot\ApiClient\Interfaces\iConnection;
+use Poirot\ApiClient\Transporter\HttpStreamConnection;
+use Poirot\ApiClient\Interfaces\iTransporter;
 use Poirot\ApiClient\Interfaces\iPlatform;
 use Poirot\ApiClient\Interfaces\Request\iApiMethod;
 use Poirot\ApiClient\Interfaces\Response\iResponse;
@@ -19,7 +20,7 @@ class Reservation extends AbstractClient
     /** @var Platform */
     protected $platform;
     /** @var HttpStreamConnection */
-    protected $connection;
+    protected $transporter;
     /** @var ReservationOptions */
     protected $options;
 
@@ -346,23 +347,18 @@ class Reservation extends AbstractClient
     }
 
     /**
-     * Get Connection Adapter
+     * Get Transporter Adapter
      *
-     * @return iConnection
+     * @return iTransporter
      */
-    function connection()
+    function transporter()
     {
-        if (!$this->connection)
-            $this->connection = new HttpStreamConnection([
-                'context' => [
-                    'socket' => [
-                        'proxy' => 'tcp://asantravel.com:8000',
-                        'request_fulluri' => true,
-                    ],
-                ]
-            ]);
+        $mode = ($this->inOptions()->isEnableFaker()) ? 'faker' : 'stream';
 
-        return $this->connection;
+        if (!isset($this->transporter[$mode]))
+            $this->transporter[$mode] = ($mode == 'faker') ? new FakerTransporter : new HttpStreamConnection;
+
+        return $this->transporter[$mode];
     }
 
     /**

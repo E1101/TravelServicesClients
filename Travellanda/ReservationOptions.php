@@ -12,6 +12,7 @@ class ReservationOptions extends AbstractOptions
 
     /** reduces the response size very efficiently with gzip response compression */
     protected $enableCompression = true;
+    protected $enableFaker = false;
 
     /**
      * @return string
@@ -82,6 +83,24 @@ class ReservationOptions extends AbstractOptions
     public function setEnableCompression($enableCompression = true)
     {
         $this->enableCompression = (boolean) $enableCompression;
+        return $this;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isEnableFaker()
+    {
+        return $this->enableFaker;
+    }
+
+    /**
+     * @param boolean $enableFaker
+     * @return $this
+     */
+    public function setEnableFaker($enableFaker)
+    {
+        $this->enableFaker = (boolean) $enableFaker;
         return $this;
     }
 }
