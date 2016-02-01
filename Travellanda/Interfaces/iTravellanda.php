@@ -159,5 +159,5 @@ interface iTravellanda
      * @return iResponse
      */
     function hotelBookingCancel($BookingReference);
-    
+
 }
