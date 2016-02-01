@@ -11,7 +11,7 @@ return [
 <Countries>
 <Country>
 <CountryCode>AF</CountryCode>
-4<CountryName>Afghanistan</CountryName>
+<CountryName>Afghanistan</CountryName>
 </Country>
 <Country>
 <CountryCode>AX</CountryCode>
@@ -70,7 +70,7 @@ return [
 <ServerTime>2013-12-01T14:00:00</ServerTime>
 <ResponseType>GetHotels</ResponseType>
 </Head>
-7<Body>
+<Body>
 <HotelsReturned>925</HotelsReturned>
 <Hotels>
 <Hotel>
@@ -81,7 +81,7 @@ return [
 <Hotel>
 <HotelId>1003381</HotelId>
 <CityId>117976</CityId>
-<HotelName>Mayflower Hotel & Apartments</HotelName>
+<HotelName>Mayflower Hotel Apartments</HotelName>
 </Hotel>
 </Hotels>
 </Body>
@@ -98,7 +98,7 @@ return [
 <Hotel>
 <HotelId>1009075</HotelId>
 <CityId>117976</CityId>
-9<HotelName>Rocco Forte Brown\'s</HotelName>
+<HotelName>Rocco Forte Brown\'s</HotelName>
 <StarRating>5</StarRating>
 <Latitude>51.50809</Latitude>
 <Longitude>-0.14116</Longitude>
@@ -180,7 +180,7 @@ http://online.travellanda.com/photo/hotel/bf00b3d32a61153a/4f/4f8645de3dfe41ff/0
 <RoomName>Superior Room</RoomName>
 <NumAdults>2</NumAdults>
 <NumChildren>1</NumChildren>
-14<RoomPrice>343.98</RoomPrice>
+<RoomPrice>343.98</RoomPrice>
 <DailyPrices>
 <DailyPrice>171.99</DailyPrice>
 <DailyPrice>171.99</DailyPrice>
@@ -208,7 +208,7 @@ http://online.travellanda.com/photo/hotel/bf00b3d32a61153a/4f/4f8645de3dfe41ff/0
 <From>2013-12-14</From>
 <Type>Amount</Type>
 <Value>343.97</Value>
-16</Policy>
+</Policy>
 <Policy>
 <From>2013-12-18</From>
 <Type>Percentage</Type>
@@ -265,7 +265,7 @@ http://online.travellanda.com/photo/hotel/bf00b3d32a61153a/4f/4f8645de3dfe41ff/0
 <LeaderName>First Name 1 Last Name 1</LeaderName>
 <Nationality>FR</Nationality>
 <BoardType>Full Breakfast</BoardType>
-22<CancellationDeadline>2013-12-13</CancellationDeadline>
+<CancellationDeadline>2013-12-13</CancellationDeadline>
 <Rooms>
 <Room>
 <RoomName>Superior Room</RoomName>
