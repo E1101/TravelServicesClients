@@ -8,6 +8,7 @@ use Poirot\ApiClient\Interfaces\Response\iResponse;
 
 class SoapPlatform implements iPlatform
 {
+    use SoapRequestTrait;
     /**
      * Prepare Connection To Make Call
      *
@@ -37,7 +38,7 @@ class SoapPlatform implements iPlatform
      */
     function makeExpression(iApiMethod $method)
     {
-        $expressionMaker = 'make'.ucfirst($method->getMethod());
+        $expressionMaker = 'makeRequest'.ucfirst($method->getMethod());
 
         // generate proper expression base on connection
         return $this->{$expressionMaker}($method->getArguments());
@@ -56,23 +57,52 @@ class SoapPlatform implements iPlatform
      */
     function makeResponse($response)
     {
-        // TODO: Implement makeResponse() method.
-        // TODO: Error Handling goes here.
-        print_r($response);
-        die('make Response');
+        $output = [
+            'status'=>false,
+            'data'=>[],
+            'Errors'=>[]
+
+        ];
+        $output [ 'data' ] = $this->objectToArray($response->{key($response)});
+        // update status code
+        $this->updateStatus(key($response),$output);
+        // update errors array
+        $this->updateErrors(key($response),$output);
+
+        return $response->{key($response)};
     }
 
-    protected function makeCreateSession($arguments)
-    {
-        return ["CreateSession" => [
-            'rq' => [
-                    "AccountNumber" => $arguments['account_number'],
-                    "UserName"      => $arguments['user_name'],
-                    "Password"      => $arguments['password'],
-                    "Target"        => $arguments['target'],
-                ]
-            ]
-        ];
+    function updateStatus($method ,&$data){
+        switch($method){
+            case 'CreateSessionResult':
+                $data [ 'status' ] = $data [ 'data' ][ 'SessionStatus' ];
+                unset($data [ 'data' ][ 'SessionStatus' ]);
+                unset($data [ 'data' ][ 'Target' ]);
+                break;
+            case '':
+                break;
+            case '':
+                break;
+            default:
+                break;
+        }
+        return ;
+    }
+
+    function updateErrors($method ,&$data){
+        switch($method){
+            case 'CreateSessionResult':
+                $data [ 'Errors' ] = $data [ 'data' ][ 'Errors' ];
+                unset($data [ 'data' ][ 'Errors' ]);
+                break;
+            case '':
+                break;
+            case '':
+                break;
+            default:
+                break;
+        }
+        return ;
     }
 
 }
