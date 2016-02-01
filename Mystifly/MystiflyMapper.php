@@ -33,4 +33,16 @@ class MystiflyMapper
         return $template;
     }
 
+    /**
+     * @param $response
+     * @return mixed
+     */
+    function makeResponseAirLowFareSearch($response){
+        var_dump($response);die();
+        $template['status'] = $response['CreateSessionResult']['SessionStatus'];
+        $template['Errors'] = $response['CreateSessionResult']['Errors'];
+        $template['data']   = $this->array_except($response['CreateSessionResult'],array('SessionStatus','Errors','Target'));
+        return $template;
+    }
+
 }

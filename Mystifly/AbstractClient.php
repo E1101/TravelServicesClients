@@ -56,6 +56,8 @@ abstract class AbstractClient extends BaseClient
         // add mystifly config to method arguments
         $method->setArguments($this->inOptions()->toArray());
 
+        (empty($inputs)) ?: $method->setArguments($inputs);
+
         return $this->call($method);
     }
 

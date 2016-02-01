@@ -8,11 +8,8 @@ use Poirot\ApiClient\Interfaces\Response\iResponse;
 
 class SoapPlatform implements iPlatform
 {
-<<<<<<< HEAD
     use SoapRequestTrait;
-=======
     use SoapHelperTrait;
->>>>>>> d47dcd0...  mystifly create session done
     /**
      * Prepare Transporter To Make Call
      *
@@ -61,25 +58,8 @@ class SoapPlatform implements iPlatform
      */
     function makeResponse($response)
     {
-<<<<<<< HEAD
-        $output = [
-            'status'=>false,
-            'data'=>[],
-            'Errors'=>[]
-=======
         // TODO: Implement makeResponse() method.
         return $this->toArray($response);
-    }
->>>>>>> d47dcd0...  mystifly create session done
-
-        ];
-        $output [ 'data' ] = $this->objectToArray($response->{key($response)});
-        // update status code
-        $this->updateStatus(key($response),$output);
-        // update errors array
-        $this->updateErrors(key($response),$output);
-
-        return $response->{key($response)};
     }
 
     function updateStatus($method ,&$data){

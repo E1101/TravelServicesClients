@@ -13,29 +13,22 @@ trait SoapRequestTrait
 {
 
     /**
-     *
-     * Convert an object to an array
-     *
-     * @param    object  $objects The object to convert
-     * @return   array
-     *
+     * get configs and generate soap createSession request
+     * @param $arguments
+     * @return array
      */
-    public function objectToArray($objects )
+    protected function makeRequestCreateSession($arguments)
     {
-        if( !is_object( $objects ) && !is_array( $objects ) )
-        {
-            return $objects;
-        }
-        if( is_object( $objects ) )
-        {
-            $objects = get_object_vars( $objects );
-        }
-        if(is_array($objects)){
-            foreach($objects as $key => $object){
-                $objects [ $key ] = $this->objectToArray( $object );
-            }
-        }
-        return $objects;
+        return [
+            "CreateSession" => [
+                'rq' => [
+                    "AccountNumber" => $arguments['account_number'],
+                    "UserName"      => $arguments['user_name'],
+                    "Password"      => $arguments['password'],
+                    "Target"        => $arguments['target'],
+                ]
+            ]
+        ];
     }
 
     /**
@@ -43,16 +36,35 @@ trait SoapRequestTrait
      * @param $arguments
      * @return array
      */
-    protected function makeRequestCreateSession($arguments)
+    protected function makeRequestAirLowFareSearch($arguments)
     {
-        return ["CreateSession" => [
-            'rq' => [
-                "AccountNumber" => $arguments['account_number'],
-                "UserName"      => $arguments['user_name'],
-                "Password"      => $arguments['password'],
-                "Target"        => $arguments['target'],
+        var_dump($arguments);die('salam');
+        return [
+            "CreateSession" => [
+                'rq' => [
+                    "AccountNumber" => $arguments['account_number'],
+                    "UserName"      => $arguments['user_name'],
+                    "Password"      => $arguments['password'],
+                    "Target"        => $arguments['target'],
+                ]
             ]
-        ]
+        ];
+
+    }
+
+    private function makeOriginDestinationInformationArray($arguments)
+    {
+        var_dump($arguments);die('salam');
+        return [
+            "CreateSession" => [
+                'rq' => [
+                    "AccountNumber" => $arguments['account_number'],
+                    "UserName"      => $arguments['user_name'],
+                    "Password"      => $arguments['password'],
+                    "Target"        => $arguments['target'],
+                ]
+            ]
         ];
     }
+
 }
