@@ -1,6 +1,8 @@
 <?php
 namespace Tsp\Travellanda\Reservation;
 
+use DOMDocument;
+use Poirot\ApiClient\Response;
 use Poirot\Stream\Filter\PhpRegisteredFilter;
 use Poirot\Stream\Streamable\SegmentWrapStream;
 use Tsp\Travellanda\Reservation;
@@ -162,26 +164,24 @@ class Platform implements iPlatform
         }
 
 
-        kd($response->body->rewind()->read());
-        /**
-         * <Response>
-        <Head>
-        <ServerTime>2013-12-01T14:00:00</ServerTime>
-        <ResponseType>HotelBookingCancel</ResponseType>
-        </Head>
-        <Body>
-        <Error>
-        <ErrorId>121</ErrorId>
-        <ErrorText>
-        Cancellation error. This booking has already been cancelled before.
-        </ErrorText>
-        </Error>
-        </Body>
-        </Response>
-         */
-        // TODO enable compression filter
-        k($response->body->read());
-        die('>_');
+        # make response:
+
+        $xmlString = $response->body->rewind()->read();
+        $parsedRes = $this->xmlstr_to_array($xmlString);
+
+        // TODO handle exceptions
+
+        $response  = new Response([
+            'meta'     => Util::parseResponseHeaders($response->header),
+            'raw_body' => $xmlString,
+
+            ## get response message as array
+            'default_expected' => function($xmlString) use ($parsedRes) {
+                return $parsedRes['Body'];
+            }
+        ]);
+
+        return $response;
     }
 
 
@@ -204,5 +204,60 @@ class Platform implements iPlatform
         $uri       = '/'.$methodName.'Request.xsd';
 
         return $uri;
+    }
+
+    // ...
+
+    /**
+     * convert xml string to php array - useful to get a serializable value
+     *
+     * @param string $xmlstr
+     * @return array
+     * @author Adrien aka Gaarf
+     */
+    protected function xmlstr_to_array($xmlstr) {
+        $doc = new DOMDocument();
+        $doc->loadXML($xmlstr);
+        return $this->domnode_to_array($doc->documentElement);
+    }
+    protected function domnode_to_array($node) {
+        $output = array();
+        switch ($node->nodeType) {
+            case XML_CDATA_SECTION_NODE:
+            case XML_TEXT_NODE:
+                $output = trim($node->textContent);
+                break;
+            case XML_ELEMENT_NODE:
+                for ($i=0, $m=$node->childNodes->length; $i<$m; $i++) {
+                    $child = $node->childNodes->item($i);
+                    $v = $this->domnode_to_array($child);
+                    if(isset($child->tagName)) {
+                        $t = $child->tagName;
+                        if(!isset($output[$t])) {
+                            $output[$t] = array();
+                        }
+                        $output[$t][] = $v;
+                    }
+                    elseif($v) {
+                        $output = (string) $v;
+                    }
+                }
+                if(is_array($output)) {
+                    if($node->attributes->length) {
+                        $a = array();
+                        foreach($node->attributes as $attrName => $attrNode) {
+                            $a[$attrName] = (string) $attrNode->value;
+                        }
+                        $output['@attributes'] = $a;
+                    }
+                    foreach ($output as $t => $v) {
+                        if(is_array($v) && count($v)==1 && $t!='@attributes') {
+                            $output[$t] = $v[0];
+                        }
+                    }
+                }
+                break;
+        }
+        return $output;
     }
 }
