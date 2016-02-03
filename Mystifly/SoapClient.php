@@ -7,7 +7,6 @@ use Tsp\Mystifly\ApiClient\SoapPlatform;
 
 class SoapClient extends AbstractClient
 {
-
     /**
      * Get Client Platform
      *
@@ -31,21 +30,10 @@ class SoapClient extends AbstractClient
      */
     function transporter()
     {
-        if (!$this->transporter) {
+        if (!$this->transporter)
             // with options build transporter
-            $this->transporter = new SoapTransporter($this->inOptions()->getConfigs());
-        }
+            $this->transporter = new SoapTransporter($this->inOptions()->getConnectionConfig());
 
         return $this->transporter;
-    }
-
-    /**
-     * Get Connection Adapter
-     *
-     * @return iConnection
-     */
-    function connection()
-    {
-        // TODO: Implement connection() method.
     }
 }

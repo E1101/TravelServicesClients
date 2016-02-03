@@ -8,9 +8,11 @@ use Poirot\ApiClient\Request\Method;
 use Poirot\Core\AbstractOptions;
 use Poirot\Core\Interfaces\iDataSetConveyor;
 use Poirot\Core\Interfaces\iOptionsProvider;
+use Tsp\Mystifly\Interfaces\iMystifly;
 
 abstract class AbstractClient extends BaseClient
     implements iOptionsProvider
+    , iMystifly
 {
     /** @var MystiflyOptions */
     protected $options;
@@ -36,9 +38,13 @@ abstract class AbstractClient extends BaseClient
     function createSession()
     {
         $method = new Method(['method' => __FUNCTION__]);
-
         // add mystifly config to method arguments
-        $method->setArguments($this->inOptions()->toArray());
+        $method->setArguments([
+            'account_number' => $this->inOptions()->getAccountNumber(),
+            'user_name'      => $this->inOptions()->getUserName(),
+            'password'       => $this->inOptions()->getPassword(),
+            'target'         => $this->inOptions()->getTarget(),
+        ]);
 
         return $this->call($method);
     }
@@ -52,11 +58,7 @@ abstract class AbstractClient extends BaseClient
     function airLowFareSearch($inputs)
     {
         $method = new Method(['method' => __FUNCTION__]);
-
-        // add mystifly config to method arguments
-        $method->setArguments($this->inOptions()->toArray());
-
-        (empty($inputs)) ?: $method->setArguments($inputs);
+        $method->setArguments($inputs);
 
         return $this->call($method);
     }
@@ -80,6 +82,7 @@ abstract class AbstractClient extends BaseClient
      * @return iTransporter
      */
     abstract function transporter();
+
     // options:
 
     /**

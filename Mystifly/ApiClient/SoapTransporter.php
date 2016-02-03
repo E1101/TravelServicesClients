@@ -27,13 +27,15 @@ class SoapTransporter extends AbstractTransporter
      */
     function getConnect()
     {
+        if ($this->isConnected())
+            $this->close();
+
         $soapConfigs = $this->inOptions()->toArray();
 
         $wsdlLink = $soapConfigs['wsdlLink'];
         unset($soapConfigs['wsdlLink']);
 
         $this->transporter = new \SoapClient($wsdlLink,$soapConfigs);
-
     }
 
     /**
@@ -92,6 +94,6 @@ class SoapTransporter extends AbstractTransporter
      */
     function close()
     {
-        // TODO: Implement close() method.
+        $this->transporter = null;
     }
 }

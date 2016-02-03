@@ -9,9 +9,8 @@
 namespace Tsp\Mystifly\ApiClient;
 
 
-trait SoapRequestTrait
+trait SoapPlatformTrait
 {
-
     /**
      * get configs and generate soap createSession request
      * @param $arguments
@@ -44,7 +43,7 @@ trait SoapRequestTrait
                     "rq" => [
                         "OriginDestinationInformations" =>  $arguments['OriginDestinationInformations'],
                         "PassengerTypeQuantities" 	    => 	[
-                                                                "PassengerTypeQuantity"=> $this->PassengerGenerator($arguments)
+                                                                "PassengerTypeQuantity"=> $this->__passengerGenerator($arguments)
                                                             ],
                         "PricingSourceType" 		    =>	$arguments['PricingSourceType'],
                         "RequestOptions"			    =>	$arguments['RequestOptions'] ,
@@ -62,7 +61,7 @@ trait SoapRequestTrait
      * @param $Inputs
      * @return array | passengers array
      */
-    public static function PassengerGenerator($Inputs){
+    protected function __passengerGenerator($Inputs){
         // generate empty array for output
         $passengers = array();
 
@@ -73,6 +72,4 @@ trait SoapRequestTrait
 
         return count($passengers)==1?$passengers[0]:$passengers;
     }
-
-
 }

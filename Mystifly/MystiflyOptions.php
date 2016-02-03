@@ -10,11 +10,10 @@ class MystiflyOptions extends AbstractOptions
     protected $userName      = 'MARCOXML';
     protected $password      = 'MP2014_xml';
     protected $target        = 'Test';
+
     // Transporter Specific Options
-
-
     // 'http://webservices.myfarebox.com/V2/OnePoint.svc?singleWsdl';
-    protected $configs = [
+    protected $connectionConfig = [
         'wsdlLink' => 'http://apidemo.myfarebox.com/V2/OnePoint.svc?singlewsdl',
         'connection'=>'close',
     ];
@@ -95,18 +94,18 @@ class MystiflyOptions extends AbstractOptions
     /**
      * @return mixed
      */
-    public function getConfigs()
+    public function getConnectionConfig()
     {
-        return $this->configs;
+        return $this->connectionConfig;
     }
 
     /**
-     * @param mixed $configs
+     * @param mixed $connectionConfig
      * @return $this
      */
-    public function setConfigs($configs)
+    public function setConnectionConfig($connectionConfig)
     {
-        $this->configs = $configs;
+        $this->connectionConfig = $connectionConfig;
         return $this;
     }
 }

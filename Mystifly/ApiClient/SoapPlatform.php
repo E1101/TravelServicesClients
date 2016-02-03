@@ -5,11 +5,13 @@ use Poirot\ApiClient\Interfaces\iTransporter;
 use Poirot\ApiClient\Interfaces\iPlatform;
 use Poirot\ApiClient\Interfaces\Request\iApiMethod;
 use Poirot\ApiClient\Interfaces\Response\iResponse;
+use Poirot\ApiClient\Response;
+use Tsp\Mystifly\Util;
 
 class SoapPlatform implements iPlatform
 {
-    use SoapRequestTrait;
-    use SoapHelperTrait;
+    use SoapPlatformTrait;
+
     /**
      * Prepare Transporter To Make Call
      *
@@ -58,41 +60,24 @@ class SoapPlatform implements iPlatform
      */
     function makeResponse($response)
     {
-        // TODO: Implement makeResponse() method.
-        return $this->toArray($response);
-    }
+        $response = Util::toArray($response);
 
-    function updateStatus($method ,&$data){
-        switch($method){
-            case 'CreateSessionResult':
-                $data [ 'status' ] = $data [ 'data' ][ 'SessionStatus' ];
-                unset($data [ 'data' ][ 'SessionStatus' ]);
-                unset($data [ 'data' ][ 'Target' ]);
-                break;
-            case '':
-                break;
-            case '':
-                break;
-            default:
-                break;
-        }
-        return ;
-    }
+        $response  = new Response([
+            'raw_body' => $response,
 
-    function updateErrors($method ,&$data){
-        switch($method){
-            case 'CreateSessionResult':
-                $data [ 'Errors' ] = $data [ 'data' ][ 'Errors' ];
-                unset($data [ 'data' ][ 'Errors' ]);
-                break;
-            case '':
-                break;
-            case '':
-                break;
-            default:
-                break;
-        }
-        return ;
-    }
+            ## get response message as array
+            'default_expected' => function($rawBody) use ($response) {
+                return current($response);
+            }
+        ]);
 
+        // TODO handle exceptions
+        /*$errorCode = 15;
+        $response->setException(new \Exception(
+            'this is error message'
+            , $errorCode
+        ));*/
+
+        return $response;
+    }
 }
