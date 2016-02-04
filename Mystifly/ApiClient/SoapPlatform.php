@@ -60,14 +60,14 @@ class SoapPlatform implements iPlatform
      */
     function makeResponse($response)
     {
-        $response = Util::toArray($response);
+        $response = current(Util::toArray($response));
 
         $response  = new Response([
             'raw_body' => $response,
 
             ## get response message as array
             'default_expected' => function($rawBody) use ($response) {
-                return current($response);
+                return $response;
             }
         ]);
 

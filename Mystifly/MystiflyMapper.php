@@ -2,13 +2,21 @@
 namespace Tsp\Mystifly;
 
 
-class MystiflyMapper
-{
+class MystiflyMapper {
+
     protected $template = [
         'status'=>false,
         'data'=>[],
         'Errors'=>[],
     ];
+
+    function __invoke($rawBody)
+    {
+//        $template['status'] = $rawBody['SessionStatus'];
+//        $template['Errors'] = $rawBody['Errors'];
+//        $template['data']   = $this->array_except($rawBody,array('SessionStatus','Errors','Target'));
+        return $rawBody;
+    }
 
     /**
      * @param $array
@@ -21,28 +29,4 @@ class MystiflyMapper
         }
         return $array;
     }
-
-    /**
-     * @param $response
-     * @return mixed
-     */
-    function makeResponseCreateSession($response){
-        $template['status'] = $response['CreateSessionResult']['SessionStatus'];
-        $template['Errors'] = $response['CreateSessionResult']['Errors'];
-        $template['data']   = $this->array_except($response['CreateSessionResult'],array('SessionStatus','Errors','Target'));
-        return $template;
-    }
-
-    /**
-     * @param $response
-     * @return mixed
-     */
-    function makeResponseAirLowFareSearch($response){
-        $template['status'] = $response['AirLowFareSearchResult']['Success'];
-        $template['Errors'] = $response['AirLowFareSearchResult']['Errors'];
-        $template['data']   = $this->array_except($response['AirLowFareSearchResult']['PricedItineraries'],array('Success','Errors','Target'));
-//        $template['data']   = $this->normalizeAirLowFareSearch($template['data']);
-        return $template;
-    }
-
 }

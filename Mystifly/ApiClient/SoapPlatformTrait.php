@@ -72,4 +72,175 @@ trait SoapPlatformTrait
 
         return count($passengers)==1?$passengers[0]:$passengers;
     }
+
+    /**
+     * get configs and generate soap AirRevalidate request
+     * @param $arguments
+     * @return array
+     */
+    protected function makeRequestAirRevalidate($arguments)
+    {
+        return
+            [
+                'AirRevalidate' => [
+                    "rq" => [
+                        "FareSourceCode"	=>	$arguments [ 'FareSourceCode' ],
+                        "SessionId"			=>	$arguments [ 'Session' ],
+                        "Target"			=>	$arguments [ 'Target' ]
+                    ]
+                ]
+            ];
+    }
+
+    /**
+     * get configs and generate soap multiAirRevalidate request
+     * @param $arguments
+     * @return array
+     */
+    protected function makeRequestMultiAirRevalidate($arguments)
+    {
+        return
+            [
+                'MultiAirRevalidate' => [
+                    "rq" => $arguments
+                ]
+            ];
+    }
+
+    /**
+     * get configs and generate soap AirRevalidate request
+     * @param $arguments
+     * @return array
+     */
+    protected function makeRequestBookFlight($arguments)
+    {
+        return
+            [
+                'BookFlight' => [
+                    "rq" => $arguments
+                ]
+            ];
+    }
+
+    /**
+     * get configs and generate soap AirRevalidate request
+     * @param $arguments
+     * @return array
+     */
+    protected function makeRequestCancelBooking($arguments)
+    {
+        return
+            [
+                'CancelBooking' => [
+                    "rq" => $arguments
+                ]
+            ];
+    }
+
+    /**
+     * get configs and generate soap AirRevalidate request
+     * @param $arguments
+     * @return array
+     */
+    protected function makeRequestFareRules1_1($arguments)
+    {
+        return
+            [
+                'FareRules1_1' => [
+                    "rq" => $arguments
+                ]
+            ];
+    }
+
+    /**
+     * get configs and generate soap AirRevalidate request
+     * @param $arguments
+     * @return array
+     */
+    protected function makeRequestTicketOrder($arguments)
+    {
+        return
+            [
+                'TicketOrder' => [
+                    "rq" => $arguments
+                ]
+            ];
+    }
+
+
+    /**
+     * get configs and generate soap AirRevalidate request
+     * @param $arguments
+     * @return array
+     */
+    protected function makeRequestTripDetails($arguments)
+    {
+        return
+            [
+                'TripDetails' => [
+                    "rq" => $arguments
+                ]
+            ];
+    }
+
+    /**
+     * get configs and generate soap add booking note request
+     * @param $arguments
+     * @return array
+     */
+    protected function makeRequestAddBookingNotes($arguments)
+    {
+        return
+            [
+                'AddBookingNotes' => [
+                    "rq" => $arguments
+                ]
+            ];
+    }
+
+    /**
+     * get configs and generate soap AirBookingData request
+     * @param $arguments
+     * @return array
+     */
+    protected function makeRequestAirBookingData($arguments)
+    {
+        return
+            [
+                'AirBookingData' => [
+                    "rq" => $arguments
+                ]
+            ];
+    }
+
+    /**
+     * get configs and generate soap messageQueues request
+     * @param $arguments
+     * @return array
+     */
+    protected function makeRequestMessageQueues($arguments)
+    {
+        return
+            [
+                'MessageQueues' => [
+                    "rq" => $arguments
+                ]
+            ];
+    }
+
+    /**
+     * get configs and generate soap messageQueues request
+     * @param $arguments
+     * @return array
+     */
+    protected function makeRequestRemoveMessageQueues($arguments)
+    {
+        return
+            [
+                'RemoveMessageQueues' => [
+                    "rq" => $arguments
+                ]
+            ];
+    }
+
 }

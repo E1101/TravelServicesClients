@@ -4,6 +4,7 @@ namespace Tsp\Mystifly;
 use Poirot\ApiClient\Interfaces\iConnection;
 use Tsp\Mystifly\ApiClient\SoapTransporter;
 use Tsp\Mystifly\ApiClient\SoapPlatform;
+use Tsp\Mystifly\Interfaces\iResponse;
 
 class SoapClient extends AbstractClient
 {
@@ -36,4 +37,5 @@ class SoapClient extends AbstractClient
 
         return $this->transporter;
     }
+
 }

@@ -63,6 +63,186 @@ abstract class AbstractClient extends BaseClient
         return $this->call($method);
     }
 
+    /**
+     * revalidate selected flight
+     *
+     * @param array $inputs
+     *
+     * @return iResponse
+     */
+    function airRevalidate($inputs)
+    {
+        $method = new Method(['method' => __FUNCTION__]);
+        $method->setArguments($inputs);
+
+        return $this->call($method);
+    }
+
+    /**
+     * book selected flight with passengers information
+     *
+     * @param array $inputs
+     *
+     * @return iResponse
+     */
+    function bookFlight($inputs)
+    {
+        $method = new Method(['method' => __FUNCTION__]);
+        $method->setArguments($inputs);
+
+        return $this->call($method);
+    }
+
+    /**
+     * cancel given book reference id
+     *
+     * @param array $inputs
+     *
+     * @return iResponse
+     */
+    function cancelBooking($inputs)
+    {
+        $method = new Method(['method' => __FUNCTION__]);
+        $method->setArguments($inputs);
+
+        return $this->call($method);
+    }
+
+    /**
+     * get selected flight fare rules ( new implementation )
+     *
+     * @param array $inputs
+     *
+     * @return iResponse
+     */
+    function fareRules1_1($inputs)
+    {
+        $method = new Method(['method' => __FUNCTION__]);
+        $method->setArguments($inputs);
+
+        return $this->call($method);
+    }
+
+    /**
+     * order given booking reference id
+     *
+     * @param array $inputs
+     *
+     * @return iResponse
+     */
+    function ticketOrder($inputs)
+    {
+        $method = new Method(['method' => __FUNCTION__]);
+        $method->setArguments($inputs);
+
+        return $this->call($method);
+    }
+
+    /**
+     * get flight detail from given ticket id
+     *
+     * @param array $inputs
+     *
+     * @return iResponse
+     */
+    function tripDetails($inputs)
+    {
+        $method = new Method(['method' => __FUNCTION__]);
+        $method->setArguments($inputs);
+
+        return $this->call($method);
+    }
+
+    /**
+     * add some note to selected booking reference id
+     *
+     * @param array $inputs
+     *
+     * @return iResponse
+     */
+    function addBookingNotes($inputs)
+    {
+        $method = new Method(['method' => __FUNCTION__]);
+        $method->setArguments($inputs);
+
+        return $this->call($method);
+    }
+
+
+    /**
+     * add some note to selected booking reference id
+     *
+     * @param array $inputs
+     *
+     * @return iResponse
+     */
+    function airBookingData($inputs)
+    {
+        $method = new Method(['method' => __FUNCTION__]);
+        $method->setArguments($inputs);
+
+        return $this->call($method);
+    }
+
+    /**
+     * get specific category message queues
+     *
+     * @param array $inputs
+     *
+     * @return iResponse
+     */
+    function messageQueues($inputs)
+    {
+        $method = new Method(['method' => __FUNCTION__]);
+        $method->setArguments($inputs);
+
+        return $this->call($method);
+    }
+
+    /**
+     * remove selected queue messages
+     *
+     * @param array $inputs
+     *
+     * @return iResponse
+     */
+    function removeMessageQueues($inputs)
+    {
+        $method = new Method(['method' => __FUNCTION__]);
+        $method->setArguments($inputs);
+
+        return $this->call($method);
+    }
+
+    /**
+     *
+     *
+     * @param array $inputs
+     *
+     * @return iResponse
+     */
+    function multiAirRevalidate($inputs)
+    {
+        $method = new Method(['method' => __FUNCTION__]);
+        $method->setArguments($inputs);
+
+        return $this->call($method);
+    }
+
+    /**
+     *
+     *
+     * @param array $inputs
+     *
+     * @return iResponse
+     */
+    function multiAirBookFlight($inputs)
+    {
+        $method = new Method(['method' => __FUNCTION__]);
+        $method->setArguments($inputs);
+
+        return $this->call($method);
+    }
 
     // Client Implementation:
 
