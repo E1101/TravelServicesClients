@@ -145,10 +145,18 @@ class MystiflyOptions extends AbstractOptions
         ## [set]PropertyName
         switch (substr($name, 0, 3)) {
             case 'set':
-                $this->storage()->set([$key => $arguments[0]], false);
+                // generate proper data for setter
+                $data = empty($key)? $arguments[0] : [  $key => $arguments[0] ] ;
+
+                //update Storage
+                $updateStorage = isset($arguments[1]) ? $arguments[1] : false ;
+
+                $this->storage()->set($data, $updateStorage);
                 break;
             case 'get':
-                return $this->storage()->get($key);
+                // generate proper data for getter
+                $data = is_array($key)? $key : [ $key ] ;
+                return $this->storage()->get($data);
                 break;
             default:
                 $this->storage()->{$name}();
