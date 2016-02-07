@@ -150,6 +150,9 @@ class MystiflyOptions extends AbstractOptions
             case 'get':
                 return $this->storage()->get($key);
                 break;
+            default:
+                $this->storage()->{$name}();
+                break;
         }
 
         return $this;

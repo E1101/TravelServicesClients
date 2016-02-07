@@ -1,3 +1,7 @@
 <?php return [
-  'Session' => 'mohammad',
+  'Session' => 
+  [
+    0 => 'mohammadian',
+    1 => 'alireza',
+  ],
 ];

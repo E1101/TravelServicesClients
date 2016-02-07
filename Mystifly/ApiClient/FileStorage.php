@@ -1,11 +1,12 @@
 <?php
-
 namespace Tsp\Mystifly\ApiClient;
 
+use Tsp\Mystifly\Interfaces\iStorage;
 
 class FileStorage implements iStorage
 {
-    protected $storageFilePath = __DIR__.'/../.storage.php';
+    protected $storageFilePath;
+
     /** @var array */
     protected $data;
 
@@ -16,8 +17,10 @@ class FileStorage implements iStorage
      */
     function __construct($filePath = null)
     {
-        if ($filePath !== null)
-            $this->storageFilePath = $filePath;
+        if ($filePath === null)
+            $filePath = __DIR__.'/../.storage.php';
+
+        $this->storageFilePath = $filePath;
     }
 
 
