@@ -23,8 +23,9 @@ abstract class AbstractClient extends BaseClient
      */
     function __construct($options = null)
     {
-        if ($options != null)
+        if ($options != null){
             $this->inOptions()->from($options);
+        }
     }
 
 
@@ -245,16 +246,6 @@ abstract class AbstractClient extends BaseClient
     }
 
     // Client Implementation:
-
-    /**
-     * Get Client Platform
-     *
-     * - used by request to build params for
-     *   server execution call and response
-     *
-     * @return iPlatform
-     */
-//    abstract function platform();
 
     /**
      * Get Transporter Adapter

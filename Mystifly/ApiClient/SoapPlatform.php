@@ -60,23 +60,19 @@ class SoapPlatform implements iPlatform
      */
     function makeResponse($response)
     {
-        $response = current(Util::toArray($response));
+        $result = current(Util::toArray($response));
 
         $response  = new Response([
-            'raw_body' => $response,
+            'raw_body' => $result,
 
             ## get response message as array
-            'default_expected' => function($rawBody) use ($response) {
-                return $response;
+            'default_expected' => function($rawBody) use ($result) {
+                return $result;
             }
         ]);
 
         // TODO handle exceptions
-        /*$errorCode = 15;
-        $response->setException(new \Exception(
-            'this is error message'
-            , $errorCode
-        ));*/
+        $response = $this->exceptionHandler($response);
 
         return $response;
     }

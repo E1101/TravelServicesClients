@@ -52,7 +52,7 @@ class Util
                     ],
                 'PricingSourceType' =>'Default',
                 'RequestOptions'    =>'Fifty',
-                'Session'           =>'56aa685e-ea9d-4d36-9861-34d1fdf6a51f',
+                'Session'           =>'eab34f9b-3d43-47cf-9c40-5f2d7adbe3b1',
                 'IsRefundable'      =>true,
                 'NearByAirports'    =>true,
                 'TravelerInfoSummary'=>

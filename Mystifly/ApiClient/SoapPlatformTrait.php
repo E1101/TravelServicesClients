@@ -9,6 +9,10 @@
 namespace Tsp\Mystifly\ApiClient;
 
 
+use Poirot\ApiClient\Interfaces\Response\iResponse;
+use Tsp\Mystifly\Exception\InvalidSessionException;
+use Tsp\Mystifly\Util;
+
 trait SoapPlatformTrait
 {
     /**
@@ -242,5 +246,80 @@ trait SoapPlatformTrait
                 ]
             ];
     }
+
+
+    /**
+     * handle mystifly exceptions
+     * @param iResponse $response
+     * @return array
+     */
+    protected function exceptionHandler($response)
+    {
+        $result = Util::toArray($response->getRawBody());
+        
+        if(!isset($result['Errors']['Error'])){
+            return $response;
+        }
+
+        if(!isset($result['Errors']['Error']['0'])){
+            $temp = $result['Errors']['Error'];
+            unset($result['Errors']['Error']);
+            $result['Errors']['Error']['0'] = $temp;
+        }
+
+        foreach($result['Errors']['Error'] as $Error){
+            switch($Error['Code']){
+                // SessionId cannot be null
+                case 'ERSER001':
+                case 'ERSMP001':
+                case 'ERSRV001':
+                case 'EROTK001':
+                case 'ERAQT001':
+                case 'ERTDT001':
+                case 'ERMQU001':
+                case 'ERRMQ001':
+                case 'ERABN001':
+                case 'ERABD001':
+                case 'ERMAR001':
+                case 'ERMAB001':
+                case 'ERIFS001':
+                case 'ERPAY001':
+                //Invalid SessionId
+                case 'ERSER002':
+                case 'ERSMP002':
+                case 'ERSRV002':
+                case 'EROTK002':
+                case 'ERAQT002':
+                case 'ERTDT002':
+                case 'ERMQU003':
+                case 'ERRMQ006':
+                case 'ERABN006':
+                case 'ERABD002':
+                case 'ERMAR002':
+                case 'ERMAB002':
+                case 'ERIFS002':
+                case 'ERPAY002':
+                    // chain exception to previous exceptions
+                    $response->setException(new InvalidSessionException(
+                        $Error['Message'],
+                        null,
+                        $response->hasException() ? $response->hasException() : null
+                    ));
+                    break;
+                default:
+                    // chain exception to previous exceptions
+                    $response->setException(new \Exception(
+                        $Error['Message'],
+                        null,
+                        $response->hasException() ? $response->hasException() : null
+                    ));
+                    break;
+            }
+        }
+//        echo "<pre>";
+//        var_dump($response);die();
+        return $response;
+    }
+
 
 }

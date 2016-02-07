@@ -2,6 +2,8 @@
 namespace Tsp\Mystifly;
 
 use Poirot\Core\AbstractOptions;
+use Tsp\Mystifly\ApiClient\FileStorage;
+use Tsp\Mystifly\Interfaces\iStorage;
 
 class MystiflyOptions extends AbstractOptions
 {
@@ -18,6 +20,8 @@ class MystiflyOptions extends AbstractOptions
         'connection'=>'close',
     ];
 
+    /** @var iStorage */
+    protected $storage;
 
     /**
      * @return string
@@ -106,6 +110,48 @@ class MystiflyOptions extends AbstractOptions
     public function setConnectionConfig($connectionConfig)
     {
         $this->connectionConfig = $connectionConfig;
+        return $this;
+    }
+
+
+    // storage:
+
+    /**
+     * Set Data Storage
+     * @param iStorage $storage
+     * @return $this
+     */
+    public function setStorage(iStorage $storage)
+    {
+        $this->storage = $storage;
+        return $this;
+    }
+
+    function storage()
+    {
+        if (!$this->storage)
+            $this->storage = new FileStorage;
+
+        return $this->storage;
+    }
+
+    // ...
+
+    function __call($name, $arguments)
+    {
+        ## get[PropertyName]
+        $key = substr($name, 3);
+
+        ## [set]PropertyName
+        switch (substr($name, 0, 3)) {
+            case 'set':
+                $this->storage()->set([$key => $arguments[0]], false);
+                break;
+            case 'get':
+                return $this->storage()->get($key);
+                break;
+        }
+
         return $this;
     }
 }
