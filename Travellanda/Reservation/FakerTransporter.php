@@ -36,17 +36,18 @@ class FakerTransporter extends AbstractTransporter
      *
      * - send expression to server through transporter
      *   resource
-     * - get connect if transporter not stablished yet
+     *
+     * !! it must be connected
      *
      * @param mixed $expr Expression
      *
-     * @throws ApiCallException
+     * @throws ApiCallException|ConnectException
      * @return mixed Prepared Server Response
      */
     function send($expr)
     {
         if (!$this->isConnected())
-            $this->getConnect();
+            throw new ConnectException;
 
 
         // look for fake data from request uri:
