@@ -6,7 +6,7 @@ use Tsp\Travellanda\Reservation\FakerTransporter;
 use Tsp\Travellanda\Reservation\Platform;
 use Tsp\Travellanda\Reservation\ReqMethod;
 use Poirot\ApiClient\AbstractClient;
-use Poirot\ApiClient\Transporter\HttpStreamConnection;
+use Poirot\ApiClient\Transporter\HttpSocketConnection;
 use Poirot\ApiClient\Interfaces\iTransporter;
 use Poirot\ApiClient\Interfaces\iPlatform;
 use Poirot\ApiClient\Interfaces\Request\iApiMethod;
@@ -21,7 +21,7 @@ class Reservation extends AbstractClient
 {
     /** @var Platform */
     protected $platform;
-    /** @var HttpStreamConnection */
+    /** @var HttpSocketConnection */
     protected $transporter;
     /** @var ReservationOptions */
     protected $options;
@@ -358,7 +358,7 @@ class Reservation extends AbstractClient
         $mode = ($this->inOptions()->isEnableFaker()) ? 'faker' : 'stream';
 
         if (!isset($this->transporter[$mode]))
-            $this->transporter[$mode] = ($mode == 'faker') ? new FakerTransporter : new HttpStreamConnection;
+            $this->transporter[$mode] = ($mode == 'faker') ? new FakerTransporter : new HttpSocketConnection;
 
         return $this->transporter[$mode];
     }
@@ -405,10 +405,12 @@ class Reservation extends AbstractClient
      *      $class = new Filesystem($opt);
      *   [/php]
      *
+     * @param null|mixed $builder Builder Options as Constructor
+     *
      * @return ReservationOptions
      */
-    static function newOptions()
+    static function newOptions($builder = null)
     {
-        return new ReservationOptions;
+        return new ReservationOptions($builder);
     }
 }

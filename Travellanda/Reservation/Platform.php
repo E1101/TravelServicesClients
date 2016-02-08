@@ -6,7 +6,7 @@ use Poirot\ApiClient\Response;
 use Poirot\Stream\Filter\PhpRegisteredFilter;
 use Poirot\Stream\Streamable\SegmentWrapStream;
 use Tsp\Travellanda\Reservation;
-use Poirot\ApiClient\Transporter\HttpStreamConnection;
+use Poirot\ApiClient\Transporter\HttpSocketConnection;
 use Poirot\ApiClient\Interfaces\iTransporter;
 use Poirot\ApiClient\Interfaces\iPlatform;
 use Poirot\ApiClient\Interfaces\Request\iApiMethod;
@@ -42,7 +42,7 @@ class Platform implements iPlatform
      */
     function prepareTransporter(iTransporter $transporter, $method = null)
     {
-        if ($transporter instanceof HttpStreamConnection) {
+        if ($transporter instanceof HttpSocketConnection) {
             $transporter->inOptions()->setServerUrl($this->client->inOptions()->getServerUrl());
             $transporter->inOptions()->setTimeout(30);
             $transporter->inOptions()->setPersist(true);
@@ -167,6 +167,9 @@ class Platform implements iPlatform
         # make response:
 
         $xmlString = $response->body->rewind()->read();
+
+        kd($xmlString);
+
         $parsedRes = $this->xmlstr_to_array($xmlString);
 
         // TODO handle exceptions
