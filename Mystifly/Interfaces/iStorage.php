@@ -6,12 +6,12 @@ interface iStorage
     /**
      * Get Data By Name
      *
-     * @param null|string $key
+     * @param null|string $keys
      * @param null|mixed  $default
      *
      * @return mixed
      */
-    function get($key = null, $default = null);
+    function get($keys = null, $default = null);
 
     /**
      * Set Data

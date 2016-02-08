@@ -215,7 +215,7 @@ class Util
     {
         return [
             "SessionId"			=>	'3e46d96e-a05c-41b7-89d6-a59e6521f316',
-            'CategoryId'        => 'Cancelled',
+            'CategoryId'        =>  'Cancelled',
             "Target"			=>	'Test',
         ];
     }

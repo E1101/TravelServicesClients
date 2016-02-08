@@ -147,17 +147,31 @@ class MystiflyOptions extends AbstractOptions
             case 'set':
                 // generate proper data for setter
                 $data = empty($key)? $arguments[0] : [  $key => $arguments[0] ] ;
-
-                //update Storage
+                //update Storage support
                 $updateStorage = isset($arguments[1]) ? $arguments[1] : false ;
 
                 $this->storage()->set($data, $updateStorage);
                 break;
+
             case 'get':
-                // generate proper data for getter
-                $data = is_array($key)? $key : [ $key ] ;
-                return $this->storage()->get($data);
+                /*
+                 * supports :
+                 * [0] => get()
+                 * [1] => get('key1')
+                 * [2] => get('key1','key2')
+                 * [3] => getKey1()
+                 * [4] => getKey2('returnDefault')
+                **/
+
+                // generate proper data for getter , empty key means get() called
+                $data = empty($key) ? (isset($arguments[0]) ? $arguments : null )  : [ $key ] ;
+
+                // if key is empty then there is no default value
+                $default = empty($key) ? null : (isset($arguments[0]) && count($arguments[0])==1 ? $arguments[0] : null ) ;
+
+                return $this->storage()->get($data, $default);
                 break;
+
             default:
                 $this->storage()->{$name}();
                 break;

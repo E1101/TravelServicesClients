@@ -27,22 +27,34 @@ class FileStorage implements iStorage
     /**
      * Get Data By Name
      *
-     * @param null|string $key
+     *
+     * @param null|array  $keys
      * @param null|mixed  $default
      *
      * @return mixed
      */
-    function get($key = null, $default = null)
+    function get($keys = null, $default = null)
     {
         if( ! $this->_isStorageFileLoaded() )
             $this->_loadDataFromFile();
 
-        return (is_null($key)) ? $this->data
-            :(
-                (array_key_exists($key, $this->data))
-                    ? $this->data [ $key ]
-                    : $default
-            );
+        if(is_null($keys)){
+            return $this->data;
+        }
+
+        if( ! is_null($default)){
+            // there is default value , it means one key exists
+            return array_key_exists( current($keys), $this->data) ? $this->data [ current($keys) ] : $default ;
+        }
+
+        // check whole data for every key
+
+        $response = [];
+        foreach($keys as $key){
+            $response [ $key ] = array_key_exists( $key, $this->data) ? $this->data [ $key ] : null ;
+        }
+
+        return $response;
     }
 
     /**
