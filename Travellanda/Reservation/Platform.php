@@ -3,11 +3,12 @@ namespace Tsp\Travellanda\Reservation;
 
 use DOMDocument;
 use Poirot\ApiClient\Response;
+use Poirot\Connection\Http\HttpSocketConnection;
+use Poirot\Connection\Http\StreamFilter\ChunkTransferDecodeFilter;
+use Poirot\Connection\Interfaces\iConnection;
 use Poirot\Stream\Filter\PhpRegisteredFilter;
 use Poirot\Stream\Streamable\SegmentWrapStream;
 use Tsp\Travellanda\Reservation;
-use Poirot\ApiClient\Transporter\HttpSocketConnection;
-use Poirot\ApiClient\Interfaces\iTransporter;
 use Poirot\ApiClient\Interfaces\iPlatform;
 use Poirot\ApiClient\Interfaces\Request\iApiMethod;
 use Poirot\ApiClient\Interfaces\Response\iResponse;
@@ -34,13 +35,13 @@ class Platform implements iPlatform
      * - manipulate header or something in transporter
      * - get connect to resource
      *
-     * @param iTransporter $transporter
+     * @param iConnection $transporter
      * @param iApiMethod|null  $method
      *
      * @throws \Exception
-     * @return iTransporter
+     * @return iConnection
      */
-    function prepareTransporter(iTransporter $transporter, $method = null)
+    function prepareTransporter(iConnection $transporter, $method = null)
     {
         if ($transporter instanceof HttpSocketConnection) {
             $transporter->inOptions()->setServerUrl($this->client->inOptions()->getServerUrl());
@@ -102,7 +103,7 @@ class Platform implements iPlatform
                 .'<Head>'
                     .'<Username>'.$method->getUsername().'</Username>'
                     .'<Password>'.$method->getPassword().'</Password>'
-                    .'<RequestType>'.$method->getRequestType().'</RequestType>'
+                    .'<RequestType>'.ucfirst($method->getRequestType()).'</RequestType>'
                 .'</Head>'
                 .$elementBody
             .'</Request>';
@@ -112,12 +113,11 @@ class Platform implements iPlatform
         $parsSrvUrl = parse_url($serverUrl);
 
         $path = (isset($parsSrvUrl['path'])) ? ltrim($parsSrvUrl['path'], '/') : '';
-        $host = $parsSrvUrl['host'];
+        $host = strtolower($parsSrvUrl['host']);
         $body = http_build_query(['xml' => $reqBody], null, '&');
         $request = 'POST /'. $path. $this->__getRequestUriByMethodName($method->getRequestType()). ' HTTP/1.1'."\r\n"
             . 'Host: '.$host."\r\n"
             . 'User-Agent: AranRojan-PHP/'.PHP_VERSION."\r\n"
-            . 'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8'."\r\n"
             ### enable compression if has enabled
             . (($this->client->inOptions()->isEnableCompression()) ? 'Accept-Encoding: gzip'."\r\n" : '')
             ### post method need request header with Content-Length
@@ -147,6 +147,17 @@ class Platform implements iPlatform
         if ($parsedHeader['status'] !== 200)
             // handle errors
             VOID;
+
+        # filter body content
+        if (
+            isset($parsedHeader['headers']['Transfer-Encoding'])
+            && $parsedHeader['headers']['Transfer-Encoding'] == 'chunked'
+        ) {
+            // Response Body Contain Compressed Data and Must Decompressed.
+            // We are using stream deflate filter
+            $stream = $response->body;
+            $stream->getResource()->appendFilter(new ChunkTransferDecodeFilter, STREAM_FILTER_READ);
+        }
 
         if (
             isset($parsedHeader['headers']['Content-Encoding'])
