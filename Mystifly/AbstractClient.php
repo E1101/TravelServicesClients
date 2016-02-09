@@ -39,6 +39,7 @@ abstract class AbstractClient extends BaseClient
     function createSession()
     {
         $method = new Method(['method' => __FUNCTION__]);
+
         // add mystifly config to method arguments
         $method->setArguments([
             'account_number' => $this->inOptions()->getAccountNumber(),
@@ -59,7 +60,9 @@ abstract class AbstractClient extends BaseClient
     function airLowFareSearch($inputs)
     {
         $method = new Method(['method' => __FUNCTION__]);
-        $method->setArguments($inputs);
+        $inputs['Session'] =  $this->inOptions()->getSession()['Session'];
+
+        $method->setArguments( $inputs );
 
         return $this->call($method);
     }

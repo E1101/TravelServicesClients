@@ -18,7 +18,7 @@ class FileStorage implements iStorage
     function __construct($filePath = null)
     {
         if ($filePath === null)
-            $filePath = __DIR__.'/../.storage.php';
+            $filePath = __DIR__.'/../Storage/.storage.php';
 
         $this->storageFilePath = $filePath;
     }
@@ -103,13 +103,13 @@ class FileStorage implements iStorage
      */
     protected function _loadDataFromFile()
     {
-        if (!file_exists($this->storageFilePath))
-            throw new \RuntimeException(sprintf(
-                'file (%s) not found.'
-                , $this->storageFilePath
-            ));
 
-        $this->data = require $this->storageFilePath;
+        if (!file_exists($this->storageFilePath)){
+            $this->data = [];
+            return $this;
+        }
+
+        $this->data = require_once $this->storageFilePath;
         return $this;
     }
 

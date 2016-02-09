@@ -12,11 +12,16 @@ class MystiflyOptions extends AbstractOptions
     protected $userName      = 'MARCOXML';
     protected $password      = 'MP2014_xml';
     protected $target        = 'Test';
+//    protected $accountNumber = 'MCN008500';
+//    protected $userName      = 'MARCOPOLOXML';
+//    protected $password      = 'MARCOPOLO2015_xml';
+//    protected $target        = 'Production';
 
     // Transporter Specific Options
     // 'http://webservices.myfarebox.com/V2/OnePoint.svc?singleWsdl';
     protected $connectionConfig = [
         'wsdlLink' => 'http://apidemo.myfarebox.com/V2/OnePoint.svc?singlewsdl',
+//        'wsdlLink' => 'http://webservices.myfarebox.com/V2/OnePoint.svc?singleWsdl',
         'connection'=>'close',
     ];
 
