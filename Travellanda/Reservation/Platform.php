@@ -8,7 +8,7 @@ use Poirot\Connection\Http\StreamFilter\DechunkFilter;
 use Poirot\Connection\Interfaces\iConnection;
 use Poirot\Stream\Interfaces\iStreamable;
 use Poirot\Stream\Streamable\TemporaryStream;
-use Tsp\Travellanda\Reservation;
+use Tsp\Travellanda\HotelService;
 use Poirot\ApiClient\Interfaces\iPlatform;
 use Poirot\ApiClient\Interfaces\Request\iApiMethod;
 use Poirot\ApiClient\Interfaces\Response\iResponse;
@@ -16,14 +16,14 @@ use Tsp\Travellanda\Util;
 
 class Platform implements iPlatform
 {
-    /** @var Reservation */
+    /** @var HotelService */
     protected $client;
 
     /**
      * Platform constructor.
-     * @param Reservation $client
+     * @param HotelService $client
      */
-    function __construct(Reservation $client)
+    function __construct(HotelService $client)
     {
         $this->client = $client;
     }
