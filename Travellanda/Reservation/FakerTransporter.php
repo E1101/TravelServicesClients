@@ -1,13 +1,13 @@
 <?php
 namespace Tsp\Travellanda\Reservation;
 
-use Poirot\ApiClient\AbstractTransporter;
+use Poirot\ApiClient\AbstractConnection;
 use Poirot\ApiClient\Exception\ApiCallException;
 use Poirot\ApiClient\Exception\ConnectException;
 use Poirot\Stream\Streamable;
 use Tsp\Travellanda\Util;
 
-class FakerTransporter extends AbstractTransporter
+class FakerConnection extends AbstractConnection
 {
     protected $connected;
     protected $response;

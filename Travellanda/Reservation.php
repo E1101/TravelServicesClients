@@ -1,13 +1,13 @@
 <?php
 namespace Tsp\Travellanda;
 
+use Poirot\Connection\Http\HttpSocketConnection;
+use Poirot\Connection\Interfaces\iConnection;
 use Tsp\Travellanda\Interfaces\iTravellanda;
-use Tsp\Travellanda\Reservation\FakerTransporter;
+use Tsp\Travellanda\Reservation\FakerConnection;
 use Tsp\Travellanda\Reservation\Platform;
 use Tsp\Travellanda\Reservation\ReqMethod;
 use Poirot\ApiClient\AbstractClient;
-use Poirot\ApiClient\Transporter\HttpSocketConnection;
-use Poirot\ApiClient\Interfaces\iTransporter;
 use Poirot\ApiClient\Interfaces\iPlatform;
 use Poirot\ApiClient\Interfaces\Request\iApiMethod;
 use Poirot\ApiClient\Interfaces\Response\iResponse;
@@ -351,14 +351,14 @@ class Reservation extends AbstractClient
     /**
      * Get Transporter Adapter
      *
-     * @return iTransporter
+     * @return iConnection
      */
     function transporter()
     {
         $mode = ($this->inOptions()->isEnableFaker()) ? 'faker' : 'stream';
 
         if (!isset($this->transporter[$mode]))
-            $this->transporter[$mode] = ($mode == 'faker') ? new FakerTransporter : new HttpSocketConnection;
+            $this->transporter[$mode] = ($mode == 'faker') ? new FakerConnection : new HttpSocketConnection;
 
         return $this->transporter[$mode];
     }
