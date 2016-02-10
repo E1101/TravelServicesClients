@@ -45,7 +45,8 @@ trait SoapPlatformTrait
                         "RequestOptions"			    =>	$arguments['RequestOptions'] ,
                         "SessionId"					    =>	$arguments['Session'] ,
                         "IsRefundable"				    =>	$arguments['IsRefundable'] ,
-                        "NearByAirports"			    =>	$arguments['NearByAirports'] ,
+//                        "IsResidentFare"			    =>	$arguments['IsResidentFare'] ,
+//                        "NearByAirports"			    =>	$arguments['NearByAirports'] ,
                         "TravelPreferences"             =>  $arguments['TravelPreferences'] ,
                     ]
                 ]
@@ -146,7 +147,11 @@ trait SoapPlatformTrait
         return
             [
                 'FareRules1_1' => [
-                    "rq" => $arguments
+                    "rq" => [
+                        "FareSourceCode"	=>	$arguments [ 'FareSourceCode' ],
+                        "SessionId"			=>	$arguments [ 'Session' ],
+                        "Target"			=>	$arguments [ 'Target' ]
+                    ]
                 ]
             ];
     }
@@ -279,6 +284,8 @@ trait SoapPlatformTrait
                 case 'ERMAB001':
                 case 'ERIFS001':
                 case 'ERPAY001':
+                case 'ERREV001':
+                case 'ERFRU001':
                 //Invalid SessionId
                 case 'ERSER002':
                 case 'ERREV002':
@@ -295,6 +302,7 @@ trait SoapPlatformTrait
                 case 'ERMAB002':
                 case 'ERIFS002':
                 case 'ERPAY002':
+                case 'ERFRU002':
                     // chain exception to previous exceptions
                     $response->setException(new InvalidSessionException(
                         $Error['Message'],

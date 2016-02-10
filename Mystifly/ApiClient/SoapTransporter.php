@@ -49,6 +49,7 @@ class SoapTransporter extends AbstractConnection
 
         // call specific endpoint
         $methodName = key($expr);
+
         return $this->result = $this->getConnect()->{$methodName}($expr[$methodName]);
     }
 
