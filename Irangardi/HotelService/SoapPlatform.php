@@ -1,17 +1,13 @@
 <?php
-namespace Tsp\Mystifly\ApiClient;
+namespace Tsp\Irangardi\HotelService;
 
 use Poirot\ApiClient\Interfaces\iPlatform;
 use Poirot\ApiClient\Interfaces\Request\iApiMethod;
 use Poirot\ApiClient\Interfaces\Response\iResponse;
-use Poirot\ApiClient\Response;
 use Poirot\Connection\Interfaces\iConnection;
-use Tsp\Mystifly\Util;
 
 class SoapPlatform implements iPlatform
 {
-    use SoapPlatformTrait;
-
     /**
      * Prepare Transporter To Make Call
      *
@@ -40,10 +36,13 @@ class SoapPlatform implements iPlatform
      */
     function makeExpression(iApiMethod $method)
     {
-        $expressionMaker = 'makeRequest'.ucfirst($method->getMethod());
-
         // generate proper expression base on transporter
-        return $this->{$expressionMaker}($method->getArguments());
+
+        ## method name called by soapClient
+        $methodName = $method->getMethod();
+        return [
+            $methodName => $method->getArguments()
+        ];
     }
 
     /**
@@ -59,25 +58,6 @@ class SoapPlatform implements iPlatform
      */
     function makeResponse($response)
     {
-        $result = current(Util::toArray($response));
-
-        $response  = new Response([
-            'raw_body' => $result,
-
-            ## get response message as array
-            'default_expected' => function($rawBody) use ($result) {
-                return $result;
-            }
-        ]);
-        // TODO handle exceptions
-
-        /** @var iResponse $response */
-        $response = $this->exceptionHandler($response);
-
-        if(is_a($response->hasException() ,'\Tsp\Mystifly\Exception\InvalidSessionException')){
-            //die('Session Expired');
-        }
-
-        return $response;
+        kd($response);
     }
 }
