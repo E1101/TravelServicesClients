@@ -2,9 +2,9 @@
 namespace Tsp\Mystifly;
 
 use Poirot\ApiClient\AbstractClient as BaseClient;
-use Poirot\ApiClient\Interfaces\iTransporter;
-use Poirot\ApiClient\Interfaces\iPlatform;
+use Poirot\ApiClient\Interfaces\Response\iResponse;
 use Poirot\ApiClient\Request\Method;
+use Poirot\Connection\Interfaces\iConnection;
 use Poirot\Core\AbstractOptions;
 use Poirot\Core\Interfaces\iDataSetConveyor;
 use Poirot\Core\Interfaces\iOptionsProvider;
@@ -256,7 +256,7 @@ abstract class AbstractClient extends BaseClient
     /**
      * Get Transporter Adapter
      *
-     * @return iTransporter
+     * @return iConnection
      */
     abstract function transporter();
 
@@ -285,10 +285,12 @@ abstract class AbstractClient extends BaseClient
      *      $class = new Filesystem($opt);
      *   [/php]
      *
+     * @param null|mixed $builder Builder Options as Constructor
+     *
      * @return MystiflyOptions
      */
-    static function newOptions()
+    static function newOptions($builder = null)
     {
-        return new MystiflyOptions;
+        return new MystiflyOptions($builder);
     }
 }

@@ -1,13 +1,5 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Seyyed Sajad Kashizadeh
- * Date: 1/31/16
- * Time: 11:02 AM
- */
-
 namespace Tsp\Mystifly\ApiClient;
-
 
 use Poirot\ApiClient\Interfaces\Response\iResponse;
 use Tsp\Mystifly\Exception\InvalidSessionException;
@@ -62,10 +54,13 @@ trait SoapPlatformTrait
 
     /**
      * generate array of passengers
+     *
      * @param $Inputs
-     * @return array | passengers array
+     *
+     * @return array passanger array
      */
-    protected function __passengerGenerator($Inputs){
+    protected function __passengerGenerator($Inputs)
+    {
         // generate empty array for output
         $passengers = array();
 
@@ -321,6 +316,4 @@ trait SoapPlatformTrait
 //        var_dump($response);die();
         return $response;
     }
-
-
 }

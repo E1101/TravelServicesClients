@@ -7,6 +7,10 @@ use Tsp\Mystifly\Interfaces\iStorage;
 
 class MystiflyOptions extends AbstractOptions
 {
+    ### http://webservices.myfarebox.com/V2/OnePoint.svc?singleWsdl
+    ### http://webservices.myfarebox.com/V2/OnePoint.svc?singleWsdl
+    protected $serverUrl = 'http://apidemo.myfarebox.com/V2/OnePoint.svc?singlewsdl';
+
     // General Api Service Options
     protected $accountNumber = 'MCN004100';
     protected $userName      = 'MARCOXML';
@@ -18,15 +22,31 @@ class MystiflyOptions extends AbstractOptions
 //    protected $target        = 'Production';
 
     // Transporter Specific Options
-    // 'http://webservices.myfarebox.com/V2/OnePoint.svc?singleWsdl';
     protected $connectionConfig = [
-        'wsdlLink' => 'http://apidemo.myfarebox.com/V2/OnePoint.svc?singlewsdl',
-//        'wsdlLink' => 'http://webservices.myfarebox.com/V2/OnePoint.svc?singleWsdl',
         'connection'=>'close',
     ];
 
     /** @var iStorage */
     protected $storage;
+
+
+    /**
+     * @return string
+     */
+    public function getServerUrl()
+    {
+        return $this->serverUrl;
+    }
+
+    /**
+     * @param string $serverUrl
+     * @return $this
+     */
+    public function setServerUrl($serverUrl)
+    {
+        $this->serverUrl = $serverUrl;
+        return $this;
+    }
 
     /**
      * @return string
