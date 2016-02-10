@@ -15,7 +15,7 @@ use Poirot\Core\AbstractOptions;
 use Poirot\Core\Interfaces\iDataSetConveyor;
 use Poirot\Core\Interfaces\iOptionsProvider;
 
-class Reservation extends AbstractClient
+class HotelService extends AbstractClient
     implements iOptionsProvider
     , iTravellanda
 {
