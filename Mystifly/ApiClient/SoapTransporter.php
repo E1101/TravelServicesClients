@@ -1,16 +1,15 @@
 <?php
 namespace Tsp\Mystifly\ApiClient;
 
-
-use Poirot\ApiClient\AbstractTransporter;
 use Poirot\ApiClient\Exception\ApiCallException;
 use Poirot\ApiClient\Exception\ConnectException;
-use Poirot\ApiClient\Interfaces\iTransporter;
+use Poirot\Connection\AbstractConnection;
+use Poirot\Connection\Interfaces\iConnection;
 use Poirot\Core\AbstractOptions;
 use Poirot\Stream\Streamable;
 
-class SoapTransporter extends AbstractTransporter
-    implements iTransporter
+class SoapTransporter extends AbstractConnection
+    implements iConnection
 {
     /** @var \SoapClient */
     protected $transporter;
@@ -23,42 +22,34 @@ class SoapTransporter extends AbstractTransporter
      * - prepare resource with options
      *
      * @throws ConnectException
-     * @return void
+     * @return mixed Transporter Resource
      */
     function getConnect()
     {
         if ($this->isConnected())
             $this->close();
 
+        $wsdlLink    = $this->inOptions()->getServerUrl();
         $soapConfigs = $this->inOptions()->toArray();
 
-        $wsdlLink = $soapConfigs['wsdlLink'];
-        unset($soapConfigs['wsdlLink']);
-
-        $this->transporter = new \SoapClient($wsdlLink,$soapConfigs);
+        return $this->transporter = new \SoapClient($wsdlLink, $soapConfigs);
     }
 
     /**
-     * Send Expression To Server
+     * Send Expression On the wire
      *
-     * - send expression to server through transporter
-     *   resource
-     * - get connect if transporter not stablished yet
+     * !! get expression from getRequest()
      *
-     * @param mixed $expr Expression
-     *
-     * @throws ApiCallException
-     * @return mixed Prepared Server Response
+     * @throws ApiCallException|ConnectException
+     * @return mixed Response
      */
-    function send($expr)
+    function doSend()
     {
-        // check if connector not initialized
-        if( ! $this->isConnected() )
-            $this->getConnect();
+        $expr = $this->getRequest();
 
         // call specific endpoint
         $methodName = key($expr);
-        return $this->result = $this->transporter->{$methodName}($expr[$methodName]);
+        return $this->result = $this->getConnect()->{$methodName}($expr[$methodName]);
     }
 
     /**
@@ -85,6 +76,7 @@ class SoapTransporter extends AbstractTransporter
     {
         if(is_null($this->transporter))
             return false;
+
         return true;
     }
 

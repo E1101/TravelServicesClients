@@ -30,6 +30,4 @@ interface iStorage
      * @return $this
      */
     function save();
-
-
 }
