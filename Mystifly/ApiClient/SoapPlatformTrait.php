@@ -286,6 +286,7 @@ trait SoapPlatformTrait
                 case 'ERPAY001':
                 //Invalid SessionId
                 case 'ERSER002':
+                case 'ERREV002':
                 case 'ERSMP002':
                 case 'ERSRV002':
                 case 'EROTK002':

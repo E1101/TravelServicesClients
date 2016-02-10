@@ -77,6 +77,9 @@ abstract class AbstractClient extends BaseClient
     function airRevalidate($inputs)
     {
         $method = new Method(['method' => __FUNCTION__]);
+        $inputs['Session'] =  $this->inOptions()->getSession()['Session'];
+        $inputs['Target'] =  $this->inOptions()->getTarget();
+
         $method->setArguments($inputs);
 
         return $this->call($method);
