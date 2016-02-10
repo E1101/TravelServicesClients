@@ -30,9 +30,12 @@ class SoapTransporter extends AbstractConnection
             $this->close();
 
         $wsdlLink    = $this->inOptions()->getServerUrl();
-        $soapConfigs = $this->inOptions()->toArray();
+        $soapConfigs = clone $this->inOptions();
+        $soapConfigs->__unset('server_url');
+        $soapConfigs = $soapConfigs->toArray();
 
-        return $this->transporter = new \SoapClient($wsdlLink, $soapConfigs);
+        $this->transporter = new \SoapClient($wsdlLink, $soapConfigs);
+        return $this->transporter;
     }
 
     /**
@@ -49,8 +52,7 @@ class SoapTransporter extends AbstractConnection
 
         // call specific endpoint
         $methodName = key($expr);
-
-        return $this->result = $this->getConnect()->{$methodName}($expr[$methodName]);
+        return $this->result = $this->transporter->{$methodName}($expr[$methodName]);
     }
 
     /**

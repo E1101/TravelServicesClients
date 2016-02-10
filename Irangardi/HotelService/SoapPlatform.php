@@ -1,16 +1,28 @@
 <?php
-namespace Tsp\Mystifly\ApiClient;
+namespace Tsp\Irangardi\HotelService;
 
 use Poirot\ApiClient\Interfaces\iPlatform;
 use Poirot\ApiClient\Interfaces\Request\iApiMethod;
 use Poirot\ApiClient\Interfaces\Response\iResponse;
 use Poirot\ApiClient\Response;
 use Poirot\Connection\Interfaces\iConnection;
+use Poirot\Core\Interfaces\iOptionsProvider;
+use Tsp\Irangardi\HotelService;
 use Tsp\Mystifly\Util;
 
 class SoapPlatform implements iPlatform
 {
-    use SoapPlatformTrait;
+    /** @var HotelService */
+    protected $client;
+
+    /**
+     * SoapPlatform constructor.
+     * @param HotelService $client
+     */
+    function __construct($client)
+    {
+        $this->client = $client;
+    }
 
     /**
      * Prepare Transporter To Make Call
@@ -27,6 +39,14 @@ class SoapPlatform implements iPlatform
      */
     function prepareTransporter(iConnection $transporter, $method = null)
     {
+        if ($transporter instanceof iOptionsProvider) {
+            ## reconnect if options changed
+            if ($transporter->inOptions()->toArray() !== $connConfig = $this->client->inOptions()->getConnConfig()) {
+                $transporter->inOptions()->from($connConfig);
+                $transporter->getConnect(); ## reconnect with new options
+            }
+        }
+
         return $transporter;
     }
 
@@ -40,10 +60,13 @@ class SoapPlatform implements iPlatform
      */
     function makeExpression(iApiMethod $method)
     {
-        $expressionMaker = 'makeRequest'.ucfirst($method->getMethod());
-
         // generate proper expression base on transporter
-        return $this->{$expressionMaker}($method->getArguments());
+
+        ## method name called by soapClient
+        $methodName = $method->getMethod();
+        return [
+            $methodName => $method->getArguments()
+        ];
     }
 
     /**
@@ -69,14 +92,8 @@ class SoapPlatform implements iPlatform
                 return $result;
             }
         ]);
+
         // TODO handle exceptions
-
-        /** @var iResponse $response */
-        $response = $this->exceptionHandler($response);
-
-        if(is_a($response->hasException() ,'\Tsp\Mystifly\Exception\InvalidSessionException')){
-            //die('Session Expired');
-        }
 
         return $response;
     }

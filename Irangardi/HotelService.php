@@ -3,15 +3,65 @@ namespace Tsp\Irangardi;
 
 use Poirot\ApiClient\AbstractClient;
 use Poirot\ApiClient\Interfaces\iPlatform;
+use Poirot\ApiClient\Request\Method;
 use Poirot\Connection\Interfaces\iConnection;
 use Poirot\Core\AbstractOptions;
+use Poirot\Core\Interfaces\iDataSetConveyor;
 use Poirot\Core\Interfaces\iOptionsProvider;
-use tsp\Irangardi\Interfaces\iIRHotel;
+use Tsp\Irangardi\HotelService\SoapPlatform;
+use Tsp\Irangardi\Interfaces\iIRHotel;
+use Tsp\Mystifly\ApiClient\SoapTransporter;
 
 class HotelService extends AbstractClient
     implements iOptionsProvider
     , iIRHotel
 {
+    /** @var HotelServiceOpts */
+    protected $options;
+
+    /**
+     * HotelService constructor.
+     * @param iDataSetConveyor|array $options
+     */
+    function __construct($options = null)
+    {
+        if ($options != null)
+            $this->inOptions()->from($options);
+    }
+
+    // Client API:
+
+    /**
+     * To receive the list of cities/code that exist in our system.
+     *
+     * @return mixed
+     */
+    function getCityList()
+    {
+        $method = $this->newMethod(__FUNCTION__);
+        return $this->call($method);
+    }
+
+    protected function newMethod($methodName, array $args = null)
+    {
+        $method = new Method;
+
+        $method->setMethod($methodName);
+
+        ## account data options
+        ## these arguments is mandatory on each call
+        $method->setArguments([
+            'OprCod'  => $this->inOptions()->getOprCod(),
+            'CustCod' => $this->inOptions()->getCustCod(),
+            'PID'     => $this->inOptions()->getPID(),
+            'Mojavez' => $this->inOptions()->getMojavez(),
+        ]);
+
+        return $method;
+    }
+
+    // Client Implementation:
+
     /**
      * Get Client Platform
      *
@@ -22,7 +72,10 @@ class HotelService extends AbstractClient
      */
     function platform()
     {
-        // TODO: Implement platform() method.
+        if (!$this->platform)
+            $this->platform = new SoapPlatform($this);
+
+        return $this->platform;
     }
 
     /**
@@ -32,38 +85,39 @@ class HotelService extends AbstractClient
      */
     function transporter()
     {
-        // TODO: Implement transporter() method.
+        if (!$this->transporter)
+            // with options build transporter
+            $this->transporter = new SoapTransporter(array_merge(
+                $this->inOptions()->getConnConfig()
+                , ['server_url' => $this->inOptions()->getServerUrl()]
+            ));
+
+        return $this->transporter;
     }
 
 
     // ...
 
     /**
-     * @return AbstractOptions
+     * @return HotelServiceOpts
      */
     function inOptions()
     {
-        // TODO: Implement inOptions() method.
+        if (!$this->options)
+            $this->options = self::newOptions();
+
+        return $this->options;
     }
 
     /**
-     * Get An Bare Options Instance
-     *
-     * ! it used on easy access to options instance
-     *   before constructing class
-     *   [php]
-     *      $opt = Filesystem::optionsIns();
-     *      $opt->setSomeOption('value');
-     *
-     *      $class = new Filesystem($opt);
-     *   [/php]
+     * @inheritdoc
      *
      * @param null|mixed $builder Builder Options as Constructor
      *
-     * @return AbstractOptions
+     * @return HotelServiceOpts
      */
     static function newOptions($builder = null)
     {
-        // TODO: Implement newOptions() method.
+        return new HotelServiceOpts;
     }
 }

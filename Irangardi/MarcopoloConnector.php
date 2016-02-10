@@ -30,35 +30,7 @@ class MarcopoloConnector
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-	public function GetCityList()
-	{
-	
-		
-	    try 
-	    {
 
-	    	$client = new \SoapClient($this->wsdllink,array('connection'=>'close'));
-	        $params = 
-	        array(
-
-	            "OprCod" =>$this->OprCod ,
-	            "CustCod" => $this->CustCod,
-	            "PID" =>$this->PID ,
-	            "Mojavez" =>$this->Mojavez
-	            
-	             ); 
-	        
-	        $result = $client->GetCityList($params);
-	        return $result->GetCityListResult->City ;  
-	        
-
-	    } 
-	    catch (SoapFault $fault)
-	    {
-	                trigger_error("SOAP Fault: (faultcode: {$fault->faultcode}, faultstring: {$fault->faultstring})", E_USER_ERROR);
-	    }
-   		 
-	}
 
 		public  function GetHotelListCity($CityCod)
 	{
