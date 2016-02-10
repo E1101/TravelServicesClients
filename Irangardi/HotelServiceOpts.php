@@ -5,7 +5,7 @@ use Poirot\Core\AbstractOptions;
 
 class HotelServiceOpts extends AbstractOptions
 {
-    protected $serverUrl = 'http://94.182.216.5/FarasooMarcopoloHotel/Service.asmx';
+    protected $serverUrl = 'http://94.182.216.5/FarasooMarcopoloHotel/Service.asmx?wsdl';
 
     ## account data
     protected $OprCod  = '1000001738';

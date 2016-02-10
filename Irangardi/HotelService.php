@@ -42,7 +42,7 @@ class HotelService extends AbstractClient
         return $this->call($method);
     }
 
-    protected function newMethod($methodName)
+    protected function newMethod($methodName, array $args = null)
     {
         $method = new Method;
 

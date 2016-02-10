@@ -4,10 +4,26 @@ namespace Tsp\Irangardi\HotelService;
 use Poirot\ApiClient\Interfaces\iPlatform;
 use Poirot\ApiClient\Interfaces\Request\iApiMethod;
 use Poirot\ApiClient\Interfaces\Response\iResponse;
+use Poirot\ApiClient\Response;
 use Poirot\Connection\Interfaces\iConnection;
+use Poirot\Core\Interfaces\iOptionsProvider;
+use Tsp\Irangardi\HotelService;
+use Tsp\Mystifly\Util;
 
 class SoapPlatform implements iPlatform
 {
+    /** @var HotelService */
+    protected $client;
+
+    /**
+     * SoapPlatform constructor.
+     * @param HotelService $client
+     */
+    function __construct($client)
+    {
+        $this->client = $client;
+    }
+
     /**
      * Prepare Transporter To Make Call
      *
@@ -23,6 +39,14 @@ class SoapPlatform implements iPlatform
      */
     function prepareTransporter(iConnection $transporter, $method = null)
     {
+        if ($transporter instanceof iOptionsProvider) {
+            ## reconnect if options changed
+            if ($transporter->inOptions()->toArray() !== $connConfig = $this->client->inOptions()->getConnConfig()) {
+                $transporter->inOptions()->from($connConfig);
+                $transporter->getConnect(); ## reconnect with new options
+            }
+        }
+
         return $transporter;
     }
 
@@ -58,6 +82,19 @@ class SoapPlatform implements iPlatform
      */
     function makeResponse($response)
     {
-        kd($response);
+        $result = current(Util::toArray($response));
+
+        $response  = new Response([
+            'raw_body' => $result,
+
+            ## get response message as array
+            'default_expected' => function($rawBody) use ($result) {
+                return $result;
+            }
+        ]);
+
+        // TODO handle exceptions
+
+        return $response;
     }
 }
