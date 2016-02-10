@@ -23,7 +23,7 @@ class HotelService extends AbstractClient
     protected $platform;
     /** @var HttpSocketConnection */
     protected $transporter;
-    /** @var ReservationOptions */
+    /** @var HotelServiceOpts */
     protected $options;
 
     /**
@@ -383,7 +383,7 @@ class HotelService extends AbstractClient
     // options:
 
     /**
-     * @return ReservationOptions
+     * @return HotelServiceOpts
      */
     function inOptions()
     {
@@ -407,10 +407,10 @@ class HotelService extends AbstractClient
      *
      * @param null|mixed $builder Builder Options as Constructor
      *
-     * @return ReservationOptions
+     * @return HotelServiceOpts
      */
     static function newOptions($builder = null)
     {
-        return new ReservationOptions($builder);
+        return new HotelServiceOpts($builder);
     }
 }
