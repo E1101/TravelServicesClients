@@ -7,6 +7,7 @@ use Poirot\ApiClient\Interfaces\Response\iResponse;
 use Poirot\ApiClient\Response;
 use Poirot\Connection\Interfaces\iConnection;
 use Poirot\Core\Interfaces\iOptionsProvider;
+use Tsp\Irangardi\Exception\NoRoomAvailableException;
 use Tsp\Irangardi\HotelService;
 use Tsp\Mystifly\Util;
 
@@ -14,6 +15,8 @@ class SoapPlatform implements iPlatform
 {
     /** @var HotelService */
     protected $client;
+
+    protected $_lastMethod;
 
     /**
      * SoapPlatform constructor.
@@ -60,6 +63,7 @@ class SoapPlatform implements iPlatform
      */
     function makeExpression(iApiMethod $method)
     {
+        $this->_lastMethod = $method;
         // generate proper expression base on transporter
 
         ## method name called by soapClient
@@ -93,8 +97,38 @@ class SoapPlatform implements iPlatform
             }
         ]);
 
-        // TODO handle exceptions
+        // handle exceptions
+        $method = ucfirst($this->_lastMethod->getMethod());
+        $method = '_validate'.$method;
+        if (method_exists($this, $method))
+            call_user_func([$this, $method], $response);
 
         return $response;
+    }
+
+    // ...
+
+    /** @param iResponse $response */
+    protected function _validateReserveRoom($response)
+    {
+        $result = $response->expected();
+        if (!is_int($result))
+            ## nothing to do
+            return;
+
+
+        switch ($result) {
+            case -10: $exception = new \Exception('Invalid User Info.', $result);
+                      break;
+            case -20: $exception = new \Exception('Invalid Inputs, ResLong and NumRoom must be between 1 and 10 ', $result);
+                      break;
+            case -9:  $exception = new NoRoomAvailableException($this->_lastMethod, 'No Capacity For Room', $result);
+                      break;
+            case -1:
+            default:
+                $exception = new \Exception('Unknown Error', $result);
+        }
+
+        $response->setException($exception);
     }
 }

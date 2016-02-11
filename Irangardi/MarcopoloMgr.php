@@ -19,37 +19,7 @@ class MarcopoloMgr extends BaseController {
 //////////////////////////////////////////////        main fucntions           ///////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public static function GetCityList()
-	{
-		$hotel = self::Prepare();
-		$CityList = $hotel->GetCityList();
 
-		return $CityList; 
-
-	}	
-
-
-	public static function GetHotelListCity($CityCod)
-	{
-	   
-		$hotel = self::Prepare();
-		$HotelListCity = $hotel->GetHotelListCity($CityCod);
-		return $HotelListCity  ; 
-
-	}	
-
-
-	
-
-	public static function GetRoomPriceListDateResLong($HotelCod,$Dat,$ResLong) 
-	{
-		
-		$hotel = self::Prepare();
-		$RoomPrice = $hotel->GetRoomPriceListDateResLong($HotelCod,$Dat,$ResLong);
-		return  $RoomPrice ; 
-
-		
-	}	
 
 
 	
