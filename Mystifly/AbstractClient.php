@@ -86,6 +86,24 @@ abstract class AbstractClient extends BaseClient
     }
 
     /**
+     * get selected flight fare rules ( new implementation )
+     *
+     * @param array $inputs
+     *
+     * @return iResponse
+     */
+    function fareRules1_1($inputs)
+    {
+        $method = new Method(['method' => __FUNCTION__]);
+        $inputs['Session'] =  $this->inOptions()->getSession()['Session'];
+        $inputs['Target'] =  $this->inOptions()->getTarget();
+
+        $method->setArguments($inputs);
+
+        return $this->call($method);
+    }
+
+    /**
      * book selected flight with passengers information
      *
      * @param array $inputs
@@ -108,21 +126,6 @@ abstract class AbstractClient extends BaseClient
      * @return iResponse
      */
     function cancelBooking($inputs)
-    {
-        $method = new Method(['method' => __FUNCTION__]);
-        $method->setArguments($inputs);
-
-        return $this->call($method);
-    }
-
-    /**
-     * get selected flight fare rules ( new implementation )
-     *
-     * @param array $inputs
-     *
-     * @return iResponse
-     */
-    function fareRules1_1($inputs)
     {
         $method = new Method(['method' => __FUNCTION__]);
         $method->setArguments($inputs);
