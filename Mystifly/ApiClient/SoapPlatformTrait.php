@@ -303,6 +303,7 @@ trait SoapPlatformTrait
                 case 'ERIFS002':
                 case 'ERPAY002':
                 case 'ERFRU002':
+                case 'ERFRU013':
                     // chain exception to previous exceptions
                     $response->setException(new InvalidSessionException(
                         $Error['Message'],
@@ -320,8 +321,7 @@ trait SoapPlatformTrait
                     break;
             }
         }
-//        echo "<pre>";
-//        var_dump($response);die();
+
         return $response;
     }
 }
