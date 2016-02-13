@@ -34,8 +34,12 @@ class SoapClient extends AbstractClient
         if (!$this->transporter)
             // with options build transporter
             $this->transporter = new SoapTransporter(array_merge(
-                $this->inOptions()->getConnectionConfig()
-                , ['server_url' => $this->inOptions()->getServerUrl()]
+                $this->inOptions()->getConnectionConfig(),
+                [
+                    'server_url' => $this->inOptions()->getServerUrl(),
+//                    'proxy_host' => '192.168.0.100',
+//                    'proxy_port' => '7070',
+                ]
             ));
 
         return $this->transporter;
