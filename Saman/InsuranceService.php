@@ -5,7 +5,7 @@ use Poirot\ApiClient\AbstractClient;
 use Poirot\ApiClient\Interfaces\iPlatform;
 use Poirot\ApiClient\Request\Method;
 use Poirot\Connection\Interfaces\iConnection;
-use Tsp\Mystifly\ApiClient\SoapTransporter;
+use Tsp\SoapTransporter;
 use Tsp\Saman\InsuranceService\InsuranceServiceOpts;
 use Tsp\Saman\InsuranceService\SoapPlatform;
 use tsp\Saman\Interfaces\iSamanInsurance;
@@ -75,7 +75,7 @@ class InsuranceService extends AbstractClient
      */
     static function newOptions($builder = null)
     {
-        return new InsuranceServiceOpts;
+        return new InsuranceServiceOpts($builder);
     }
 
 
@@ -88,10 +88,8 @@ class InsuranceService extends AbstractClient
         ## account data options
         ## these arguments is mandatory on each call
         $defAccParams = [
-            'OprCod'  => $this->inOptions()->getOprCod(),
-            'CustCod' => $this->inOptions()->getCustCod(),
-            'PID'     => $this->inOptions()->getPID(),
-            'Mojavez' => $this->inOptions()->getMojavez(),
+            'username' => $this->inOptions()->getUsername(),
+            'password' => $this->inOptions()->getPassword(),
         ];
 
         $args = ($args !== null) ? array_merge($defAccParams, $args) : $defAccParams;

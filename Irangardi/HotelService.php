@@ -12,7 +12,7 @@ use Poirot\Core\Interfaces\iOptionsProvider;
 use Tsp\Irangardi\HotelService\HotelServiceOpts;
 use Tsp\Irangardi\HotelService\SoapPlatform;
 use Tsp\Irangardi\Interfaces\iIRHotel;
-use Tsp\Mystifly\ApiClient\SoapTransporter;
+use Tsp\SoapTransporter;
 
 class HotelService extends AbstractClient
     implements iOptionsProvider

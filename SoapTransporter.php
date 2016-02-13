@@ -1,5 +1,5 @@
 <?php
-namespace Tsp\Mystifly\ApiClient;
+namespace Tsp;
 
 use Poirot\ApiClient\Exception\ApiCallException;
 use Poirot\ApiClient\Exception\ConnectException;
