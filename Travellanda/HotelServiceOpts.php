@@ -3,7 +3,7 @@ namespace Tsp\Travellanda;
 
 use Poirot\Core\AbstractOptions;
 
-class ReservationOptions extends AbstractOptions
+class HotelServiceOpts extends AbstractOptions
 {
     // TODO build values from config
     protected $serverUrl = 'http://xmldemo.Travellanda.com/xmlv1';

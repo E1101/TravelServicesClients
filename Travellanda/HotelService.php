@@ -15,7 +15,7 @@ use Poirot\Core\AbstractOptions;
 use Poirot\Core\Interfaces\iDataSetConveyor;
 use Poirot\Core\Interfaces\iOptionsProvider;
 
-class Reservation extends AbstractClient
+class HotelService extends AbstractClient
     implements iOptionsProvider
     , iTravellanda
 {
@@ -23,7 +23,7 @@ class Reservation extends AbstractClient
     protected $platform;
     /** @var HttpSocketConnection */
     protected $transporter;
-    /** @var ReservationOptions */
+    /** @var HotelServiceOpts */
     protected $options;
 
     /**
@@ -383,7 +383,7 @@ class Reservation extends AbstractClient
     // options:
 
     /**
-     * @return ReservationOptions
+     * @return HotelServiceOpts
      */
     function inOptions()
     {
@@ -407,10 +407,10 @@ class Reservation extends AbstractClient
      *
      * @param null|mixed $builder Builder Options as Constructor
      *
-     * @return ReservationOptions
+     * @return HotelServiceOpts
      */
     static function newOptions($builder = null)
     {
-        return new ReservationOptions($builder);
+        return new HotelServiceOpts($builder);
     }
 }

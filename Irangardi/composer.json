@@ -1,0 +1,21 @@
+{
+    "name": "tsp/irangardi"
+    , "type": "library"
+    , "description": "Irangardi Marcopolo Services."
+    , "authors": [
+        {
+            "name": "Payam Naderi"
+            , "email": "naderi.payam@gmail.com"
+        }
+    ]
+    , "require": {
+        "php": ">=5.5.0"
+        , "poirot/core": "dev-master"
+        , "poirot/api-client": "dev-master"
+    },
+    "autoload": {
+        "psr-4": {
+            "Tsp\\Irangardi\\": "./"
+        }
+    }
+}

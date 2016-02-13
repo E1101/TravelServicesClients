@@ -1,11 +1,11 @@
 <?php
 namespace Tsp\Mystifly\ApiClient;
 
-use Poirot\ApiClient\Interfaces\iTransporter;
 use Poirot\ApiClient\Interfaces\iPlatform;
 use Poirot\ApiClient\Interfaces\Request\iApiMethod;
 use Poirot\ApiClient\Interfaces\Response\iResponse;
 use Poirot\ApiClient\Response;
+use Poirot\Connection\Interfaces\iConnection;
 use Tsp\Mystifly\Util;
 
 class SoapPlatform implements iPlatform
@@ -19,15 +19,14 @@ class SoapPlatform implements iPlatform
      * - manipulate header or something in transporter
      * - get connect to resource
      *
-     * @param iTransporter $transporter
+     * @param iConnection $transporter
      * @param iApiMethod|null $method
      *
      * @throws \Exception
-     * @return iTransporter
+     * @return iConnection
      */
-    function prepareTransporter(iTransporter $transporter, $method = null)
+    function prepareTransporter(iConnection $transporter, $method = null)
     {
-        // TODO: Implement prepareTransporter() method.
         return $transporter;
     }
 

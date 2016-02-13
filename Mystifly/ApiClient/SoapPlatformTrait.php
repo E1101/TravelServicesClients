@@ -1,13 +1,5 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Seyyed Sajad Kashizadeh
- * Date: 1/31/16
- * Time: 11:02 AM
- */
-
 namespace Tsp\Mystifly\ApiClient;
-
 
 use Poirot\ApiClient\Interfaces\Response\iResponse;
 use Tsp\Mystifly\Exception\InvalidSessionException;
@@ -53,7 +45,8 @@ trait SoapPlatformTrait
                         "RequestOptions"			    =>	$arguments['RequestOptions'] ,
                         "SessionId"					    =>	$arguments['Session'] ,
                         "IsRefundable"				    =>	$arguments['IsRefundable'] ,
-                        "NearByAirports"			    =>	$arguments['NearByAirports'] ,
+//                        "IsResidentFare"			    =>	$arguments['IsResidentFare'] ,
+//                        "NearByAirports"			    =>	$arguments['NearByAirports'] ,
                         "TravelPreferences"             =>  $arguments['TravelPreferences'] ,
                     ]
                 ]
@@ -62,10 +55,13 @@ trait SoapPlatformTrait
 
     /**
      * generate array of passengers
+     *
      * @param $Inputs
-     * @return array | passengers array
+     *
+     * @return array passanger array
      */
-    protected function __passengerGenerator($Inputs){
+    protected function __passengerGenerator($Inputs)
+    {
         // generate empty array for output
         $passengers = array();
 
@@ -151,7 +147,11 @@ trait SoapPlatformTrait
         return
             [
                 'FareRules1_1' => [
-                    "rq" => $arguments
+                    "rq" => [
+                        "FareSourceCode"	=>	$arguments [ 'FareSourceCode' ],
+                        "SessionId"			=>	$arguments [ 'Session' ],
+                        "Target"			=>	$arguments [ 'Target' ]
+                    ]
                 ]
             ];
     }
@@ -284,8 +284,12 @@ trait SoapPlatformTrait
                 case 'ERMAB001':
                 case 'ERIFS001':
                 case 'ERPAY001':
+                case 'ERREV001':
+                case 'ERFRU001':
+                case 'ERBUK001':
                 //Invalid SessionId
                 case 'ERSER002':
+                case 'ERREV002':
                 case 'ERSMP002':
                 case 'ERSRV002':
                 case 'EROTK002':
@@ -299,6 +303,9 @@ trait SoapPlatformTrait
                 case 'ERMAB002':
                 case 'ERIFS002':
                 case 'ERPAY002':
+                case 'ERFRU002':
+                case 'ERFRU013':
+                case 'ERBUK002':
                     // chain exception to previous exceptions
                     $response->setException(new InvalidSessionException(
                         $Error['Message'],
@@ -316,10 +323,7 @@ trait SoapPlatformTrait
                     break;
             }
         }
-//        echo "<pre>";
-//        var_dump($response);die();
+
         return $response;
     }
-
-
 }

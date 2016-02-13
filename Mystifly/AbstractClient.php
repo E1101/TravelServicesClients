@@ -2,9 +2,9 @@
 namespace Tsp\Mystifly;
 
 use Poirot\ApiClient\AbstractClient as BaseClient;
-use Poirot\ApiClient\Interfaces\iTransporter;
-use Poirot\ApiClient\Interfaces\iPlatform;
+use Poirot\ApiClient\Interfaces\Response\iResponse;
 use Poirot\ApiClient\Request\Method;
+use Poirot\Connection\Interfaces\iConnection;
 use Poirot\Core\AbstractOptions;
 use Poirot\Core\Interfaces\iDataSetConveyor;
 use Poirot\Core\Interfaces\iOptionsProvider;
@@ -77,6 +77,27 @@ abstract class AbstractClient extends BaseClient
     function airRevalidate($inputs)
     {
         $method = new Method(['method' => __FUNCTION__]);
+        $inputs['Session'] =  $this->inOptions()->getSession()['Session'];
+        $inputs['Target'] =  $this->inOptions()->getTarget();
+
+        $method->setArguments($inputs);
+
+        return $this->call($method);
+    }
+
+    /**
+     * get selected flight fare rules ( new implementation )
+     *
+     * @param array $inputs
+     *
+     * @return iResponse
+     */
+    function fareRules1_1($inputs)
+    {
+        $method = new Method(['method' => __FUNCTION__]);
+        $inputs['Session'] =  $this->inOptions()->getSession()['Session'];
+        $inputs['Target'] =  $this->inOptions()->getTarget();
+
         $method->setArguments($inputs);
 
         return $this->call($method);
@@ -92,6 +113,9 @@ abstract class AbstractClient extends BaseClient
     function bookFlight($inputs)
     {
         $method = new Method(['method' => __FUNCTION__]);
+        $inputs['SessionId'] =  $this->inOptions()->getSession()['Session'];
+        $inputs['Target'] =  $this->inOptions()->getTarget();
+
         $method->setArguments($inputs);
 
         return $this->call($method);
@@ -105,21 +129,6 @@ abstract class AbstractClient extends BaseClient
      * @return iResponse
      */
     function cancelBooking($inputs)
-    {
-        $method = new Method(['method' => __FUNCTION__]);
-        $method->setArguments($inputs);
-
-        return $this->call($method);
-    }
-
-    /**
-     * get selected flight fare rules ( new implementation )
-     *
-     * @param array $inputs
-     *
-     * @return iResponse
-     */
-    function fareRules1_1($inputs)
     {
         $method = new Method(['method' => __FUNCTION__]);
         $method->setArguments($inputs);
@@ -253,7 +262,7 @@ abstract class AbstractClient extends BaseClient
     /**
      * Get Transporter Adapter
      *
-     * @return iTransporter
+     * @return iConnection
      */
     abstract function transporter();
 
@@ -282,10 +291,12 @@ abstract class AbstractClient extends BaseClient
      *      $class = new Filesystem($opt);
      *   [/php]
      *
+     * @param null|mixed $builder Builder Options as Constructor
+     *
      * @return MystiflyOptions
      */
-    static function newOptions()
+    static function newOptions($builder = null)
     {
-        return new MystiflyOptions;
+        return new MystiflyOptions($builder);
     }
 }

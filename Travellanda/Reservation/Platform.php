@@ -4,11 +4,11 @@ namespace Tsp\Travellanda\Reservation;
 use DOMDocument;
 use Poirot\ApiClient\Response;
 use Poirot\Connection\Http\HttpSocketConnection;
-use Poirot\Connection\Http\StreamFilter\ChunkTransferDecodeFilter;
+use Poirot\Connection\Http\StreamFilter\DechunkFilter;
 use Poirot\Connection\Interfaces\iConnection;
-use Poirot\Stream\Filter\PhpRegisteredFilter;
-use Poirot\Stream\Streamable\SegmentWrapStream;
-use Tsp\Travellanda\Reservation;
+use Poirot\Stream\Interfaces\iStreamable;
+use Poirot\Stream\Streamable\TemporaryStream;
+use Tsp\Travellanda\HotelService;
 use Poirot\ApiClient\Interfaces\iPlatform;
 use Poirot\ApiClient\Interfaces\Request\iApiMethod;
 use Poirot\ApiClient\Interfaces\Response\iResponse;
@@ -16,14 +16,14 @@ use Tsp\Travellanda\Util;
 
 class Platform implements iPlatform
 {
-    /** @var Reservation */
+    /** @var HotelService */
     protected $client;
 
     /**
      * Platform constructor.
-     * @param Reservation $client
+     * @param HotelService $client
      */
-    function __construct(Reservation $client)
+    function __construct(HotelService $client)
     {
         $this->client = $client;
     }
@@ -149,38 +149,29 @@ class Platform implements iPlatform
             VOID;
 
         # filter body content
+        /** @var iStreamable $stream */
+        $stream = $response->body->rewind();
+
         if (
             isset($parsedHeader['headers']['Transfer-Encoding'])
             && $parsedHeader['headers']['Transfer-Encoding'] == 'chunked'
         ) {
             // Response Body Contain Compressed Data and Must Decompressed.
             // We are using stream deflate filter
-            $stream = $response->body;
-            $stream->getResource()->appendFilter(new ChunkTransferDecodeFilter, STREAM_FILTER_READ);
+            $stream->getResource()->prependFilter(DechunkFilter::factory(), STREAM_FILTER_READ);
         }
 
         if (
             isset($parsedHeader['headers']['Content-Encoding'])
             && $parsedHeader['headers']['Content-Encoding'] == 'gzip'
         ) {
-            // Response Body Contain Compressed Data and Must Decompressed.
-            // We are using stream deflate filter
-            $stream = $response->body;
-            $stream->getResource()->appendFilter(new PhpRegisteredFilter('zlib.inflate'));
-
-            $stream = new SegmentWrapStream($stream, -1, 10);
-
-            kd ($stream->rewind()->read());
-            die();
+            $stream = new TemporaryStream(gzinflate(substr($stream->read(), 10)));
+            $stream->rewind();
         }
-
 
         # make response:
 
-        $xmlString = $response->body->rewind()->read();
-
-        kd($xmlString);
-
+        $xmlString = $stream->read();
         $parsedRes = $this->xmlstr_to_array($xmlString);
 
         // TODO handle exceptions

@@ -1,6 +1,8 @@
 <?php
 namespace Tsp\Mystifly\Interfaces;
 
+use Poirot\ApiClient\Interfaces\Response\iResponse;
+
 interface iMystifly
 {
     /**
