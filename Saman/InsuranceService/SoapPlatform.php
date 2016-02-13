@@ -1,5 +1,5 @@
 <?php
-namespace Tsp\Irangardi\HotelService;
+namespace Tsp\Saman\InsuranceService;
 
 use Poirot\ApiClient\Interfaces\iPlatform;
 use Poirot\ApiClient\Interfaces\Request\iApiMethod;
@@ -10,17 +10,18 @@ use Poirot\Core\Interfaces\iOptionsProvider;
 use Tsp\Irangardi\Exception\NoRoomAvailableException;
 use Tsp\Irangardi\HotelService;
 use Tsp\Mystifly\Util;
+use Tsp\Saman\InsuranceService;
 
 class SoapPlatform implements iPlatform
 {
-    /** @var HotelService */
+    /** @var InsuranceService */
     protected $client;
 
     protected $_lastMethod;
 
     /**
      * SoapPlatform constructor.
-     * @param HotelService $client
+     * @param InsuranceService $client
      */
     function __construct($client)
     {
@@ -87,6 +88,8 @@ class SoapPlatform implements iPlatform
     function makeResponse($response)
     {
         $result = current(Util::toArray($response));
+
+        kd($result);
 
         $response  = new Response([
             'raw_body' => $result,

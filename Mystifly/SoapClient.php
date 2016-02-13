@@ -3,7 +3,7 @@ namespace Tsp\Mystifly;
 
 use Poirot\ApiClient\Interfaces\iPlatform;
 use Poirot\Connection\Interfaces\iConnection;
-use Tsp\Mystifly\ApiClient\SoapTransporter;
+use Tsp\SoapTransporter;
 use Tsp\Mystifly\ApiClient\SoapPlatform;
 
 class SoapClient extends AbstractClient

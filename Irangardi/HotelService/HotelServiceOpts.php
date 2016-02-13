@@ -1,5 +1,5 @@
 <?php
-namespace tsp\Irangardi;
+namespace Tsp\Irangardi\HotelService;
 
 use Poirot\Core\AbstractOptions;
 
