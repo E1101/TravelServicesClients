@@ -1,3 +1,3 @@
 <?php return [
-  'Session' => '9970c5d1-cde0-4571-a0ff-e9af667a32f6',
+  'Session' => 'bd98d7eb-6643-4974-9257-2d94a91b37e7',
 ];

@@ -113,6 +113,9 @@ abstract class AbstractClient extends BaseClient
     function bookFlight($inputs)
     {
         $method = new Method(['method' => __FUNCTION__]);
+        $inputs['SessionId'] =  $this->inOptions()->getSession()['Session'];
+        $inputs['Target'] =  $this->inOptions()->getTarget();
+
         $method->setArguments($inputs);
 
         return $this->call($method);
