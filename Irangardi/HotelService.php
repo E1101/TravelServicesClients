@@ -9,6 +9,7 @@ use Poirot\Connection\Interfaces\iConnection;
 use Poirot\Core\AbstractOptions;
 use Poirot\Core\Interfaces\iDataSetConveyor;
 use Poirot\Core\Interfaces\iOptionsProvider;
+use Tsp\Irangardi\HotelService\HotelServiceOpts;
 use Tsp\Irangardi\HotelService\SoapPlatform;
 use Tsp\Irangardi\Interfaces\iIRHotel;
 use Tsp\Mystifly\ApiClient\SoapTransporter;
@@ -239,7 +240,7 @@ class HotelService extends AbstractClient
 
     function foroshRoomFromTemporary()
     {
-        
+        // TODO implement foroosh temporary
     }
 
     // Client Implementation:
