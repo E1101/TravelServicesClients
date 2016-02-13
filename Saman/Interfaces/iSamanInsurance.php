@@ -1,5 +1,5 @@
 <?php
-namespace tsp\Saman\Interfaces;
+namespace Tsp\Saman\Interfaces;
 
 interface iSamanInsurance
 {

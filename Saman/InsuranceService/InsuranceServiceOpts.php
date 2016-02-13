@@ -5,7 +5,7 @@ use Poirot\Core\AbstractOptions;
 
 class InsuranceServiceOpts extends AbstractOptions
 {
-    protected $serverUrl = "‫‪http://samanservice.ir/TravisService.asmx";
+    protected $serverUrl = 'http://samanservice.ir/TravisService.asmx?WSDL';
 
     ## account
     protected $username = 'ws@mpT';
