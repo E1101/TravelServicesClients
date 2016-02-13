@@ -286,6 +286,7 @@ trait SoapPlatformTrait
                 case 'ERPAY001':
                 case 'ERREV001':
                 case 'ERFRU001':
+                case 'ERBUK001':
                 //Invalid SessionId
                 case 'ERSER002':
                 case 'ERREV002':
@@ -304,6 +305,7 @@ trait SoapPlatformTrait
                 case 'ERPAY002':
                 case 'ERFRU002':
                 case 'ERFRU013':
+                case 'ERBUK002':
                     // chain exception to previous exceptions
                     $response->setException(new InvalidSessionException(
                         $Error['Message'],

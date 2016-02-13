@@ -61,21 +61,6 @@ class Util
                                 'ExpiryDate'        =>'2017-02-14T10:00:00',
                                 'PassportNumber'    =>'IR98745612',
                             ]
-                        ],
-                        [
-                            'PassengerType'=>'CHD',
-                            'Gender'=>'M',
-                            'PassengerName'=>[
-                                'PassengerTitle' => 'MR',
-                                'PassengerFirstName' => 'siavash',
-                                'PassengerLastName' => 'ghomeishi',
-                            ],
-                            'DateOfBirth'=>'2015-05-22T12:00:00',
-                            'Passport'=>[
-                                'Country'           =>'IR',
-                                'ExpiryDate'        =>'2017-02-14T10:00:00',
-                                'PassportNumber'    =>'IR98745612',
-                            ]
                         ]
                     ]
                 ],
