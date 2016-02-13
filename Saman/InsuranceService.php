@@ -3,17 +3,28 @@ namespace Tsp\Saman;
 
 use Poirot\ApiClient\AbstractClient;
 use Poirot\ApiClient\Interfaces\iPlatform;
+use Poirot\ApiClient\Interfaces\Response\iResponse;
 use Poirot\ApiClient\Request\Method;
 use Poirot\Connection\Interfaces\iConnection;
 use Tsp\SoapTransporter;
 use Tsp\Saman\InsuranceService\InsuranceServiceOpts;
 use Tsp\Saman\InsuranceService\SoapPlatform;
-use tsp\Saman\Interfaces\iSamanInsurance;
+use Tsp\Saman\Interfaces\iSamanInsurance;
 
 class InsuranceService extends AbstractClient
     implements iSamanInsurance
 {
     // Client API:
+
+    /**
+     * To receive the list of cities/code that exist in our system.
+     * @return iResponse
+     */
+    function getCountries()
+    {
+        $method = $this->newMethod(__FUNCTION__);
+        return $this->call($method);
+    }
 
 
     // Client Implementation:
