@@ -89,8 +89,6 @@ class SoapPlatform implements iPlatform
     {
         $result = current(Util::toArray($response));
 
-        kd($result);
-
         $response  = new Response([
             'raw_body' => $result,
 
@@ -101,6 +99,11 @@ class SoapPlatform implements iPlatform
         ]);
 
         // handle exceptions
+        if (array_key_exists('errorCode', $result) && $result['errorCode'] !== -1) {
+            ## there is error
+            $response->setException(new \Exception($result['errorText'], $result['errorCode']));
+        }
+
         $method = ucfirst($this->_lastMethod->getMethod());
         $method = '_validate'.$method;
         if (method_exists($this, $method))
@@ -110,28 +113,4 @@ class SoapPlatform implements iPlatform
     }
 
     // ...
-
-    /** @param iResponse $response */
-    protected function _validateReserveRoom($response)
-    {
-        $result = $response->expected();
-        if (!is_int($result))
-            ## nothing to do
-            return;
-
-
-        switch ($result) {
-            case -10: $exception = new \Exception('Invalid User Info.', $result);
-                      break;
-            case -20: $exception = new \Exception('Invalid Inputs, ResLong and NumRoom must be between 1 and 10 ', $result);
-                      break;
-            case -9:  $exception = new NoRoomAvailableException($this->_lastMethod, 'No Capacity For Room', $result);
-                      break;
-            case -1:
-            default:
-                $exception = new \Exception('Unknown Error', $result);
-        }
-
-        $response->setException($exception);
-    }
 }
