@@ -23,7 +23,6 @@ class FileStorage implements iStorage
         $this->storageFilePath = $filePath;
     }
 
-
     /**
      * Get Data By Name
      *
@@ -48,7 +47,6 @@ class FileStorage implements iStorage
         }
 
         // check whole data for every key
-
         $response = [];
         foreach($keys as $key){
             $response [ $key ] = array_key_exists( $key, $this->data) ? $this->data [ $key ] : null ;
