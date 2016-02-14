@@ -100,6 +100,7 @@ class Util
         ];
     }
 
+
     static function tripDetailsRequest()
     {
         return [
