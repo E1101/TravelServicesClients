@@ -8,8 +8,8 @@
 .*.sw*
 .*.un~
 build/
-nbproject
-dist
+nbproject/
+dist/
 
 vendor
 vendor/**
