@@ -5,14 +5,11 @@ use Poirot\Core\AbstractOptions;
 
 
 /**
- * @method InsuranceData setNotOptionMethod($arg) @ignore // ignore this method as option
- *
  * // another way of defining properties for just getter/setter or open options
- * @property string property @required description of property usage
+ * @property string|void nationalCode @required description of property usage
  */
 class InsuranceData extends AbstractOptions
 {
-    /** @var string @required */
     protected $nationalCode;
     /** @var string @required */
     protected $firstName;
