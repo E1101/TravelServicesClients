@@ -73,10 +73,7 @@ class SoapPlatform implements iPlatform
 
         /** @var iResponse $response */
         $response = $this->exceptionHandler($response);
-
-        if(is_a($response->hasException() ,'\Tsp\Mystifly\Exception\InvalidSessionException')){
-            //die('Session Expired');
-        }
+        
 
         return $response;
     }
