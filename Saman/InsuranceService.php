@@ -146,7 +146,9 @@ class InsuranceService extends AbstractClient
     function registerInsurance($insuranceData)
     {
         if ($insuranceData instanceof InsuranceData)
-            $insuranceData = $insuranceData->toArray();
+            $insuranceData = $insuranceData->toArray(function($key){
+                return \Poirot\Core\sanitize_PascalCase($key);
+            });
 
         $method = $this->newMethod(__FUNCTION__, $insuranceData);
         return $this->call($method);
