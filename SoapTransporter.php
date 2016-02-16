@@ -33,7 +33,6 @@ class SoapTransporter extends AbstractConnection
         $soapConfigs = clone $this->inOptions();
         $soapConfigs->__unset('server_url');
         $soapConfigs = $soapConfigs->toArray();
-
         $this->transporter = new \SoapClient($wsdlLink, $soapConfigs);
         return $this->transporter;
     }
