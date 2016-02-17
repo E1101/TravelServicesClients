@@ -10,7 +10,7 @@
     ]
     , "require": {
         "php": ">=5.5.0"
-        , "poirot/core": "dev-master"
+        , "poirot/std": "dev-master"
         , "poirot/api-client": "dev-master"
     },
     "autoload": {

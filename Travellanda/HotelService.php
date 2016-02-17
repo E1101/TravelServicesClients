@@ -11,12 +11,11 @@ use Poirot\ApiClient\AbstractClient;
 use Poirot\ApiClient\Interfaces\iPlatform;
 use Poirot\ApiClient\Interfaces\Request\iApiMethod;
 use Poirot\ApiClient\Interfaces\Response\iResponse;
-use Poirot\Core\AbstractOptions;
-use Poirot\Core\Interfaces\iDataSetConveyor;
-use Poirot\Core\Interfaces\iOptionsProvider;
+use Poirot\Std\Interfaces\Struct\iStructDataConveyor;
+use Poirot\Std\Interfaces\ipOptionsProvider;
 
 class HotelService extends AbstractClient
-    implements iOptionsProvider
+    implements ipOptionsProvider
     , iTravellanda
 {
     /** @var Platform */
@@ -28,7 +27,7 @@ class HotelService extends AbstractClient
 
     /**
      * Reservation constructor.
-     * @param iDataSetConveyor|array $options
+     * @param iStructDataConveyor|array $options
      */
     function __construct($options = null)
     {

@@ -5,7 +5,6 @@ use Poirot\ApiClient\Exception\ApiCallException;
 use Poirot\ApiClient\Exception\ConnectException;
 use Poirot\Connection\AbstractConnection;
 use Poirot\Connection\Interfaces\iConnection;
-use Poirot\Core\AbstractOptions;
 use Poirot\Stream\Streamable;
 
 class SoapTransporter extends AbstractConnection

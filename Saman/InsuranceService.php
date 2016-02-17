@@ -147,7 +147,7 @@ class InsuranceService extends AbstractClient
     {
         if ($insuranceData instanceof InsuranceData)
             $insuranceData = $insuranceData->toArray(function($key){
-                return \Poirot\Core\sanitize_PascalCase($key);
+                return \Poirot\Std\sanitize_PascalCase($key);
             });
 
         $method = $this->newMethod(__FUNCTION__, $insuranceData);

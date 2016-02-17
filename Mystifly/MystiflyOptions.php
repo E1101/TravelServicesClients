@@ -1,7 +1,7 @@
 <?php
 namespace Tsp\Mystifly;
 
-use Poirot\Core\AbstractOptions;
+use Poirot\Std\Struct\AbstractOptions;
 use Tsp\Mystifly\ApiClient\FileStorage;
 use Tsp\Mystifly\Interfaces\iStorage;
 

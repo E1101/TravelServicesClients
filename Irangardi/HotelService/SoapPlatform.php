@@ -6,7 +6,7 @@ use Poirot\ApiClient\Interfaces\Request\iApiMethod;
 use Poirot\ApiClient\Interfaces\Response\iResponse;
 use Poirot\ApiClient\Response;
 use Poirot\Connection\Interfaces\iConnection;
-use Poirot\Core\Interfaces\iOptionsProvider;
+use Poirot\Std\Interfaces\ipOptionsProvider;
 use Tsp\Irangardi\Exception\NoRoomAvailableException;
 use Tsp\Irangardi\HotelService;
 use Tsp\Mystifly\Util;
@@ -42,7 +42,7 @@ class SoapPlatform implements iPlatform
      */
     function prepareTransporter(iConnection $transporter, $method = null)
     {
-        if ($transporter instanceof iOptionsProvider) {
+        if ($transporter instanceof ipOptionsProvider) {
             ## reconnect if options changed
             if ($transporter->inOptions()->toArray() !== $connConfig = $this->client->inOptions()->getConnConfig()) {
                 $transporter->inOptions()->from($connConfig);
