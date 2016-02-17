@@ -6,7 +6,7 @@ use Poirot\ApiClient\Interfaces\Request\iApiMethod;
 use Poirot\ApiClient\Interfaces\Response\iResponse;
 use Poirot\ApiClient\Response;
 use Poirot\Connection\Interfaces\iConnection;
-use Poirot\Core\Interfaces\iOptionsProvider;
+use Poirot\Std\Interfaces\iOptionsProvider;
 use Tsp\Irangardi\Exception\NoRoomAvailableException;
 use Tsp\Irangardi\HotelService;
 use Tsp\Mystifly\Util;

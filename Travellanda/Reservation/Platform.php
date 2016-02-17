@@ -65,7 +65,7 @@ class Platform implements iPlatform
         if (!$method instanceof ReqMethod)
             throw new \InvalidArgumentException(sprintf(
                 'Method must be instance of Reservation\ReqMethod, "%s" given.'
-                , \Poirot\Core\flatten($method)
+                , \Poirot\Std\flatten($method)
             ));
 
 

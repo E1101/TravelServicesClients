@@ -7,7 +7,7 @@ use Poirot\ApiClient\Interfaces\Response\iResponse;
 use Poirot\ApiClient\Request\Method;
 use Poirot\Connection\Interfaces\iConnection;
 use Poirot\Std\AbstractOptions;
-use Poirot\Std\Interfaces\iStructDataConveyor;
+use Poirot\Std\Interfaces\Struct\iStructDataConveyor;
 use Poirot\Std\Interfaces\iOptionsProvider;
 use Tsp\Irangardi\HotelService\HotelServiceOpts;
 use Tsp\Irangardi\HotelService\SoapPlatform;
