@@ -1,7 +1,7 @@
 <?php
 namespace Tsp\Saman\InsuranceService\DataField;
 
-use Poirot\Core\AbstractOptions;
+use Poirot\Std\AbstractOptions;
 
 
 /**

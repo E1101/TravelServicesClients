@@ -5,9 +5,9 @@ use Poirot\ApiClient\AbstractClient as BaseClient;
 use Poirot\ApiClient\Interfaces\Response\iResponse;
 use Poirot\ApiClient\Request\Method;
 use Poirot\Connection\Interfaces\iConnection;
-use Poirot\Core\AbstractOptions;
-use Poirot\Core\Interfaces\iDataSetConveyor;
-use Poirot\Core\Interfaces\iOptionsProvider;
+use Poirot\Std\AbstractOptions;
+use Poirot\Std\Interfaces\iStructDataConveyor;
+use Poirot\Std\Interfaces\iOptionsProvider;
 use Tsp\Mystifly\Interfaces\iMystifly;
 
 abstract class AbstractClient extends BaseClient
@@ -19,7 +19,7 @@ abstract class AbstractClient extends BaseClient
 
     /**
      * Reservation constructor.
-     * @param iDataSetConveyor|array $options
+     * @param iStructDataConveyor|array $options
      */
     function __construct($options = null)
     {

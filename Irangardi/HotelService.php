@@ -6,9 +6,9 @@ use Poirot\ApiClient\Interfaces\iPlatform;
 use Poirot\ApiClient\Interfaces\Response\iResponse;
 use Poirot\ApiClient\Request\Method;
 use Poirot\Connection\Interfaces\iConnection;
-use Poirot\Core\AbstractOptions;
-use Poirot\Core\Interfaces\iDataSetConveyor;
-use Poirot\Core\Interfaces\iOptionsProvider;
+use Poirot\Std\AbstractOptions;
+use Poirot\Std\Interfaces\iStructDataConveyor;
+use Poirot\Std\Interfaces\iOptionsProvider;
 use Tsp\Irangardi\HotelService\HotelServiceOpts;
 use Tsp\Irangardi\HotelService\SoapPlatform;
 use Tsp\Irangardi\Interfaces\iIRHotel;
@@ -23,7 +23,7 @@ class HotelService extends AbstractClient
 
     /**
      * HotelService constructor.
-     * @param iDataSetConveyor|array $options
+     * @param iStructDataConveyor|array $options
      */
     function __construct($options = null)
     {
@@ -204,7 +204,7 @@ class HotelService extends AbstractClient
             if (count(array_intersect_assoc($cus, $custArr)) != count($custArr))
                 throw new \InvalidArgumentException(sprintf(
                     'Invalid Customer Data. given: (%s).'
-                    , \Poirot\Core\flatten($cus)
+                    , \Poirot\Std\flatten($cus)
                 ));
 
             $extraArgs['NamAll'][]      = $cus['name'];

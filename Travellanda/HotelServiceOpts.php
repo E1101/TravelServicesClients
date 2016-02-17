@@ -1,7 +1,7 @@
 <?php
 namespace Tsp\Travellanda;
 
-use Poirot\Core\AbstractOptions;
+use Poirot\Std\AbstractOptions;
 
 class HotelServiceOpts extends AbstractOptions
 {
