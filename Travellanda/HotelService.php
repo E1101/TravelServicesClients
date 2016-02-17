@@ -11,12 +11,11 @@ use Poirot\ApiClient\AbstractClient;
 use Poirot\ApiClient\Interfaces\iPlatform;
 use Poirot\ApiClient\Interfaces\Request\iApiMethod;
 use Poirot\ApiClient\Interfaces\Response\iResponse;
-use Poirot\Std\AbstractOptions;
 use Poirot\Std\Interfaces\Struct\iStructDataConveyor;
-use Poirot\Std\Interfaces\iOptionsProvider;
+use Poirot\Std\Interfaces\ipOptionsProvider;
 
 class HotelService extends AbstractClient
-    implements iOptionsProvider
+    implements ipOptionsProvider
     , iTravellanda
 {
     /** @var Platform */

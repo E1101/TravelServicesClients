@@ -1,7 +1,7 @@
 <?php
 namespace Tsp\Saman\InsuranceService;
 
-use Poirot\Std\AbstractOptions;
+use Poirot\Std\Struct\AbstractOptions;
 
 class InsuranceServiceOpts extends AbstractOptions
 {

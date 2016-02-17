@@ -1,7 +1,7 @@
 <?php
 namespace Tsp\Irangardi\HotelService;
 
-use Poirot\Std\AbstractOptions;
+use Poirot\Std\Struct\AbstractOptions;
 
 class HotelServiceOpts extends AbstractOptions
 {

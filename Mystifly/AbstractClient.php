@@ -5,13 +5,12 @@ use Poirot\ApiClient\AbstractClient as BaseClient;
 use Poirot\ApiClient\Interfaces\Response\iResponse;
 use Poirot\ApiClient\Request\Method;
 use Poirot\Connection\Interfaces\iConnection;
-use Poirot\Std\AbstractOptions;
-use Poirot\Std\Interfaces\iStructDataConveyor;
-use Poirot\Std\Interfaces\iOptionsProvider;
+use Poirot\Std\Interfaces\ipOptionsProvider;
+use Poirot\Std\Interfaces\Struct\iStructDataConveyor;
 use Tsp\Mystifly\Interfaces\iMystifly;
 
 abstract class AbstractClient extends BaseClient
-    implements iOptionsProvider
+    implements ipOptionsProvider
     , iMystifly
 {
     /** @var MystiflyOptions */

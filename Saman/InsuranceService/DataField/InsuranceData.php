@@ -1,8 +1,7 @@
 <?php
 namespace Tsp\Saman\InsuranceService\DataField;
 
-use Poirot\Std\AbstractOptions;
-
+use Poirot\Std\Struct\AbstractOptions;
 
 /**
  * // another way of defining properties for just getter/setter or open options

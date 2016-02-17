@@ -1,9 +1,9 @@
 <?php
 namespace Tsp\Travellanda\Reservation;
 
-use Poirot\ApiClient\AbstractConnection;
 use Poirot\ApiClient\Exception\ApiCallException;
 use Poirot\ApiClient\Exception\ConnectException;
+use Poirot\Connection\AbstractConnection;
 use Poirot\Stream\Streamable;
 use Tsp\Travellanda\Util;
 
@@ -39,16 +39,15 @@ class FakerConnection extends AbstractConnection
      *
      * !! it must be connected
      *
-     * @param mixed $expr Expression
-     *
      * @throws ApiCallException|ConnectException
      * @return mixed Prepared Server Response
      */
-    function send($expr)
+    function doSend()
     {
         if (!$this->isConnected())
             throw new ConnectException;
 
+        $expr = $this->getRequest();
 
         // look for fake data from request uri:
 
