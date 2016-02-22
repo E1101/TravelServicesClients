@@ -37,8 +37,6 @@ class SoapClient extends AbstractClient
                 $this->inOptions()->getConnectionConfig(),
                 [
                     'server_url' => $this->inOptions()->getServerUrl(),
-//                    'proxy_host' => '192.168.0.106',
-//                    'proxy_port' => '888',
                 ]
             ));
 
