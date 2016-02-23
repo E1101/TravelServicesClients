@@ -184,6 +184,9 @@ abstract class AbstractClient extends BaseClient
     function addBookingNotes($inputs)
     {
         $method = new Method(['method' => __FUNCTION__]);
+        $inputs['SessionId'] =  $this->inOptions()->getSession()['Session'];
+        $inputs['Target'] =  $this->inOptions()->getTarget();
+
         $method->setArguments($inputs);
 
         return $this->call($method);
@@ -200,6 +203,9 @@ abstract class AbstractClient extends BaseClient
     function airBookingData($inputs)
     {
         $method = new Method(['method' => __FUNCTION__]);
+        $inputs['SessionId'] =  $this->inOptions()->getSession()['Session'];
+        $inputs['Target'] =  $this->inOptions()->getTarget();
+
         $method->setArguments($inputs);
 
         return $this->call($method);
@@ -215,6 +221,9 @@ abstract class AbstractClient extends BaseClient
     function messageQueues($inputs)
     {
         $method = new Method(['method' => __FUNCTION__]);
+        $inputs['SessionId'] =  $this->inOptions()->getSession()['Session'];
+        $inputs['Target'] =  $this->inOptions()->getTarget();
+
         $method->setArguments($inputs);
 
         return $this->call($method);
@@ -230,6 +239,9 @@ abstract class AbstractClient extends BaseClient
     function removeMessageQueues($inputs)
     {
         $method = new Method(['method' => __FUNCTION__]);
+        $inputs['SessionId'] =  $this->inOptions()->getSession()['Session'];
+        $inputs['Target'] =  $this->inOptions()->getTarget();
+
         $method->setArguments($inputs);
 
         return $this->call($method);
@@ -245,6 +257,9 @@ abstract class AbstractClient extends BaseClient
     function multiAirRevalidate($inputs)
     {
         $method = new Method(['method' => __FUNCTION__]);
+        $inputs['SessionId'] =  $this->inOptions()->getSession()['Session'];
+        $inputs['Target'] =  $this->inOptions()->getTarget();
+
         $method->setArguments($inputs);
 
         return $this->call($method);
@@ -260,6 +275,9 @@ abstract class AbstractClient extends BaseClient
     function multiAirBookFlight($inputs)
     {
         $method = new Method(['method' => __FUNCTION__]);
+        $inputs['SessionId'] =  $this->inOptions()->getSession()['Session'];
+        $inputs['Target'] =  $this->inOptions()->getTarget();
+
         $method->setArguments($inputs);
 
         return $this->call($method);
