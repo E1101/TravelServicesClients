@@ -1,9 +1,9 @@
 <?php
 namespace Tsp\Saman\InsuranceService;
 
-use Poirot\Std\Struct\AbstractOptions;
+use Poirot\Std\Struct\AbstractOptionsData;
 
-class InsuranceServiceOpts extends AbstractOptions
+class InsuranceServiceOpts extends AbstractOptionsData
 {
     protected $serverUrl = 'http://samanservice.ir/TravisService.asmx?WSDL';
 

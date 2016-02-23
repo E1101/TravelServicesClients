@@ -6,6 +6,7 @@ use Poirot\ApiClient\Interfaces\iPlatform;
 use Poirot\ApiClient\Interfaces\Response\iResponse;
 use Poirot\ApiClient\Request\Method;
 use Poirot\Connection\Interfaces\iConnection;
+use Poirot\Std\Struct\AbstractOptions\PropsObject;
 use tsp\Saman\InsuranceService\DataField\InsuranceData;
 use Tsp\SoapTransporter;
 use Tsp\Saman\InsuranceService\InsuranceServiceOpts;
@@ -139,18 +140,30 @@ class InsuranceService extends AbstractClient
      * !! registered record is temporary for 2days
      *    and must be confirmed with related method
      *
-     * @param array|InsuranceData
+     * !! with each request ew got new one insurance serial
+     *
+     * @param array|InsuranceData $insuranceData
      *
      * @return iResponse
      */
     function registerInsurance($insuranceData)
     {
-        if ($insuranceData instanceof InsuranceData)
-            $insuranceData = $insuranceData->toArray(function($key){
-                return \Poirot\Std\sanitize_PascalCase($key);
-            });
+        if ($insuranceData instanceof InsuranceData) {
+            $array = [];
+            /** @var PropsObject $p */
+            foreach ($insuranceData as $p => $v) {
+                if (!$p->isReadable()) continue;
+                $key = \Poirot\Std\sanitize_camelCase($p->getKey());
+                $array[$key] = $v;
+            }
 
-        $method = $this->newMethod(__FUNCTION__, $insuranceData);
+            $insuranceData = $array;
+        }
+
+        if (isset($insuranceData['insuranceData']))
+            $insuranceData = $insuranceData['insuranceData'];
+
+        $method = $this->newMethod(__FUNCTION__, ['insuranceData' => $insuranceData]);
         return $this->call($method);
     }
 
@@ -212,6 +225,30 @@ class InsuranceService extends AbstractClient
             'serialNo' => $serialNo,
         ]);
         return $this->call($method);
+    }
+
+    /**
+     * Registration information for the insured
+     *
+     * @param array $customerData
+     *
+     * @return iResponse
+     */
+    function registerCustomerData($customerData)
+    {
+        return $this->registerCustomer(
+              $customerData['nationalCode']
+            , $customerData['firstName']
+            , $customerData['lastName']
+            , $customerData['latinFirstName']
+            , $customerData['latinLastName']
+            , $customerData['gender']
+            , $customerData['birthDate']
+            , (isset($customerData['birthPlace'])) ? $customerData['birthPlace'] : null
+            , (isset($customerData['mobile']))     ? $customerData['mobile']     : null
+            , (isset($customerData['email']))      ? $customerData['email']      : null
+            , (isset($customerData['postCode']))   ? $customerData['postCode']   : null
+        );
     }
 
     /**
@@ -413,12 +450,14 @@ class InsuranceService extends AbstractClient
      */
     function transporter()
     {
-        if (!$this->transporter)
+        if (!$this->transporter) {
             // with options build transporter
             $this->transporter = new SoapTransporter(array_merge(
                 $this->inOptions()->getConnConfig()
                 , ['server_url' => $this->inOptions()->getServerUrl()]
             ));
+        }
+
 
         return $this->transporter;
     }
@@ -445,7 +484,7 @@ class InsuranceService extends AbstractClient
      */
     static function newOptions($builder = null)
     {
-        return new InsuranceServiceOpts($builder);
+        return (new InsuranceServiceOpts)->from($builder);
     }
 
 

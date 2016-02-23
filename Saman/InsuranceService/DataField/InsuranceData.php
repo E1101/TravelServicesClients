@@ -1,13 +1,13 @@
 <?php
 namespace Tsp\Saman\InsuranceService\DataField;
 
-use Poirot\Std\Struct\AbstractOptions;
+use Poirot\Std\Struct\AbstractOptionsData;
 
 /**
  * // another way of defining properties for just getter/setter or open options
  * @property string|void nationalCode @required description of property usage
  */
-class InsuranceData extends AbstractOptions
+class InsuranceData extends AbstractOptionsData
 {
     protected $nationalCode;
     /** @var string @required */

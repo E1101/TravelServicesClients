@@ -1,11 +1,11 @@
 <?php
 namespace Tsp\Mystifly;
 
-use Poirot\Std\Struct\AbstractOptions;
+use Poirot\Std\Struct\AbstractOptionsData;
 use Tsp\Mystifly\ApiClient\FileStorage;
 use Tsp\Mystifly\Interfaces\iStorage;
 
-class MystiflyOptions extends AbstractOptions
+class MystiflyOptionsData extends AbstractOptionsData
 {
     ### http://webservices.myfarebox.com/V2/OnePoint.svc?singleWsdl
     ### http://webservices.myfarebox.com/V2/OnePoint.svc?singleWsdl

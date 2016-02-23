@@ -44,8 +44,8 @@ class SoapPlatform implements iPlatform
     {
         if ($transporter instanceof ipOptionsProvider) {
             ## reconnect if options changed
-            if ($transporter->inOptions()->toArray() !== $connConfig = $this->client->inOptions()->getConnConfig()) {
-                $transporter->inOptions()->from($connConfig);
+            if (\Poirot\Std\iterator_to_array($transporter->optsData()) !== $connConfig = $this->client->inOptions()->getConnConfig()) {
+                $transporter->optsData()->from($connConfig);
                 $transporter->getConnect(); ## reconnect with new options
             }
         }
