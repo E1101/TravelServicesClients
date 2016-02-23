@@ -6,7 +6,7 @@ use Poirot\ApiClient\Interfaces\iPlatform;
 use Poirot\ApiClient\Interfaces\Response\iResponse;
 use Poirot\ApiClient\Request\Method;
 use Poirot\Connection\Interfaces\iConnection;
-use Poirot\Std\Interfaces\Struct\iStructDataConveyor;
+use Poirot\Std\Interfaces\Struct\iDataStruct;
 use Poirot\Std\Interfaces\ipOptionsProvider;
 use Tsp\Irangardi\HotelService\HotelServiceOpts;
 use Tsp\Irangardi\HotelService\SoapPlatform;
@@ -22,12 +22,12 @@ class HotelService extends AbstractClient
 
     /**
      * HotelService constructor.
-     * @param iStructDataConveyor|array $options
+     * @param iDataStruct|array $options
      */
     function __construct($options = null)
     {
         if ($options != null)
-            $this->inOptions()->from($options);
+            $this->optsData()->from($options);
     }
 
     // Client API:
@@ -270,8 +270,8 @@ class HotelService extends AbstractClient
         if (!$this->transporter)
             // with options build transporter
             $this->transporter = new SoapTransporter(array_merge(
-                $this->inOptions()->getConnConfig()
-                , ['server_url' => $this->inOptions()->getServerUrl()]
+                $this->optsData()->getConnConfig()
+                , ['server_url' => $this->optsData()->getServerUrl()]
             ));
 
         return $this->transporter;
@@ -283,10 +283,10 @@ class HotelService extends AbstractClient
     /**
      * @return HotelServiceOpts
      */
-    function inOptions()
+    function optsData()
     {
         if (!$this->options)
-            $this->options = self::newOptions();
+            $this->options = self::newOptsData();
 
         return $this->options;
     }
@@ -298,7 +298,7 @@ class HotelService extends AbstractClient
      *
      * @return HotelServiceOpts
      */
-    static function newOptions($builder = null)
+    static function newOptsData($builder = null)
     {
         return new HotelServiceOpts;
     }
@@ -313,10 +313,10 @@ class HotelService extends AbstractClient
         ## account data options
         ## these arguments is mandatory on each call
         $defAccParams = [
-            'OprCod'  => $this->inOptions()->getOprCod(),
-            'CustCod' => $this->inOptions()->getCustCod(),
-            'PID'     => $this->inOptions()->getPID(),
-            'Mojavez' => $this->inOptions()->getMojavez(),
+            'OprCod'  => $this->optsData()->getOprCod(),
+            'CustCod' => $this->optsData()->getCustCod(),
+            'PID'     => $this->optsData()->getPID(),
+            'Mojavez' => $this->optsData()->getMojavez(),
         ];
 
         $args = ($args !== null) ? array_merge($defAccParams, $args) : $defAccParams;

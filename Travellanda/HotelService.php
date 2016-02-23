@@ -11,7 +11,7 @@ use Poirot\ApiClient\AbstractClient;
 use Poirot\ApiClient\Interfaces\iPlatform;
 use Poirot\ApiClient\Interfaces\Request\iApiMethod;
 use Poirot\ApiClient\Interfaces\Response\iResponse;
-use Poirot\Std\Interfaces\Struct\iStructDataConveyor;
+use Poirot\Std\Interfaces\Struct\iDataStruct;
 use Poirot\Std\Interfaces\ipOptionsProvider;
 
 class HotelService extends AbstractClient
@@ -27,12 +27,12 @@ class HotelService extends AbstractClient
 
     /**
      * Reservation constructor.
-     * @param iStructDataConveyor|array $options
+     * @param iDataStruct|array $options
      */
     function __construct($options = null)
     {
         if ($options != null)
-            $this->inOptions()->from($options);
+            $this->optsData()->from($options);
     }
 
 
@@ -354,7 +354,7 @@ class HotelService extends AbstractClient
      */
     function transporter()
     {
-        $mode = ($this->inOptions()->isEnableFaker()) ? 'faker' : 'stream';
+        $mode = ($this->optsData()->isEnableFaker()) ? 'faker' : 'stream';
 
         if (!isset($this->transporter[$mode]))
             $this->transporter[$mode] = ($mode == 'faker') ? new FakerConnection : new HttpSocketConnection;
@@ -371,10 +371,13 @@ class HotelService extends AbstractClient
     function call(iApiMethod $method)
     {
         if (!$method instanceof ReqMethod)
-            $method = new ReqMethod($method->toArray());
+            $method = new ReqMethod([
+                'method'    => $method->getMethod(),
+                'arguments' => $method->getArguments(),
+            ]);
 
-        $method->setUsername($this->inOptions()->getUsername());
-        $method->setPassword($this->inOptions()->getPassword());
+        $method->setUsername($this->optsData()->getUsername());
+        $method->setPassword($this->optsData()->getPassword());
 
         return parent::call($method);
     }
@@ -384,10 +387,10 @@ class HotelService extends AbstractClient
     /**
      * @return HotelServiceOpts
      */
-    function inOptions()
+    function optsData()
     {
         if (!$this->options)
-            $this->options = self::newOptions();
+            $this->options = self::newOptsData();
 
         return $this->options;
     }
@@ -408,8 +411,8 @@ class HotelService extends AbstractClient
      *
      * @return HotelServiceOpts
      */
-    static function newOptions($builder = null)
+    static function newOptsData($builder = null)
     {
-        return new HotelServiceOpts($builder);
+        return (new HotelServiceOpts)->from($builder);
     }
 }

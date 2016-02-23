@@ -44,9 +44,9 @@ class Platform implements iPlatform
     function prepareTransporter(iConnection $transporter, $method = null)
     {
         if ($transporter instanceof HttpSocketConnection) {
-            $transporter->inOptions()->setServerUrl($this->client->inOptions()->getServerUrl());
-            $transporter->inOptions()->setTimeout(30);
-            $transporter->inOptions()->setPersist(true);
+            $transporter->optsData()->setServerUrl($this->client->optsData()->getServerUrl());
+            $transporter->optsData()->setTimeout(30);
+            $transporter->optsData()->setPersist(true);
         }
 
         return $transporter;
@@ -109,7 +109,7 @@ class Platform implements iPlatform
             .'</Request>';
 
         ## build request object
-        $serverUrl  = $this->client->inOptions()->getServerUrl();
+        $serverUrl  = $this->client->optsData()->getServerUrl();
         $parsSrvUrl = parse_url($serverUrl);
 
         $path = (isset($parsSrvUrl['path'])) ? ltrim($parsSrvUrl['path'], '/') : '';
@@ -119,7 +119,7 @@ class Platform implements iPlatform
             . 'Host: '.$host."\r\n"
             . 'User-Agent: AranRojan-PHP/'.PHP_VERSION."\r\n"
             ### enable compression if has enabled
-            . (($this->client->inOptions()->isEnableCompression()) ? 'Accept-Encoding: gzip'."\r\n" : '')
+            . (($this->client->optsData()->isEnableCompression()) ? 'Accept-Encoding: gzip'."\r\n" : '')
             ### post method need request header with Content-Length
             . 'Content-Length: '.strlen($body)."\r\n"
             . 'Content-Type: application/x-www-form-urlencoded'."\r\n"

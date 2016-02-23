@@ -1,9 +1,9 @@
 <?php
 namespace Tsp\Travellanda;
 
-use Poirot\Std\Struct\AbstractOptions;
+use Poirot\Std\Struct\AbstractOptionsData;
 
-class HotelServiceOpts extends AbstractOptions
+class HotelServiceOpts extends AbstractOptionsData
 {
     // TODO build values from config
     protected $serverUrl = 'http://xmldemo.Travellanda.com/xmlv1';

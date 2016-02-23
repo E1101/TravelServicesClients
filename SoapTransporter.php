@@ -28,12 +28,14 @@ class SoapTransporter extends AbstractConnection
         if ($this->isConnected())
             $this->close();
 
-        $wsdlLink    = $this->inOptions()->getServerUrl();
-        $soapConfigs = clone $this->inOptions();
-        $soapConfigs->__unset('server_url');
-        $soapConfigs = $soapConfigs->toArray();
-        $this->transporter = new \SoapClient($wsdlLink, $soapConfigs);
-        return $this->transporter;
+        $wsdlLink    = $this->optsData()->getServerUrl();
+
+        $soapConfigs = clone $this->optsData();
+        $soapConfigs->del('server_url');
+        $soapConfigs = \Poirot\Std\iterator_to_array($soapConfigs);
+        $transporter = new \SoapClient($wsdlLink, $soapConfigs);
+
+        return $this->transporter = $transporter;
     }
 
     /**

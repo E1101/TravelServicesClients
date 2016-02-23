@@ -121,5 +121,4 @@ class FileStorage implements iStorage
 
         return true;
     }
-
 }

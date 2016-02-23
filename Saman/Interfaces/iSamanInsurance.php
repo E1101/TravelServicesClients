@@ -125,6 +125,15 @@ interface iSamanInsurance
     /**
      * Registration information for the insured
      *
+     * @param array $customerData
+     *
+     * @return iResponse
+     */
+    function registerCustomerData($customerData);
+
+    /**
+     * Registration information for the insured
+     *
      * @param string      $nationalCode   Melli code of insured
      * @param string      $firstName
      * @param string      $lastName

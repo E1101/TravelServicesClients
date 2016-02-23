@@ -1,9 +1,9 @@
 <?php
 namespace Tsp\Irangardi\HotelService;
 
-use Poirot\Std\Struct\AbstractOptions;
+use Poirot\Std\Struct\AbstractOptionsData;
 
-class HotelServiceOpts extends AbstractOptions
+class HotelServiceOpts extends AbstractOptionsData
 {
     protected $serverUrl = 'http://94.182.216.5/FarasooMarcopoloHotel/Service.asmx?wsdl';
 

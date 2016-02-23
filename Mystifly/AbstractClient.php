@@ -6,24 +6,24 @@ use Poirot\ApiClient\Interfaces\Response\iResponse;
 use Poirot\ApiClient\Request\Method;
 use Poirot\Connection\Interfaces\iConnection;
 use Poirot\Std\Interfaces\ipOptionsProvider;
-use Poirot\Std\Interfaces\Struct\iStructDataConveyor;
+use Poirot\Std\Interfaces\Struct\iDataStruct;
 use Tsp\Mystifly\Interfaces\iMystifly;
 
 abstract class AbstractClient extends BaseClient
     implements ipOptionsProvider
     , iMystifly
 {
-    /** @var MystiflyOptions */
+    /** @var MystiflyOptionsData */
     protected $options;
 
     /**
      * Reservation constructor.
-     * @param iStructDataConveyor|array $options
+     * @param iDataStruct|array $options
      */
     function __construct($options = null)
     {
         if ($options != null){
-            $this->inOptions()->from($options);
+            $this->optsData()->from($options);
         }
     }
 
@@ -41,10 +41,10 @@ abstract class AbstractClient extends BaseClient
 
         // add mystifly config to method arguments
         $method->setArguments([
-            'account_number' => $this->inOptions()->getAccountNumber(),
-            'user_name'      => $this->inOptions()->getUserName(),
-            'password'       => $this->inOptions()->getPassword(),
-            'target'         => $this->inOptions()->getTarget(),
+            'account_number' => $this->optsData()->getAccountNumber(),
+            'user_name'      => $this->optsData()->getUserName(),
+            'password'       => $this->optsData()->getPassword(),
+            'target'         => $this->optsData()->getTarget(),
         ]);
 
         return $this->call($method);
@@ -59,7 +59,7 @@ abstract class AbstractClient extends BaseClient
     function airLowFareSearch($inputs)
     {
         $method = new Method(['method' => __FUNCTION__]);
-        $inputs['Session'] =  $this->inOptions()->getSession()['Session'];
+        $inputs['Session'] =  $this->optsData()->getSession()['Session'];
 
         $method->setArguments( $inputs );
 
@@ -76,8 +76,8 @@ abstract class AbstractClient extends BaseClient
     function airRevalidate($inputs)
     {
         $method = new Method(['method' => __FUNCTION__]);
-        $inputs['Session'] =  $this->inOptions()->getSession()['Session'];
-        $inputs['Target'] =  $this->inOptions()->getTarget();
+        $inputs['Session'] =  $this->optsData()->getSession()['Session'];
+        $inputs['Target'] =  $this->optsData()->getTarget();
 
         $method->setArguments($inputs);
 
@@ -94,8 +94,8 @@ abstract class AbstractClient extends BaseClient
     function fareRules1_1($inputs)
     {
         $method = new Method(['method' => __FUNCTION__]);
-        $inputs['Session'] =  $this->inOptions()->getSession()['Session'];
-        $inputs['Target'] =  $this->inOptions()->getTarget();
+        $inputs['Session'] =  $this->optsData()->getSession()['Session'];
+        $inputs['Target'] =  $this->optsData()->getTarget();
 
         $method->setArguments($inputs);
 
@@ -112,8 +112,8 @@ abstract class AbstractClient extends BaseClient
     function bookFlight($inputs)
     {
         $method = new Method(['method' => __FUNCTION__]);
-        $inputs['SessionId'] =  $this->inOptions()->getSession()['Session'];
-        $inputs['Target'] =  $this->inOptions()->getTarget();
+        $inputs['SessionId'] =  $this->optsData()->getSession()['Session'];
+        $inputs['Target'] =  $this->optsData()->getTarget();
 
         $method->setArguments($inputs);
 
@@ -130,8 +130,8 @@ abstract class AbstractClient extends BaseClient
     function cancelBooking($inputs)
     {
         $method = new Method(['method' => __FUNCTION__]);
-        $inputs['SessionId'] =  $this->inOptions()->getSession()['Session'];
-        $inputs['Target'] =  $this->inOptions()->getTarget();
+        $inputs['SessionId'] =  $this->optsData()->getSession()['Session'];
+        $inputs['Target'] =  $this->optsData()->getTarget();
 
         $method->setArguments($inputs);
 
@@ -148,8 +148,8 @@ abstract class AbstractClient extends BaseClient
     function ticketOrder($inputs)
     {
         $method = new Method(['method' => __FUNCTION__]);
-        $inputs['SessionId'] =  $this->inOptions()->getSession()['Session'];
-        $inputs['Target'] =  $this->inOptions()->getTarget();
+        $inputs['SessionId'] =  $this->optsData()->getSession()['Session'];
+        $inputs['Target'] =  $this->optsData()->getTarget();
 
         $method->setArguments($inputs);
 
@@ -274,12 +274,12 @@ abstract class AbstractClient extends BaseClient
     // options:
 
     /**
-     * @return MystiflyOptions
+     * @return MystiflyOptionsData
      */
-    function inOptions()
+    function optsData()
     {
         if (!$this->options)
-            $this->options = self::newOptions();
+            $this->options = self::newOptsData();
 
         return $this->options;
     }
@@ -298,10 +298,10 @@ abstract class AbstractClient extends BaseClient
      *
      * @param null|mixed $builder Builder Options as Constructor
      *
-     * @return MystiflyOptions
+     * @return MystiflyOptionsData
      */
-    static function newOptions($builder = null)
+    static function newOptsData($builder = null)
     {
-        return new MystiflyOptions($builder);
+        return (new MystiflyOptionsData)->from($builder);
     }
 }
