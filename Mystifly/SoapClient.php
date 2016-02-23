@@ -3,6 +3,7 @@ namespace Tsp\Mystifly;
 
 use Poirot\ApiClient\Interfaces\iPlatform;
 use Poirot\Connection\Interfaces\iConnection;
+use Poirot\Std\Struct\AbstractOptions;
 use Tsp\SoapTransporter;
 use Tsp\Mystifly\ApiClient\SoapPlatform;
 
@@ -37,11 +38,12 @@ class SoapClient extends AbstractClient
                 $this->optsData()->getConnectionConfig(),
                 [
                     'server_url' => $this->optsData()->getServerUrl(),
-                    'proxy_host' => '192.168.0.106',
-                    'proxy_port' => '888',
+//                    'proxy_host' => '192.168.0.106',
+//                    'proxy_port' => '888',
                 ]
             ));
 
         return $this->transporter;
     }
+
 }

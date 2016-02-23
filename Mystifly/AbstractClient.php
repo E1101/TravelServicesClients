@@ -166,8 +166,8 @@ abstract class AbstractClient extends BaseClient
     function tripDetails($inputs)
     {
         $method = new Method(['method' => __FUNCTION__]);
-        $inputs['SessionId'] =  $this->inOptions()->getSession()['Session'];
-        $inputs['Target'] =  $this->inOptions()->getTarget();
+        $inputs['SessionId'] =  $this->optsData()->getSession()['Session'];
+        $inputs['Target'] =  $this->optsData()->getTarget();
 
         $method->setArguments($inputs);
 
@@ -184,8 +184,8 @@ abstract class AbstractClient extends BaseClient
     function addBookingNotes($inputs)
     {
         $method = new Method(['method' => __FUNCTION__]);
-        $inputs['SessionId'] =  $this->inOptions()->getSession()['Session'];
-        $inputs['Target'] =  $this->inOptions()->getTarget();
+        $inputs['SessionId'] =  $this->optsData()->getSession()['Session'];
+        $inputs['Target'] =  $this->optsData()->getTarget();
 
         $method->setArguments($inputs);
 
@@ -203,8 +203,8 @@ abstract class AbstractClient extends BaseClient
     function airBookingData($inputs)
     {
         $method = new Method(['method' => __FUNCTION__]);
-        $inputs['SessionId'] =  $this->inOptions()->getSession()['Session'];
-        $inputs['Target'] =  $this->inOptions()->getTarget();
+        $inputs['SessionId'] =  $this->optsData()->getSession()['Session'];
+        $inputs['Target'] =  $this->optsData()->getTarget();
 
         $method->setArguments($inputs);
 
@@ -221,8 +221,8 @@ abstract class AbstractClient extends BaseClient
     function messageQueues($inputs)
     {
         $method = new Method(['method' => __FUNCTION__]);
-        $inputs['SessionId'] =  $this->inOptions()->getSession()['Session'];
-        $inputs['Target'] =  $this->inOptions()->getTarget();
+        $inputs['SessionId'] =  $this->optsData()->getSession()['Session'];
+        $inputs['Target'] =  $this->optsData()->getTarget();
 
         $method->setArguments($inputs);
 
@@ -239,8 +239,8 @@ abstract class AbstractClient extends BaseClient
     function removeMessageQueues($inputs)
     {
         $method = new Method(['method' => __FUNCTION__]);
-        $inputs['SessionId'] =  $this->inOptions()->getSession()['Session'];
-        $inputs['Target'] =  $this->inOptions()->getTarget();
+        $inputs['SessionId'] =  $this->optsData()->getSession()['Session'];
+        $inputs['Target'] =  $this->optsData()->getTarget();
 
         $method->setArguments($inputs);
 
@@ -257,8 +257,8 @@ abstract class AbstractClient extends BaseClient
     function multiAirRevalidate($inputs)
     {
         $method = new Method(['method' => __FUNCTION__]);
-        $inputs['SessionId'] =  $this->inOptions()->getSession()['Session'];
-        $inputs['Target'] =  $this->inOptions()->getTarget();
+        $inputs['SessionId'] =  $this->optsData()->getSession()['Session'];
+        $inputs['Target'] =  $this->optsData()->getTarget();
 
         $method->setArguments($inputs);
 
@@ -275,8 +275,8 @@ abstract class AbstractClient extends BaseClient
     function multiAirBookFlight($inputs)
     {
         $method = new Method(['method' => __FUNCTION__]);
-        $inputs['SessionId'] =  $this->inOptions()->getSession()['Session'];
-        $inputs['Target'] =  $this->inOptions()->getTarget();
+        $inputs['SessionId'] =  $this->optsData()->getSession()['Session'];
+        $inputs['Target'] =  $this->optsData()->getTarget();
 
         $method->setArguments($inputs);
 
