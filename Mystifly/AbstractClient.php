@@ -323,6 +323,6 @@ abstract class AbstractClient extends BaseClient
      */
     static function newOptsData($builder = null)
     {
-        return (new MystiflyOptionsData)->from($builder);
+        return (new MystiflyOptionsData())->from($builder);
     }
 }
