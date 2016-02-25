@@ -116,7 +116,6 @@ class SoapPlatform implements iPlatform
             ## nothing to do
             return;
 
-
         switch ($result) {
             case -10: $exception = new \Exception('Invalid User Info.', $result);
                       break;
@@ -124,11 +123,13 @@ class SoapPlatform implements iPlatform
                       break;
             case -9:  $exception = new NoRoomAvailableException($this->_lastMethod, 'No Capacity For Room', $result);
                       break;
-            case -1:
-            default:
+            case -1: $exception = new \Exception('Error Input Data', $result);
+                      break;
+            case -100:
                 $exception = new \Exception('Unknown Error', $result);
+                break;
         }
-
-        $response->setException($exception);
+        if (isset($exception))
+            $response->setException($exception);
     }
 }
