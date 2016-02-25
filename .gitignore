@@ -16,3 +16,6 @@ vendor/**
 
 composer.lock
 index.php
+
+Mystifly/Storage/
+Mystifly/Storage/**
