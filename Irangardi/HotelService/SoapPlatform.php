@@ -68,6 +68,7 @@ class SoapPlatform implements iPlatform
 
         ## method name called by soapClient
         $methodName = $method->getMethod();
+
         return [
             $methodName => $method->getArguments()
         ];
@@ -129,6 +130,21 @@ class SoapPlatform implements iPlatform
                 $exception = new \Exception('Unknown Error', $result);
                 break;
         }
+        if (isset($exception))
+            $response->setException($exception);
+    }
+
+    /** @param iResponse $response */
+    protected function _validateInsertNamReserveRoomTemporary($response)
+    {
+        $result = $response->expected();
+        if (!is_int($result))
+            ## nothing to do
+            return;
+
+        if ($result <= 0)
+            $exception = new \Exception('Unknown Error', $result);
+
         if (isset($exception))
             $response->setException($exception);
     }

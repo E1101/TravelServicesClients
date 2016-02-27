@@ -200,7 +200,7 @@ class HotelService extends AbstractClient
         ];
         foreach($CustData as $cus) {
             ### validate data
-            if (count(array_intersect_assoc($cus, $custArr)) != count($custArr))
+            if (count(array_intersect_key($cus, $custArr)) != count($custArr))
                 throw new \InvalidArgumentException(sprintf(
                     'Invalid Customer Data. given: (%s).'
                     , \Poirot\Std\flatten($cus)
@@ -217,7 +217,7 @@ class HotelService extends AbstractClient
 
         $args = [
             'ReserveNo'   => $ReserveNo,
-            'TypeRoomAll' => implode(',', $Rooms),
+            'TypeRoomAll' => implode(', ', $Rooms),
             '‫‪MobileNo‬‬'    => $MobNo,
             'Address'     => $Address,
         ];
@@ -231,7 +231,12 @@ class HotelService extends AbstractClient
         ($ZipCode === null) ?: $args['ZipCode'] = $ZipCode;
         ($Dsc     === null) ?: $args['Dsc']     = $Dsc;
 
-        ($FlightInfo === null) ?: $args = array_merge($FlightInfo, $args);
+        ($FlightInfo === null) ?: $args = array_merge(
+            $FlightInfo
+            , $args
+        );
+
+        $args = \Poirot\Std\array_merge($args, $extraArgs);
 
         $method = $this->newMethod(__FUNCTION__, $args);
         return $this->call($method);
@@ -240,6 +245,11 @@ class HotelService extends AbstractClient
     function foroshRoomFromTemporary()
     {
         // TODO implement foroosh temporary
+    }
+
+    function getRefrenceHotel()
+    {
+        // TODO: Implement getRefrenceHotel() method.
     }
 
     // Client Implementation:
