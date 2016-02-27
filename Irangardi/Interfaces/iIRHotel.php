@@ -116,4 +116,6 @@ interface iIRHotel
      * @return iResponse
      */
     function foroshRoomFromTemporary();
+
+    function getRefrenceHotel();
 }
