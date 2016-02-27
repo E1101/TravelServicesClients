@@ -218,7 +218,7 @@ class HotelService extends AbstractClient
         $args = [
             'ReserveNo'   => $ReserveNo,
             'TypeRoomAll' => implode(', ', $Rooms),
-            '‫‪MobileNo‬‬'    => $MobNo,
+            'MobileNo'    => $MobNo,
             'Address'     => $Address,
         ];
         if (is_string($PhoneNo)) $PhoneNo = [(string)$PhoneNo];
