@@ -9,18 +9,18 @@ class MystiflyOptionsData extends AbstractOptionsData
 {
     ### http://webservices.myfarebox.com/V2/OnePoint.svc?singleWsdl
     ### http://webservices.myfarebox.com/V2/OnePoint.svc?singleWsdl
-//    protected $serverUrl = 'http://apidemo.myfarebox.com/V2/OnePoint.svc?singlewsdl';
-    protected $serverUrl = 'http://webservices.myfarebox.com/V2/OnePoint.svc?singleWsdl';
+    protected $serverUrl = 'http://apidemo.myfarebox.com/V2/OnePoint.svc?singlewsdl';
+//    protected $serverUrl = 'http://webservices.myfarebox.com/V2/OnePoint.svc?singleWsdl';
 
     // General Api Service Options
-//    protected $accountNumber = 'MCN004100';
-//    protected $userName      = 'MARCOXML';
-//    protected $password      = 'MP2014_xml';
-//    protected $target        = 'Test';
-    protected $accountNumber = 'MCN008500';
-    protected $userName      = 'MARCOPOLOXML';
-    protected $password      = 'MARCOPOLO2015_xml';
-    protected $target        = 'Production';
+    protected $accountNumber = 'MCN004100';
+    protected $userName      = 'MARCOXML';
+    protected $password      = 'MP2014_xml';
+    protected $target        = 'Test';
+//    protected $accountNumber = 'MCN008500';
+//    protected $userName      = 'MARCOPOLOXML';
+//    protected $password      = 'MARCOPOLO2015_xml';
+//    protected $target        = 'Production';
 
     // Transporter Specific Options
     protected $connectionConfig = [
