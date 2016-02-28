@@ -79,6 +79,9 @@ interface iIRHotel
     /**
      * Insert Data Form Reserved Temporary Room
      *
+     * !! after insert data it can`t be change by another insert call
+     *    it will rise an exception
+     * 
      * !! it must be approved by calling another related method
      *    to finalize
      *

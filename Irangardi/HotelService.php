@@ -188,8 +188,38 @@ class HotelService extends AbstractClient
         , $Email = null
         , $ZipCode = null
         , $Dsc = null
-        , $FlightInfo = null
+        , $FlightInfo = [
+
+        ]
     ) {
+        // We have to send all arguments, event Optionals to SoapServer.
+        // elsewhere we got -100 error
+        $args = [
+                // strict with method call
+                // "ReserveNo"   => null,
+                // "TypeRoomAll" => null,
+                // "Mobile"      => null,
+                // "Address"     => null,
+                // "TelNo1"      => null,
+
+                // $extraArgs Merge
+
+                // must be sent with empty default value
+                "TelNo2"  => '',
+                "Email"   => '',
+                "ZipCode" => '',
+                "Dsc"     => '',
+
+                "RaftAirLine"      => '',
+                "FlightNoRaft"     => '',
+                "TimeRaft"         => '',
+                "MasirRaft"        => '',
+                "BargashtAirLine"  => '',
+                "FlightNoBargasht" => '',
+                "TimeBargasht"     => '',
+                "MasirBargasht"    => '',
+        ];
+
         ## customer data arguments
         $custArr   = ['name'=>null, 'family'=>null, 'melli_code'=>null, 'birth_date'=>null];
         $extraArgs = [
@@ -215,12 +245,13 @@ class HotelService extends AbstractClient
             ### change data to comma separated form
             $v = implode(',', $v);
 
-        $args = [
-            'ReserveNo'   => $ReserveNo,
-            'TypeRoomAll' => implode(', ', $Rooms),
-            'MobileNo'    => $MobNo,
-            'Address'     => $Address,
-        ];
+        // ...
+
+        $args['ReserveNo']   = $ReserveNo;
+        $args['TypeRoomAll'] = implode(', ', $Rooms);
+        $args['Mobile']      = $MobNo;
+        $args['Address']     = $Address;
+
         if (is_string($PhoneNo)) $PhoneNo = [(string)$PhoneNo];
         if (isset($PhoneNo[0]))
             $args['TelNo1'] = $PhoneNo[0];
