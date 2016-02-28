@@ -273,14 +273,34 @@ class HotelService extends AbstractClient
         return $this->call($method);
     }
 
-    function foroshRoomFromTemporary()
+    /**
+     * Confirm Reservation After Insert Customer Data
+     *
+     * @param int $ReserveNo Reserve number
+     *
+     * @return iResponse
+     */
+    function foroshRoomFromTemporary($ReserveNo)
     {
-        // TODO implement foroosh temporary
+        $method = $this->newMethod(__FUNCTION__, [
+            'ReserveNo' => $ReserveNo,
+        ]);
+        return $this->call($method);
     }
 
-    function getRefrenceHotel()
+    /**
+     * Get Voucher Info For Confirmed Order
+     *
+     * @param int $ReserveNo Reserve number
+     *
+     * @return iResponse
+     */
+    function getRefrenceHotel($ReserveNo)
     {
-        // TODO: Implement getRefrenceHotel() method.
+        $method = $this->newMethod(__FUNCTION__, [
+            'ReserveNo' => $ReserveNo,
+        ]);
+        return $this->call($method);
     }
 
     // Client Implementation:

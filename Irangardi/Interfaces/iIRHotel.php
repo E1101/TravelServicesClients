@@ -81,7 +81,7 @@ interface iIRHotel
      *
      * !! after insert data it can`t be change by another insert call
      *    it will rise an exception
-     * 
+     *
      * !! it must be approved by calling another related method
      *    to finalize
      *
@@ -116,9 +116,20 @@ interface iIRHotel
     );
 
     /**
+     * Confirm Reservation After Insert Customer Data
+     *
+     * @param int $ReserveNo Reserve number
+     *
      * @return iResponse
      */
-    function foroshRoomFromTemporary();
+    function foroshRoomFromTemporary($ReserveNo);
 
-    function getRefrenceHotel();
+    /**
+     * Get Voucher Info For Confirmed Order
+     *
+     * @param int $ReserveNo Reserve number
+     *
+     * @return iResponse
+     */
+    function getRefrenceHotel($ReserveNo);
 }

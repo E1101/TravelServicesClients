@@ -110,6 +110,22 @@ class SoapPlatform implements iPlatform
     // ...
 
     /** @param iResponse $response */
+    protected function _validateForoshRoomFromTemporary($response)
+    {
+        $result = $response->expected();
+        switch ($result) {
+            case -1:
+                $exception = new \Exception('Temporary Reservation Is Canceled.', $result);
+                break;
+            case $result <= 0:
+                $exception = new \Exception('Unknown Error!!', $result);
+                break;
+        }
+        if (isset($exception))
+            $response->setException($exception);
+    }
+
+    /** @param iResponse $response */
     protected function _validateReserveRoom($response)
     {
         $result = $response->expected();
